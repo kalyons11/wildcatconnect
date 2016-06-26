@@ -32,7 +32,7 @@ var winston = require('winston');
 
 require('winston-loggly');
  
- winston.add(winston.transports.Loggly, {
+winston.add(winston.transports.Loggly, {
     token: logglyToken,
     subdomain: logglySubdomain,
     tags: [nodeTag],
