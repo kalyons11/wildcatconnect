@@ -74,7 +74,7 @@ app.get('/', function(req, res) {
       winston.log('error', error);
     }
   });
-  var query = new Parse.Query("GameScore");
+  var query = new Parse.Query("GameScoreTwo");
   query.find({
     success: function(allObjects) {
       winston.log('info', allObjects);
