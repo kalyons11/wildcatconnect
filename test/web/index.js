@@ -6,6 +6,7 @@ var path = require('path');
 var parse = require('parse').Parse;
 var config = require('./config');
 var bodyParser = require('body-parser');
+var utils = require('../../common/utils/utils.js');
 
 // Variables configuration.
 
@@ -65,10 +66,14 @@ app.set('view engine', 'ejs');
 
 // Parse Server plays nicely with the rest of your web routes
 
+app.get('/index', function(req, res) {
+  res.status(200).sendFile(__dirname + "/public/index.html");
+});
+
 app.get('/', function(req, res) {
   res.status(200).send('Check out Loggly.');
-  Parse.initialize('Test-App-Id','WC-Test-Master-Key');
-  Parse.serverURL = serverURL + "2"; // Remove!!!
+  Parse.initialize(appId, masterKey);
+  Parse.serverURL = serverURL; // Remove!!!
   var obj = new Parse.Object("GameScore");
   obj.set("testKey", "Here it is!!!");
   obj.set("newKey", "Here we go.");
@@ -88,21 +93,13 @@ app.get('/', function(req, res) {
     },
     error: function(newError) {
       var error = new Error();
-      var stack = error.stack;
-      var message = newError.message.toString();
-      var queryString = JSON.stringify(query);
-      var theError = JSON.stringify(newError);
-      var finalObjects = { "queryString" : queryString, "error" : theError };
-      winston.log('error', message, { "stack" : stack , "objects" : finalObjects });
+      var x = utils.processError(newError, error, [ query ]);
+      winston.log('error', x.message, { "stack" : x.stack , "objects" : x.objects });
     }
   });
 });
 
 app.post('/loggly', function(req, res) {
-  var i = 0;
-  for(var k in req) { 
-    i++;
-  }
   winston.log('info', i);
   winston.log('info', req.body);
   res.end("Done!");
