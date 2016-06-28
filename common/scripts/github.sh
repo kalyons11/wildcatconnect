@@ -32,7 +32,7 @@ for d in */ ; do
 	if [ "$d" != "common/" ] ; then
 		pwd
 		echo "Commiting $d to Heroku."
-		cd "$d"
+		cd "$d"/web
 		pwd
 		git status
 		git add -A
