@@ -26,6 +26,8 @@ else
 	git push origin "$1"
 fi
 
+pwd
+
 echo "Committing individual Heroku web apps."
 
 for d in */ ; do
