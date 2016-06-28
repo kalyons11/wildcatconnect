@@ -1,3 +1,5 @@
+// Required for LiveQuery configuration.
+
 "use strict";
 
 // Modules configuration.
@@ -9,16 +11,21 @@ var parse = require('parse').Parse;
 var config = require('./config');
 var bodyParser = require('body-parser');
 var utils = require('./utils/utils.js');
+var CryptoJS = require('crypto-js');
 
 // Variables configuration.
 
-var appId = config.appId;
-var masterKey = config.masterKey;
+var hasher = config.hasher;
+var bytes = CryptoJS.AES.decrypt(config.appId.toString(), hasher);
+var appId = bytes.toString(CryptoJS.enc.Utf8);
+var bytesTwo = CryptoJS.AES.decrypt(config.masterKey.toString(), hasher);
+var masterKey = bytesTwo.toString(CryptoJS.enc.Utf8);
 var serverURL = config.serverURL;
 var databaseUri = config.databaseUri;
 var logglyToken = config.logglyToken;
 var logglySubdomain = config.logglySubdomain;
 var nodeTag = config.nodeTag;
+var theClassNames = config.classNames;
 
 // Parse Server configuration.
 
@@ -29,7 +36,7 @@ var api = new ParseServer({
   masterKey: masterKey,
   serverURL: serverURL,
   liveQuery: { 
-    classNames: ["TestClass"]
+    classNames: theClassNames
   }
 });
 
@@ -46,14 +53,12 @@ winston.add(winston.transports.Loggly, {
     json: true
 });
 
-// Client-keys like the javascript key or the .NET key are not necessary with parse-server
-// If you wish you require them, you can set them as options in the initialization above:
-// javascriptKey, restAPIKey, dotNetKey, clientKey
+// Express app configuration.
 
 var app = express();
 
-app.use(bodyParser.json());       // to support JSON-encoded bodies
-app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
   extended: true
 }));
 
@@ -69,10 +74,12 @@ app.use(mountPath, api);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
+// GET requests.
+
 app.get('/', function(req, res) {
   res.status(200).send('Check out Loggly.');
   Parse.initialize(appId, masterKey);
-  Parse.serverURL = serverURL; // Remove.
+  Parse.serverURL = serverURL;
   var millisecondsToWait = 5000;
   setTimeout(function() {
     var obj = new Parse.Object("TestClass");
@@ -83,24 +90,15 @@ app.get('/', function(req, res) {
         winston.log('info', savedObject);
       },
       error: function(error) {
-        winston.log('error', error);
+        var error = new Error();
+        var x = utils.processError(newError, error, [ query ]);
+        winston.log('error', x.message, { "stack" : x.stack , "objects" : x.objects });
       }
     });
   }, millisecondsToWait);
-  /*var query = new Parse.Query("GameScore");
-  query.equalTo("key", "value");
-  query.find({
-    success: function(allObjects) {
-      winston.log('info', allObjects);
-    },
-    error: function(newError) {
-      var error = new Error();
-
-      var x = utils.processError(newError, error, [ query ]);
-      winston.log('error', x.message, { "stack" : x.stack , "objects" : x.objects });
-    }
-  });*/
 });
+
+// POST requests.
 
 app.post('/loggly', function(req, res) {
   winston.log('info', i);
@@ -108,13 +106,15 @@ app.post('/loggly', function(req, res) {
   res.end("Done!");
 });
 
+// HTTP configuration.
+
 var port = process.env.PORT || 5000;
 var httpServer = require('http').createServer(app);
 httpServer.listen(port, function() {
     winston.log('info', 'Began client on port ' + port + '.');
 });
 
-// This will enable the Live Query real-time server
+// LiveQuery configuration.
 
 ParseServer.createLiveQueryServer(httpServer);
 
@@ -123,8 +123,6 @@ query.equalTo("testKey", "Here it is!!!");
 let subscription = query.subscribe();
 
 subscription.on('create', (objects) => {
-  console.log("Here!!!");
-  console.log(objects.get('testKey'));
+  //Do something with this new object...
+  console.log("Woop.");
 });
-
-console.log("Hip.");

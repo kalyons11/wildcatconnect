@@ -12,13 +12,10 @@ module.exports.processError = function(realError, fakeError, objects) {
 	 * 
 	 * @return (JSON) - JSON of the following form - { message : messageString, stack = stackString, objects: objectsArray }.
 	 */
-	 var message = module.exports.parseError(realError);
-	 var stack = fakeError.stack;
-	 var objects = module.exports.generateObjects(objects);
 	 var JSON = {};
-	 JSON.message = message;
-	 JSON.stack = stack;
-	 JSON.objects = objects;
+	 JSON.message = module.exports.parseError(realError);
+	 JSON.stack = fakeError.stack;
+	 JSON.objects = module.exports.generateObjects(objects);
 	 return JSON;
 };
 
