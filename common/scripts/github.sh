@@ -30,7 +30,7 @@ echo "Committing individual Heroku web apps."
 
 for d in */ ; do
 	echo "Commiting $d to Heroku."
-	cd d
+	cd "$d"
 	git status
 	git add -A
 	git commit -m "$2"
