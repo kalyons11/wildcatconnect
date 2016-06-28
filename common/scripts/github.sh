@@ -29,13 +29,15 @@ fi
 echo "Committing individual Heroku web apps."
 
 for d in */ ; do
-	echo "Commiting $d to Heroku."
-	cd "$d"
-	pwd
-	git status
-	git add -A
-	git commit -m "$2"
-	git push heroku master
+	if [ "$d" -ne "common" ] ; then
+		echo "Commiting $d to Heroku."
+		cd "$d"
+		pwd
+		git status
+		git add -A
+		git commit -m "$2"
+		git push heroku master
+	fi
 done
 
 echo "Process complete."
