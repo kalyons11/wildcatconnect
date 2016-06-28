@@ -30,6 +30,7 @@ echo "Committing individual Heroku web apps."
 
 for d in */ ; do
 	if [ "$d" != "common" ] ; then
+		pwd
 		echo "Commiting $d to Heroku."
 		cd "$d"
 		pwd
