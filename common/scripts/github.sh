@@ -11,6 +11,7 @@ pwd
 # common
 cd ..
 # /
+pwd
 
 echo "Committing to main repository."
 
