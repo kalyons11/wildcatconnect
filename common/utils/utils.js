@@ -71,9 +71,29 @@ module.exports.getObjectType = function(object) {
 };
 
 module.exports.replaceAll = function(string, old, theNew) {
+	/*
+	 * replaceAll
+	 *
+	 * Replaces all occurances of "old" with "theNew" in "string".
+	 *
+	 * @param string (String) - The string undergoing editing here.
+	 * @param old (String) - The string that will be replaced.
+	 * @param theNew (String) - The string that replaces.
+	 * 
+	 * @return (String) - Final modified string.
+	 */
 	return string.replace(/old/g, theNew);
 };
 
 module.exports.removeLineBreaks = function(string) {
+	/*
+	 * removeLineBreaks
+	 *
+	 * Removes all unwanted line breaks in a given string.
+	 *
+	 * @param string (String) - The string undergoing editing here.
+	 * 
+	 * @return (String) - Final modified string.
+	 */
 	return string.replace(/\r?\n|\r/g, "");
 };
