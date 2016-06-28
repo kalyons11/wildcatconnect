@@ -31,7 +31,7 @@ echo "Copying common files to Heroku web apps."
 for d in */ ; do
 	if [ "$d" != "common/" ] ; then
 		echo "Copying common files to $d."
-		if [! -d "$d/web/utils" ] ; then
+		if [ ! -d "$d/web/utils" ] ; then
 			echo "Making directory $d/web/utils."
 			mkdir "$d"/web/utils
 		fi
