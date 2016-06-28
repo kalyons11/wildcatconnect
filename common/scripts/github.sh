@@ -7,11 +7,9 @@
 echo "Committing all local changes to repositories."
 
 cd ..
-pwd
 # common
 cd ..
 # /
-pwd
 
 echo "Committing to main repository."
 
@@ -28,13 +26,12 @@ else
 	git push origin "$1"
 fi
 
-pwd
-
 echo "Committing individual Heroku web apps."
 
 for d in */ ; do
 	echo "Commiting $d to Heroku."
 	cd "$d"
+	pwd
 	git status
 	git add -A
 	git commit -m "$2"
