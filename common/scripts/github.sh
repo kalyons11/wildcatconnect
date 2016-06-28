@@ -7,6 +7,7 @@
 echo "Committing all local changes to repositories."
 
 cd ..
+pwd
 # common
 cd ..
 # /
