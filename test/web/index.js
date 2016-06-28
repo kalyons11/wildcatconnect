@@ -5,6 +5,7 @@ var ParseServer = require('parse-server').ParseServer;
 var path = require('path');
 var parse = require('parse').Parse;
 var config = require('./config');
+var bodyParser = require('body-parser');
 
 // Variables configuration.
 
@@ -45,6 +46,11 @@ winston.add(winston.transports.Loggly, {
 
 var app = express();
 
+app.use(bodyParser.json());       // to support JSON-encoded bodies
+app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+  extended: true
+}));
+
 // Serve static assets from the /public folder
 
 app.use('/public', express.static(path.join(__dirname, '/public')));
@@ -62,7 +68,7 @@ app.set('view engine', 'ejs');
 app.get('/', function(req, res) {
   res.status(200).send('Check out Loggly.');
   Parse.initialize('Test-App-Id','WC-Test-Master-Key');
-  Parse.serverURL = serverURL;
+  Parse.serverURL = serverURL + "2"; // Remove!!!
   var obj = new Parse.Object("GameScore");
   obj.set("testKey", "Here it is!!!");
   obj.set("newKey", "Here we go.");
@@ -74,15 +80,32 @@ app.get('/', function(req, res) {
       winston.log('error', error);
     }
   });
-  var query = new Parse.Query("GameScoreTwo");
+  var query = new Parse.Query("GameScore");
+  query.equalTo("key", "value");
   query.find({
     success: function(allObjects) {
       winston.log('info', allObjects);
     },
     error: function(newError) {
-      winston.log('error', newError);
+      var error = new Error();
+      var stack = error.stack;
+      var message = newError.message.toString();
+      var queryString = JSON.stringify(query);
+      var theError = JSON.stringify(newError);
+      var finalObjects = { "queryString" : queryString, "error" : theError };
+      winston.log('error', message, { "stack" : stack , "objects" : finalObjects });
     }
   });
+});
+
+app.post('/loggly', function(req, res) {
+  var i = 0;
+  for(var k in req) { 
+    i++;
+  }
+  winston.log('info', i);
+  winston.log('info', req.body);
+  res.end("Done!");
 });
 
 // There will be a test page available on the /test path of your server url
@@ -92,10 +115,10 @@ app.get('/test', function(req, res) {
   res.sendFile(path.join(__dirname, '/public/test.html'));
 });
 
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 5000;
 var httpServer = require('http').createServer(app);
 httpServer.listen(port, function() {
-    winston.log('info', 'parse-server-example running on port ' + port + '.');
+    winston.log('info', 'Began client on port ' + port + '.');
 });
 
 // This will enable the Live Query real-time server
