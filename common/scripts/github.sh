@@ -30,10 +30,8 @@ echo "Committing individual Heroku web apps."
 
 for d in */ ; do
 	if [ "$d" != "common/" ] ; then
-		pwd
 		echo "Commiting $d to Heroku."
 		cd "$d"/web
-		pwd
 		git status
 		git add -A
 		git commit -m "$2"
