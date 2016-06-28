@@ -29,7 +29,7 @@ fi
 echo "Committing individual Heroku web apps."
 
 for d in */ ; do
-	if [ "$d" != "common" ] ; then
+	if [ "$d" != "common/" ] ; then
 		pwd
 		echo "Commiting $d to Heroku."
 		cd "$d"
@@ -38,6 +38,7 @@ for d in */ ; do
 		git add -A
 		git commit -m "$2"
 		git push heroku master
+		cd ..
 	fi
 done
 
