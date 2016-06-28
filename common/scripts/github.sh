@@ -26,6 +26,16 @@ else
 	git push origin "$1"
 fi
 
+echo "Copying common files to Heroku web apps."
+
+for d in */ ; do
+	if [ "$d" != "common/" ] ; then
+		echo "Copying common files to $d."
+		cp common/utils/* "$d"/web/utils
+		echo "Copying common files to $d complete."
+	fi
+done
+
 echo "Committing individual Heroku web apps."
 
 for d in */ ; do

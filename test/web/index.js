@@ -6,7 +6,7 @@ var path = require('path');
 var parse = require('parse').Parse;
 var config = require('./config');
 var bodyParser = require('body-parser');
-var utils = require('../../common/utils/utils.js');
+var utils = require('./utils/utils.js');
 
 // Variables configuration.
 

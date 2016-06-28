@@ -1,8 +1,11 @@
 var config = {};
 
-config.appId = "bc767985-ca32-417b-896d-9d989e0ca5d4";
-config.masterKey = "c5f32564-ed93-4446-8e67-a5fe5af7e0b9";
-config.serverURL = "http://test-wc-server.herokuapp.com/parse";
+//config.appId = "Test-App-Id";
+config.appId = "fb577937-2edd-4d27-9854-0189dcaf37ad";
+//config.masterKey = "WC-Test-Master-Key";
+config.masterKey = "5de584ea-b1bb-4a75-818b-6e64ea156ebb";
+config.serverURL = "https://test-wc-server-2.herokuapp.com/parse";
+//config.serverURL = "http://localhost:1337/parse";
 config.databaseUri = "mongodb://wc-test-db-user:16cat5conn@ds023704.mlab.com:23704/wc-test-db";
 config.parseMount = "/parse";
 config.logglyToken = "4e51ee0a-d0a5-4d24-90d7-16c1f4efdc20";
