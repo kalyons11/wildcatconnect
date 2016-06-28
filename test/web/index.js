@@ -1,3 +1,5 @@
+"use strict";
+
 // Modules configuration.
 
 var express = require('express');
@@ -25,7 +27,10 @@ var api = new ParseServer({
   cloud: __dirname + '/cloud/main.js',
   appId: appId,
   masterKey: masterKey,
-  serverURL: serverURL
+  serverURL: serverURL,
+  liveQuery: { 
+    classNames: ["TestClass"]
+  }
 });
 
 // Loggly configuration.
@@ -64,28 +69,25 @@ app.use(mountPath, api);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
-// Parse Server plays nicely with the rest of your web routes
-
-app.get('/index', function(req, res) {
-  res.status(200).sendFile(__dirname + "/public/index.html");
-});
-
 app.get('/', function(req, res) {
   res.status(200).send('Check out Loggly.');
   Parse.initialize(appId, masterKey);
-  Parse.serverURL = serverURL; // Remove!!!
-  var obj = new Parse.Object("GameScore");
-  obj.set("testKey", "Here it is!!!");
-  obj.set("newKey", "Here we go.");
-  obj.save(null, {
-    success: function(savedObject) {
-      winston.log('info', savedObject);
-    },
-    error: function(error) {
-      winston.log('error', error);
-    }
-  });
-  var query = new Parse.Query("GameScore");
+  Parse.serverURL = serverURL; // Remove.
+  var millisecondsToWait = 5000;
+  setTimeout(function() {
+    var obj = new Parse.Object("TestClass");
+    obj.set("testKey", "Here it is!!!");
+    obj.set("newKey", "Here we go.");
+    obj.save(null, {
+      success: function(savedObject) {
+        winston.log('info', savedObject);
+      },
+      error: function(error) {
+        winston.log('error', error);
+      }
+    });
+  }, millisecondsToWait);
+  /*var query = new Parse.Query("GameScore");
   query.equalTo("key", "value");
   query.find({
     success: function(allObjects) {
@@ -93,23 +95,17 @@ app.get('/', function(req, res) {
     },
     error: function(newError) {
       var error = new Error();
+
       var x = utils.processError(newError, error, [ query ]);
       winston.log('error', x.message, { "stack" : x.stack , "objects" : x.objects });
     }
-  });
+  });*/
 });
 
 app.post('/loggly', function(req, res) {
   winston.log('info', i);
   winston.log('info', req.body);
   res.end("Done!");
-});
-
-// There will be a test page available on the /test path of your server url
-// Remove this before launching your app
-
-app.get('/test', function(req, res) {
-  res.sendFile(path.join(__dirname, '/public/test.html'));
 });
 
 var port = process.env.PORT || 5000;
@@ -121,3 +117,14 @@ httpServer.listen(port, function() {
 // This will enable the Live Query real-time server
 
 ParseServer.createLiveQueryServer(httpServer);
+
+let query = new Parse.Query("TestClass");
+query.equalTo("testKey", "Here it is!!!");
+let subscription = query.subscribe();
+
+subscription.on('create', (objects) => {
+  console.log("Here!!!");
+  console.log(objects.get('testKey'));
+});
+
+console.log("Hip.");
