@@ -64,7 +64,7 @@ app.use(bodyParser.urlencoded({
 
 // Serve static assets from the /public folder
 
-app.use('/public', express.static(path.join(__dirname, '/public')));
+app.use(express.static(path.join(__dirname, '/public')));
 
 // Serve the Parse API on the /parse URL prefix
 
@@ -77,7 +77,7 @@ app.set('view engine', 'ejs');
 // GET requests.
 
 app.get('/', function(req, res) {
-  res.status(200).send('Check out Loggly.');
+  res.status(200).render("test", { key : { key2 : "The value!!!" } });
   Parse.initialize(appId, masterKey);
   Parse.serverURL = serverURL;
   var millisecondsToWait = 5000;
