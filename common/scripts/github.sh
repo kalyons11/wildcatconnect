@@ -11,6 +11,10 @@ cd ..
 cd ..
 # /
 
+echo "Pulling from branch $1".
+
+git pull origin "$1"
+
 echo "Committing to main repository."
 
 git status
