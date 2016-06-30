@@ -7,9 +7,7 @@
 echo "Committing all local changes to repositories."
 
 cd ..
-# common
 cd ..
-# /
 
 echo "Pulling from branch $1".
 
