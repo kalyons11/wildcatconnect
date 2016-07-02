@@ -1,0 +1,24 @@
+<h1>You successfully created a Test Object!</h1>
+<h4>Let's take a look.</h4>
+<table class="table">
+	<thead>
+	  <tr>
+	    <th>Name</th>
+	    <th>ID</th>
+	    <th>Age</th>
+	    <th>Link</th>
+	    <th>Created</th>
+	    <th>Updated</th>
+	  </tr>
+	</thead>
+	<tbody>
+	  <tr class="success">
+	    <td><%= model.object.name %></td>
+	    <td><%= model.object.id %></td>
+	    <td><%= model.object.data.age %></td>
+	    <td><a href=<%= model.object.data.link %>>Click here to view link.</a></td>
+	    <td><%= model.object.created %></td>
+	    <td><%= model.object.updated %></td>
+	  </tr>
+	</tbody>
+</table>

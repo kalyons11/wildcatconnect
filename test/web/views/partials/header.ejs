@@ -1,0 +1,36 @@
+<nav class="navbar navbar-default navbar-static-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a><img src="/images/logoTransparent.gif" alt="Logo" width="54" style="display: inline-block; vertical-align: middle;"/></a>
+      <a class="navbar-brand">WildcatConnect</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul id="spinnerDiv" class="nav navbar-nav"></ul>
+      <% if (model.page.user.auth) { %>
+        <ul class="nav navbar-nav navbar-right">
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li>
+                <a href="" id="changePassword">Change Password</a>
+              </li>
+              <li>
+                <a href="mailto:support@wildcatconnect.org">Report an issue</a>
+              </li>
+              <li role="separator" class="divider"></li>
+              <li>
+                <a href="" id="logOut">Log Out</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      <% } %>
+    </div>
+  </div>
+</nav>

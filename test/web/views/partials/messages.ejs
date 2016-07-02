@@ -1,0 +1,13 @@
+<div id="messages">
+	<% for (var i = 0; i < model.page.theErrors.length; i++) { %>
+		<% if (model.page.theErrors[i].isError) { %>
+			<div class="alert alert-danger fade in">
+				<strong>Error: <%= model.page.theErrors[i].message %></strong>
+			</div>
+		<% } else { %>
+			<div class="alert alert-success fade in">
+				<strong>Message: <%= model.page.theErrors[i].message %></strong>
+			</div>
+		<% } %>
+	<% } %>
+</div>

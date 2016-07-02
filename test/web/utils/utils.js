@@ -1,4 +1,24 @@
 var JSON = require('./JSON.js').JSON;
+var config = require('../config');
+
+// Variables configuration.
+
+var logglyToken = config.logglyToken;
+var logglySubdomain = config.logglySubdomain;
+var nodeTag = config.nodeTag;
+
+// Loggly configuration.
+
+var winston = require('winston');
+
+require('winston-loggly');
+ 
+winston.add(winston.transports.Loggly, {
+    token: logglyToken,
+    subdomain: logglySubdomain,
+    tags: [ nodeTag ],
+    json: true
+});
 
 module.exports.processError = function(realError, fakeError, objects) {
 	/*
@@ -48,13 +68,16 @@ module.exports.generateObjects = function(objects) {
 	 * 
 	 * @return (JSON) - JSON object with key value pairs of form keyString : valueString.
 	 */
-	var theJSON = {};
-	for (var i = 0; i < objects.length; i++) {
-		var obj = objects[i];
-		var type = module.exports.getObjectType(obj);
-		theJSON[type] = JSON.stringify(obj);
-	}
-	return theJSON;
+	if (objects != null) {
+		var theJSON = {};
+		for (var i = 0; i < objects.length; i++) {
+			var obj = objects[i];
+			var type = module.exports.getObjectType(obj);
+			theJSON[type] = JSON.stringify(obj);
+		}
+		return theJSON;
+	} else
+		return null;
 };
 
 module.exports.getObjectType = function(object) {
@@ -71,9 +94,33 @@ module.exports.getObjectType = function(object) {
 };
 
 module.exports.replaceAll = function(string, old, theNew) {
+	/*
+	 * replaceAll
+	 *
+	 * Replaces all occurances of "old" with "theNew" in "string".
+	 *
+	 * @param string (String) - The string undergoing editing here.
+	 * @param old (String) - The string that will be replaced.
+	 * @param theNew (String) - The string that replaces.
+	 * 
+	 * @return (String) - Final modified string.
+	 */
 	return string.replace(/old/g, theNew);
 };
 
 module.exports.removeLineBreaks = function(string) {
+	/*
+	 * removeLineBreaks
+	 *
+	 * Removes all unwanted line breaks in a given string.
+	 *
+	 * @param string (String) - The string undergoing editing here.
+	 * 
+	 * @return (String) - Final modified string.
+	 */
 	return string.replace(/\r?\n|\r/g, "");
+};
+
+module.exports.log = function(level, message, object) {
+	winston.log(level, message, object);
 };

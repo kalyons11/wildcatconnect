@@ -5,13 +5,14 @@
 // Modules configuration.
 
 var express = require('express');
-var ParseServer = require('parse-server').ParseServer;
+var ParseServer = require('Parse-server').ParseServer;
 var path = require('path');
-var parse = require('parse').Parse;
+var Parse = require('parse/node').Parse;
 var config = require('./config');
 var bodyParser = require('body-parser');
-var utils = require('./utils/utils.js');
 var CryptoJS = require('crypto-js');
+var routes = require('./controllers/RouteController');
+var utils = require('./utils/utils.js');
 
 // Variables configuration.
 
@@ -22,9 +23,6 @@ var bytesTwo = CryptoJS.AES.decrypt(config.masterKey.toString(), hasher);
 var masterKey = bytesTwo.toString(CryptoJS.enc.Utf8);
 var serverURL = config.serverURL;
 var databaseUri = config.databaseUri;
-var logglyToken = config.logglyToken;
-var logglySubdomain = config.logglySubdomain;
-var nodeTag = config.nodeTag;
 var theClassNames = config.classNames;
 
 // Parse Server configuration.
@@ -37,21 +35,22 @@ var api = new ParseServer({
   serverURL: serverURL,
   liveQuery: { 
     classNames: theClassNames
+  },
+  verifyUserEmails: true,
+  publicServerURL: serverURL,
+  appName: 'WildcatConnect',
+  emailAdapter: {
+    module: 'parse-server-simple-mailgun-adapter',
+    options: {
+      fromAddress: 'team@wildcatconnect.org',
+      domain: 'wildcatconnect.org',
+      apiKey: 'key-21b93c07c71f9d42c7b0bec1fa68567f'
+    }
   }
 });
 
-// Loggly configuration.
-
-var winston = require('winston');
-
-require('winston-loggly');
- 
-winston.add(winston.transports.Loggly, {
-    token: logglyToken,
-    subdomain: logglySubdomain,
-    tags: [nodeTag],
-    json: true
-});
+Parse.initialize(appId, masterKey);
+Parse.serverURL = serverURL;
 
 // Express app configuration.
 
@@ -66,37 +65,17 @@ app.use(bodyParser.urlencoded({
 
 app.use(express.static(path.join(__dirname, '/public')));
 
-// Serve the Parse API on the /parse URL prefix
+// Configure routing.
+
+app.use('/', routes);
+
+// Serve the Parse API on the /Parse URL prefix
 
 var mountPath = config.parseMount;
 app.use(mountPath, api);
 
-app.set('views', __dirname + '/views');
+app.set('views', __dirname + '/views/pages');
 app.set('view engine', 'ejs');
-
-// GET requests.
-
-app.get('/', function(req, res) {
-  res.status(200).render("test", { key : { key2 : "The value!!!" } });
-  Parse.initialize(appId, masterKey);
-  Parse.serverURL = serverURL;
-  var millisecondsToWait = 5000;
-  setTimeout(function() {
-    var obj = new Parse.Object("TestClass");
-    obj.set("testKey", "Here it is!!!");
-    obj.set("newKey", "Here we go.");
-    obj.save(null, {
-      success: function(savedObject) {
-        winston.log('info', savedObject);
-      },
-      error: function(error) {
-        var error = new Error();
-        var x = utils.processError(newError, error, [ query ]);
-        winston.log('error', x.message, { "stack" : x.stack , "objects" : x.objects });
-      }
-    });
-  }, millisecondsToWait);
-});
 
 // POST requests.
 
@@ -111,7 +90,7 @@ app.post('/loggly', function(req, res) {
 var port = process.env.PORT || 5000;
 var httpServer = require('http').createServer(app);
 httpServer.listen(port, function() {
-    winston.log('info', 'Began client on port ' + port + '.');
+    utils.log('info', 'Began client on port ' + port + '.', null);
 });
 
 // LiveQuery configuration.
