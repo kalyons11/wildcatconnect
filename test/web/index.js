@@ -77,14 +77,6 @@ app.use(mountPath, api);
 app.set('views', __dirname + '/views/pages');
 app.set('view engine', 'ejs');
 
-// POST requests.
-
-app.post('/loggly', function(req, res) {
-  winston.log('info', i);
-  winston.log('info', req.body);
-  res.end("Done!");
-});
-
 // HTTP configuration.
 
 var port = process.env.PORT || 5000;

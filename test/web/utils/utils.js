@@ -1,24 +1,19 @@
 var JSON = require('./JSON.js').JSON;
+var winston = require('winston');
 var config = require('../config');
-
-// Variables configuration.
 
 var logglyToken = config.logglyToken;
 var logglySubdomain = config.logglySubdomain;
 var nodeTag = config.nodeTag;
-
-// Loggly configuration.
-
-var winston = require('winston');
-
-require('winston-loggly');
  
+require('winston-loggly');
+  
 winston.add(winston.transports.Loggly, {
-    token: logglyToken,
-    subdomain: logglySubdomain,
-    tags: [ nodeTag ],
-    json: true
-});
+     token: logglyToken,
+     subdomain: logglySubdomain,
+     tags: [nodeTag],
+     json: true
+ });
 
 module.exports.processError = function(realError, fakeError, objects) {
 	/*
@@ -68,16 +63,13 @@ module.exports.generateObjects = function(objects) {
 	 * 
 	 * @return (JSON) - JSON object with key value pairs of form keyString : valueString.
 	 */
-	if (objects != null) {
-		var theJSON = {};
-		for (var i = 0; i < objects.length; i++) {
-			var obj = objects[i];
-			var type = module.exports.getObjectType(obj);
-			theJSON[type] = JSON.stringify(obj);
-		}
-		return theJSON;
-	} else
-		return null;
+	var theJSON = {};
+	for (var i = 0; i < objects.length; i++) {
+		var obj = objects[i];
+		var type = module.exports.getObjectType(obj);
+		theJSON[type] = JSON.stringify(obj);
+	}
+	return theJSON;
 };
 
 module.exports.getObjectType = function(object) {
