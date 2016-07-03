@@ -5,7 +5,7 @@
 // Modules configuration.
 
 var express = require('express');
-var ParseServer = require('Parse-server').ParseServer;
+var ParseServer = require('parse-server').ParseServer;
 var path = require('path');
 var Parse = require('parse/node').Parse;
 var config = require('./config');
