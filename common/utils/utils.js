@@ -1,4 +1,19 @@
 var JSON = require('./JSON.js').JSON;
+var winston = require('winston');
+var config = require('../config');
+
+var logglyToken = config.logglyToken;
+var logglySubdomain = config.logglySubdomain;
+var nodeTag = config.nodeTag;
+
+require('winston-loggly');
+ 
+winston.add(winston.transports.Loggly, {
+    token: logglyToken,
+    subdomain: logglySubdomain,
+    tags: [nodeTag],
+    json: true
+});
 
 module.exports.processError = function(realError, fakeError, objects) {
 	/*
@@ -97,3 +112,7 @@ module.exports.removeLineBreaks = function(string) {
 	 */
 	return string.replace(/\r?\n|\r/g, "");
 };
+
+module.exports.log = function(level, message, objects) {
+	winston.log(level, message, objects);
+}
