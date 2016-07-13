@@ -1,0 +1,89 @@
+<h4><p class="text-muted">Complete the following form to submit a new Community Service Opportunity.</p></h4>
+<% include ./navigation %>
+<h6><i>NOTE: All community service opportunities will require administrative approval before they appear in the app.</i></h6>
+<form id="form" name="form" class="form-add-community" role="form" method="post" action="/app/dashboard/community/new" enctype="multipart/form-data" onsubmit="submitFunction();">
+	<div class="form-group">
+		<label for="title">Title (60 characters max)</label>
+		<input type="text" name="title" class="form-control" id="title" placeholder="Title" maxlength="60">
+	</div>
+	<h6><i>NOTE: If you are unsure of the exact start or end time for this opportunity, please leave adequate time in the dates below.</i></h6>
+	<label for="startDateDate">Select Start Date</label>
+	<input type='text' id="startDateDate" readOnly/>
+	<label for="startDateTime">Select Start Time</label>
+	<input type="text" class="time" id='startDateTime'/>
+	<br><br>
+	<label for="endDateDate">Select End Date</label>
+	<input type='text' id="endDateDate" readOnly/>
+	<label for="endDateTime">Select End Time</label>
+	<input type="text" class="time" id='endDateTime'/>
+	<input type="hidden" name="startDate"/>
+	<input type="hidden" name="endDate"/>
+	<br><br>
+	<div class="form-group">
+		<label for="content">Message and Information</label>
+		<% include ../markdown.ejs %>
+	</div>
+	<button class="btn btn-lg btn-primary btn-block" type="submit">Submit for Approval</button>
+</form>
+<script type="text/javascript">
+
+	$("#startDateDate").datepicker();
+	$("#startDateDate").datepicker( "option", "showAnim", "blind" );
+	$('#startDateDate').datepicker("setDate", new Date() );
+
+	$("#endDateDate").datepicker();
+	$("#endDateDate").datepicker( "option", "showAnim", "blind" );
+	$('#endDateDate').datepicker("setDate", new Date() );
+
+	$("#startDateDate").on('input change', function() {
+		var here = $("#startDateDate").datepicker("getDate");
+		$("#startDateDate").datepicker("hide");
+		var next = $("#endDateDate").datepicker("getDate");
+		if (here > next) {
+			$('#endDateDate').datepicker("setDate", here );
+		}
+	});
+
+	$("#endDateDate").on('input change', function() {
+		var here = $("#startDateDate").datepicker("getDate");
+		$("#startDateDate").datepicker("hide");
+		var next = $("#endDateDate").datepicker("getDate");
+		if (here > next) {
+			$('#endDateDate').datepicker("setDate", here );
+		}
+	});
+
+	$('#startDateTime').timepicker({ 'step' : 15 , 'scrollDefault': 'now' , 'disableTextInput' : true });
+	$('#startDateTime').timepicker('setTime', $("#startDateDate").datepicker("getDate"));
+
+	$('#endDateTime').timepicker({ 'step' : 15 , 'scrollDefault': 'now' , 'disableTextInput' : true });
+	$('#endDateTime').timepicker('setTime', $("#startDateDate").datepicker("getDate"));
+
+	function submitFunction() {
+		var startDateDate = $("#startDateDate").datepicker("getDate");
+		var startDate = $("#startDateTime").timepicker("getTime", startDateDate);
+		var endDateDate = $("#endDateDate").datepicker("getDate");
+		var endDate = $("#endDateTime").timepicker("getTime", endDateDate);
+		document.form.startDate.value = startDate;
+		document.form.endDate.value = endDate;
+	}
+
+	$('form').submit(function (e) {
+    	$("#loading").fadeIn();
+    });
+
+    var isData;
+
+	try {
+		isData = "<%= model.customModel.type %>" != "No type yet.";
+	} catch (e) {
+		isData = false;
+	}
+
+	if (isData) {
+		document.getElementById('title').value = "<%= model.customModel.title %>";
+		$('#pad').val(`<%- model.customModel.content %>`);
+		$('#startDateDate').datepicker("setDate", new Date("<%= model.customModel.startDate %>") );
+		$('#endDateDate').datepicker("setDate", new Date("<%= model.customModel.endDate %>") );
+	}
+</script>

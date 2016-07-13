@@ -1,0 +1,59 @@
+<h4><p class="text-muted">Complete the following form to submit a new event.</p></h4>
+<% include ./navigation %>
+<h6><i>NOTE: All events will require administrative approval before they appear in the app.</i></h6>
+<form class="form-add-event" name="form" id="form" role="form" method="post" action="/app/dashboard/event/new" enctype="multipart/form-data" onsubmit="submitFunction();">
+	<div class="form-group">
+		<label for="title">Title (60 characters max)</label>
+		<input type="text" name="title" class="form-control" id="title" placeholder="Title" maxlength="60">
+	</div>
+	<div class="form-group">
+		<label for="location">Location</label>
+		<input type="text" name="location" class="form-control" id="location" placeholder="Location" maxlength="140">
+	</div>
+	<label for="eventDate">Select Event Date</label>
+	<input type='text' id="eventDatePicker" readOnly/>
+	<label for="eventTime">Select Event Time</label>
+	<input type="text" class="time" id='eventTime'/>
+	<input type="hidden" name="eventDate"/>
+	<br><br>
+	<div class="form-group">
+		<label for="message">Message</label>
+		<h6><i>(i.e. event reminders, ticket information, parking, etc.)</i></h6>
+		<% include ../markdown.ejs %>
+	</div>
+	<button class="btn btn-lg btn-primary btn-block" type="submit">Submit for Approval</button>
+</form>
+<script type="text/javascript">
+
+	$("#eventDatePicker").datepicker();
+	$("#eventDatePicker").datepicker( "option", "showAnim", "blind" );
+	$('#eventDatePicker').datepicker("setDate", new Date() );
+
+	$('#eventTime').timepicker({ 'step' : 15 , 'scrollDefault': 'now' , 'disableTextInput' : true });
+	$('#eventTime').timepicker('setTime', $("#eventDatePicker").datepicker("getDate"));
+
+	function submitFunction() {
+		var eventDateDate = $("#eventDatePicker").datepicker("getDate");
+		var eventDate = $("#eventTime").timepicker("getTime", eventDateDate);
+		document.form.eventDate.value = eventDate;
+	}
+
+	$('form').submit(function (e) {
+    	$("#loading").fadeIn();
+    });
+
+    var isData;
+
+	try {
+		isData = "<%= model.customModel.type %>" != "No type yet.";
+	} catch (e) {
+		isData = false;
+	}
+
+	if (isData) {
+		document.getElementById('title').value = "<%= model.customModel.title %>";
+		document.getElementById('location').value = "<%= model.customModel.location %>";
+		$('#pad').val(`<%- model.customModel.content %>`);
+		$('#eventDate').datepicker("setDate", new Date("<%= model.customModel.eventDate %>") );
+	}
+</script>

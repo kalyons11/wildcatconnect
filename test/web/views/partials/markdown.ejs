@@ -1,0 +1,49 @@
+<div class="panel panel-success markdownPanel">
+	<div class="panel-heading">
+		<h4 class="panel-title">
+			<a data-toggle="collapse" class="markdownLink" id="toggle" href="#collapse"><span id="glyph" class="glyphicon glyphicon-plus"></span>WildcatConnect uses Markdown to format text. Click to see examples.</a>
+		</h4>
+	</div>
+	<div id="collapse" class="panel-collapse collapse">
+		<div class="panel-body">
+			<table class="table table-striped markdownHelp" id="markdownHelp"><tbody><tr style="text-align: center; border-color: #ffffff !important; border:0px;"><td style="background-color: #428bca;" width="50%"><b>Raw Text</b></td><td style="background-color: #428bca;"><b>Markdown Output</b></td></tr>
+				<tr><td><u>Titles</u><br><br>
+
+					# Big<br>
+					## Medium<br>
+					### Smaller<br>
+					...<br>
+					###### Smallest</td><td><h1>Big</h1><h2>Medium</h2><h3>Smaller</h3>...<h6>Smallest</h6></td></tr>
+					<tr><td>*italics*</td><td><em>italics</em></td></tr><tr><td>**bold**</td><td><b>bold</b></td></tr><tr><td>***italics and bold***</td><td><i><b>italics and bold</b></i></td></tr><tr><td>[Click here to visit Google!](http://www.google.com)</td><td><a href="http://www.google.com" target="_blank">Click here to visit Google!</a></td></tr><tr><td>* item 1<br>* item 2<br>* item 3<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* nested item</td><td><ul><li>item 1</li><li>item 2</li><li>item 3<ul><li>nested item</li></ul></li></ul></td></tr><tr><td>&gt; quoted text</td><td><blockquote>quoted text</blockquote></td></tr><tr><td>(Horizontal Line)<br><br>---</td><td><hr style="height: 5px; border-top-width: 5px; border-top-style: solid; border-top-color:#000000"></td></tr><tr><td style="text-align:center;" colspan="2"><br><b>NOTE: Hit enter twice to start a new paragraph.</b><br><br>Write away!</td></tr></tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+<table class="table table-striped">
+	<tbody>
+		<tr>
+			<td width="50%">
+				<div>
+					<label for="content">Raw Text</label>
+					<textarea name="content" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="true" data-autoresize class="markdownBox" rows="15" id="pad" style="resize:none;"></textarea>
+				</div>
+			</td>
+			<td width="50%">
+				<div>
+					<label for="content">Markdown Output</label>
+					<div class="markdownBox" style="min-height: 342px;" id="markdown"></div>
+				</div>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<script type="text/javascript">
+	$("#toggle").click(function() {
+		var list = ($(this)).find("span").attr('class').split(/\s+/);
+		if (list.indexOf("glyphicon-plus") > -1) {
+			$(this).find("span").addClass('glyphicon-minus').removeClass('glyphicon-plus');
+		} else if (list.indexOf("glyphicon-minus") > -1) {
+			$(this).find("span").addClass('glyphicon-plus').removeClass('glyphicon-minus');
+		}
+	});
+</script>

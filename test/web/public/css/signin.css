@@ -1,12 +1,13 @@
+
 body {
   padding-top: 40px;
-  padding-bottom: 40px;
+  padding-bottom: 10px;
   background-color: #eee;
 }
 
 .form-signin {
   max-width: 330px;
-  padding: 15px;
+  padding: 5 px;
   margin: 0 auto;
 }
 .form-signin .form-signin-heading,

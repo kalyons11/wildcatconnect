@@ -1,10 +1,12 @@
 var JSON = require('./JSON.js').JSON;
 var winston = require('winston');
 var config = require('../config');
+var CryptoJS = require('crypto-js');
 
 var logglyToken = config.logglyToken;
 var logglySubdomain = config.logglySubdomain;
 var nodeTag = config.nodeTag;
+var hasher = config.hasher;
 
 require('winston-loggly');
  
@@ -63,13 +65,16 @@ module.exports.generateObjects = function(objects) {
 	 * 
 	 * @return (JSON) - JSON object with key value pairs of form keyString : valueString.
 	 */
-	var theJSON = {};
-	for (var i = 0; i < objects.length; i++) {
-		var obj = objects[i];
-		var type = module.exports.getObjectType(obj);
-		theJSON[type] = JSON.stringify(obj);
-	}
-	return theJSON;
+	if (objects != null) {
+		var theJSON = {};
+		for (var i = 0; i < objects.length; i++) {
+			var obj = objects[i];
+			var type = module.exports.getObjectType(obj);
+			theJSON[type] = JSON.stringify(obj);
+		}
+		return theJSON;
+	} else
+		return null;
 };
 
 module.exports.getObjectType = function(object) {
@@ -115,4 +120,32 @@ module.exports.removeLineBreaks = function(string) {
 
 module.exports.log = function(level, message, objects) {
 	winston.log(level, message, objects);
+}
+
+module.exports.encrypt = function(string) {
+	var result = CryptoJS.AES.encrypt(string, hasher);
+	return result.toString();
+}
+
+module.exports.decrypt = function(string) {
+	var bytes  = CryptoJS.AES.decrypt(string, hasher);
+	var result = bytes.toString(CryptoJS.enc.Utf8);
+	return result;
+}
+
+module.exports.generateKey = function() {
+	var string = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    for (var i = 0; i < 11; i++) {
+        string += possible.charAt(Math.floor(Math.random() * possible.length));
+    };
+    return string;
+};
+
+module.exports.removeParams = function(object) {
+	if (object.password != null)
+		delete object.password;
+	if (object.passwordConfirm != null)
+		delete object.passwordConfirm;
+	return object;
 }

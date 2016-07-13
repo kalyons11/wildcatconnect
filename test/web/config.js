@@ -12,5 +12,8 @@ config.logglySubdomain = "wildcatconnect";
 config.nodeTag = "web";
 config.mongoTag = "database";
 config.classNames = [ "TestClass" ];
+config.secret = "15928efc-0135-47e5-b3cc-c02e8d58a88c";
+config.pages = ['/.gitignore', '/config.js', '/Dockerfile', '/index.js', '/jsconfig.json', '/LICENSE', '/package.json', '/Procfile'];
+config.customPages = ['group.post'];
 
 module.exports = config;

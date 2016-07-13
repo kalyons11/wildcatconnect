@@ -3,20 +3,20 @@
 	<% var model = model %>
 	<head>
 		<% include ../partials/head %>
+		<% include ../partials/script %>
 	</head>
 	<body>
 		<header>
 			<% include ../partials/header %>
 		</header>
 		<main>
-			<% include ../partials/messages %>
-			<div>
-				<% include ../partials/login %>
+			<div class="holder">
+				<div class="fixed" style="position:relative; width:100%;">
+					<% include ../partials/messages %>
+					<% include ../partials/login %>
+				</div>
 			</div>
 		</main>
-		<footer>
-			<!--TODO-->
-		</footer>
+		<% include ../partials/footer %>
 	</body>
-	<% include ../partials/script %>
 </html>

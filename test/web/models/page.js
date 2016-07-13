@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var ApplicationMessage = require('./message')
+var ApplicationMessage = require('./message');
 
 var pageSchema = new Schema({
 	title: String,
