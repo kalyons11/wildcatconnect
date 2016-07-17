@@ -8,7 +8,8 @@ window.onload = function() {
     pageArray.push('/app/dashboard/news/new');
     pageArray.push('/app/dashboard/community/new');
     pageArray.push('/app/dashboard/event/new');
-    pageArray.push('/app/dashboard/group/post')
+    pageArray.push('/app/dashboard/group/post');
+    pageArray.push('/app/dashboard/scholarship/new');
 
     if (pageArray.indexOf(path) > -1) {
         var converter = new showdown.Converter();
@@ -46,16 +47,25 @@ window.onload = function() {
                 var offset = this.offsetHeight - this.clientHeight;
              
                 var resizeTextarea = function(el) {
-                    jQuery(el).css('height', 'auto').css('height', el.scrollHeight + offset);
+                    jQuery(el).css('height', 'auto');
+                    jQuery(el).focus();
                 };
-                jQuery(this).on('keyup input', function() { resizeTextarea(this); }).removeAttr('data-autoresize');
+                jQuery(this).on('keyup input', function() { resizeTextarea(this);
+
+
+                }).removeAttr('data-autoresize');
             });
             var markdownText = pad.value;
+            markdownText = markdownText.replace(/`/g, '');
             previousMarkdownValue = markdownText;
             html = converter.makeHtml(markdownText);
             html = html.replace(/<a href/g, '<a target="_blank" href');
             html = html.replace(/<hr/g, '<hr style="height: 5px; border-top-width: 5px; border-top-style: solid; border-top-color:#000000"');
+            html = linkifyHtml(html, {
+                target: '_blank'
+            });
             markdownArea.innerHTML = html;
+            $("#pad").val(markdownText);
         };
 
         var didChangeOccur = function(){

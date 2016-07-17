@@ -43,6 +43,7 @@
     width: 100%;
     backface-visibility: hidden;
     will-change: overflow;
+    padding-bottom: 10px;
 }
 
 .fixed {
@@ -111,6 +112,7 @@
     background-image: none;
     border: 1px solid #ccc;
     border-radius: 4px;
+    word-wrap: break-word;
 }
 
 .buffer10 {

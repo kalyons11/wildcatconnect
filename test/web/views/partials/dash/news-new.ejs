@@ -25,7 +25,7 @@
 	<div class="form-group" id="imageDiv">
 		<label id="imageThing" for="image">Image</label>
 		<img src="/images/picture@2x.png" alt="Logo" width="30" style="vertical-align: middle; margin-left:10px; margin-bottom:10px;"/>
-		<input type="file" class="form-control" name="image" id="image" accept="image/*">
+		<input type="file" name="image" id="image" accept="image/*">
 		<br>
 	</div>
 	<button class="btn btn-lg btn-primary btn-block" type="submit">Submit for Approval</button>
@@ -41,6 +41,7 @@
     if (document.getElementById('date').value == "")
     	$('#date').datepicker("setDate", new Date() );
     $('form').submit(function (e) {
+        setLoadingMessage("Saving news article...");
     	$("#loading").fadeIn();
     });
  </script>

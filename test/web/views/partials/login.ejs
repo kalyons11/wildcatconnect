@@ -3,8 +3,8 @@
 		<form id="form" class="form-signin" role="form" method="post" action="/app/login" enctype="multipart/form-data">
 	        <h2 class="form-signin-heading">Secure Login</h2>
 	        <label for="username" class="col-md-3 control-label">Username</label>
-	        <input type="text" name="username" class="form-control" placeholder="Username" required="" autofocus="" autocorrect="off" autocapitalize="off">
-	        <label for="password" class="col-md-3 control-label">Password</label>
+	        <input type="text" name="username" class="form-control" placeholder="Username" required="" autofocus="" autocorrect="off" autocapitalize="off" value="kalyons@mit.edu">
+	        <label for="password" class="col-md-3 control-label" value="716397">Password</label>
 	        <input type="password" name="password" class="form-control" placeholder="Password" required="">
 	        <button class="btn btn-lg btn-primary btn-block loadingButton" type="submit" id="logIn" style="margin-bottom:10px;"><img src="/images/spinner.gif" width="40px" id="btnimg" style="display:none;" class="btnimg"/><div id="signText">Sign In</div></button>
 	        <a href="/app/forgot"><button class="btn btn-lg btn-block btn-primary" type="button">Forgot Username/Password</button></a>
@@ -16,8 +16,8 @@
 </div>
 <script>
     $('#form').submit(function (e) {
-      $('#logIn').attr("disabled", "true");
-      $('#signText').html("Signing in...");
-      $("#btnimg").fadeIn();
+        $('#logIn').attr("disabled", "true");
+        $('#signText').html("Signing in...");
+        $("#btnimg").fadeIn();
     });
 </script>

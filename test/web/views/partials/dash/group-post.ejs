@@ -21,45 +21,42 @@ $("#loading").fadeIn();
 
 $('#pad').attr("maxlength", "200");
 
-var structuresArray = new Array();
+$.ajax({
+    url: "post/ajax/load",
+    type: "post",
+    data: {username: "<%= model.object.user.username %>"}, // Encrypt all data...
+    datatype: 'json',
+    crossDomain: true,
 
-Parse.initialize("<%= model.page.configurations.appId %>", "<%= model.page.configurations.masterKey %>");
-Parse.serverURL = "<%= model.page.configurations.serverURL %>";
-
-var queryOne = new Parse.Query(Parse.User);
-queryOne.equalTo("username", "<%= model.object.user.username %>");
-queryOne.first({
-	success: function(user) {
-		var box = document.getElementById('checkboxes');
-		var query = new Parse.Query("ExtracurricularStructure");
-		query.ascending("titleString");
-		if (user.get("userType") === "Administration" || user.get("userType") === "Developer") {
-            //
+    success: function(response){
+        if (Array.isArray(response["res"])) {
+            var structures = response["res"];
+            var box = document.getElementById('checkboxes');
+            for (var i = 0; i < structures.length; i++) {
+                var node = document.createElement('div');
+                node.innerHTML = '<input type="checkbox" onchange="arrayEdit(' + structures[i]["extracurricularID"]+');" id="check' + i + '" value="' + structures[i]["extracurricularID"] + '" name="check' + i + '">' + ' ' + structures[i]["titleString"] + '';
+                box.appendChild(node);
+            };
+            if (structures.length == 0) {
+                $("#messages").html('<div class="alert alert-danger fade in"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><strong>Error: You are not the owner of any Extracurricular groups. However, you can <a href="/app/dashboard/group/manage/create">REGISTER</a> a new group, where you will be able to send push notifications to users who subscribe.</strong></div>');
+                $(".dashContent").remove();
+            }
+            $("#loading").fadeOut();
         } else {
-        	query.containedIn("extracurricularID", Parse.User.current().get("ownedEC"));
-        };
-        query.find({
-        	success: function(structures) {
-        		for (var i = 0; i < structures.length; i++) {
-        			var node = document.createElement('div');        
-        			node.innerHTML = '<input type="checkbox" onchange="arrayEdit(' + structures[i].get("extracurricularID")+');" id="check' + i + '" value="' + structures[i].get("extracurricularID") + '" name="check' + i + '">' + ' ' + structures[i].get("titleString") + '';
-        			box.appendChild(node);
-        		};
-        		$("#loading").fadeOut();
-        		if (structures.length == 0) {
-        			$("#messages").html('<div class="alert alert-danger fade in"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><strong>Error: You are not the owner of any Extracurricular groups. However, you can REGISTER a new group, where you will be able to send push notifications to users who subscribe.</strong></div>');
-        			$(".dashContent").remove();
-        		}
-        	},
-        	error: function(error) {
-        		//
-        	}
-        });
-	},
-	error: function(error) {
-		//
-	}
+            $("#messages").html('<div class="alert alert-danger fade in"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><strong>Unable to load groups. Please try to reload the page.</strong></div>');
+            $('#checkboxes').html('<h4><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>No groups to display.</h4>');
+            $("#loading").fadeOut();
+        }
+    },
+
+    error: function(request, status, error) {
+        $("#messages").html('<div class="alert alert-danger fade in"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><strong>Internal server error. If this problem continues, please contact support.</strong></div>');
+        $('#checkboxes').html('<h4><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>No groups to display.</h4>');
+        $("#loading").fadeOut();
+    }
 });
+
+var structuresArray = new Array();
 
 function arrayEdit(j) {
 	if ($.inArray(j, structuresArray) > -1) {
@@ -91,12 +88,10 @@ function submitFunction() {
 }
 
 $('form').submit(function (e) {
-	setLoadingMessage("Processing...");
-	$("#loading").fadeIn();
+    setLoadingMessage("Posting message...");
+    $("#loading").fadeIn();
 });
 
 $('#pad').val(`<%- model.customModel.content %>`);
-
-var string = `<%= model.customModel.finalUpdates %>`;
 
 </script>

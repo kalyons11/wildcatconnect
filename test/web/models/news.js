@@ -34,7 +34,7 @@ newsSchema.methods.validateData = function(data) {
 		result = false;
 		return { result: result , message: message, model: this};
 	}
-	test = theDate != null;
+	test = data.body.date != null;
 	if (! test) {
 		message = "Date missing.";
 		result = false;

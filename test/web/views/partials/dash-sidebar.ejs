@@ -34,7 +34,7 @@
       <li>
     <% } %>
     <a href="/app/dashboard/group/post"><img src="/images/group@2x.png" alt="Group" style="display: inline-block; vertical-align: middle; margin-right:10px; float:left;" width="22">New Group Update</a></li>
-    <% if (model.page.configurations.key == "group.manage") { %>
+    <% if (model.page.configurations.key.indexOf("group.manage") > -1) { %>
       <li class="active">
     <% } else { %>
       <li>
@@ -45,11 +45,34 @@
     <div>
       <h4>Administrative Tools</h4>
       <ul class="nav nav-sidebar">
-        <li><a href="">Nav item</a></li>
-        <li><a href="">Nav item again</a></li>
-        <li><a href="">One more nav</a></li>
-        <li><a href="">Another nav item</a></li>
-        <li><a href="">More navigation</a></li>
+          <% if (model.page.configurations.key == "poll.manage" || model.page.configurations.key == "poll.new") { %>
+          <li class="active">
+              <% } else { %>
+          <li>
+              <% } %>
+              <a href="/app/dashboard/poll/manage"><img src="/images/poll@2x.png" alt="Poll" style="display: inline-block; vertical-align: middle; margin-right:10px; float:left;" width="22">User Polls</a>
+          </li>
+          <% if (model.page.configurations.key == "scholarship.manage" || model.page.configurations.key == "scholarship.new") { %>
+          <li class="active">
+              <% } else { %>
+          <li>
+              <% } %>
+              <a href="/app/dashboard/scholarship/manage"><img src="/images/scholarship@2x.png" alt="Poll" style="display: inline-block; vertical-align: middle; margin-right:10px; float:left;" width="22">Scholarships</a>
+          </li>
+          <% if (model.page.configurations.key == "news.manage") { %>
+          <li class="active">
+              <% } else { %>
+          <li>
+              <% } %>
+              <a href="/app/dashboard/news/manage"><img src="/images/news@2x.png" alt="News" style="display: inline-block; vertical-align: middle; margin-right:10px; float:left;" width="22">News Stories</a>
+          </li>
+          <% if (model.page.configurations.key == "event.manage") { %>
+          <li class="active">
+              <% } else { %>
+          <li>
+              <% } %>
+              <a href="/app/dashboard/event/manage"><img src="/images/event@2x.png" alt="News" style="display: inline-block; vertical-align: middle; margin-right:10px; float:left;" width="22">Events</a>
+          </li>
       </ul>
     </div>
   <% } %>

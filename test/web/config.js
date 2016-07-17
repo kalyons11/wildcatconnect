@@ -13,7 +13,27 @@ config.nodeTag = "web";
 config.mongoTag = "database";
 config.classNames = [ "TestClass" ];
 config.secret = "15928efc-0135-47e5-b3cc-c02e8d58a88c";
-config.pages = ['/.gitignore', '/config.js', '/Dockerfile', '/index.js', '/jsconfig.json', '/LICENSE', '/package.json', '/Procfile'];
+config.pages = ['/.gitignore', '/config.js', '/Dockerfile', '/index.js', '/jsconfig.json', '/LICENSE', '/package.json', '/Procfile', '/cloud/*', '/controllers/*', '/node_modules/*', '/test/*', '/utils/*', '/views/*'];
 config.customPages = ['group.post'];
+config.IDdictionary = { 
+
+    NewsArticleStructure : "articleID",
+
+    CommunityServiceStructure: "communityServiceID",
+
+    EventStructure: "ID",
+
+    ExtracurricularUpdateStructure: "extracurricularUpdateID",
+
+    ExtracurricularStructure: "extracurricularID",
+
+    PollStructure: "pollID",
+
+    ScholarshipStructure: "ID"
+
+};
+
 
 module.exports = config;
+
+//Separate into distinct files

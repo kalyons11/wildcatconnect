@@ -9,14 +9,15 @@ var postSchema = CustomSchema.extend({
 	groupID: String,
 	content: String,
 	postDate: Date,
-	finalUpdates: [this]
+	finalUpdates: { }
 }, { collection: 'models' });
 
 postSchema.methods.validateData = function(data) {
 	var result = false;
 	var message = "";
 	utils.fillModel(this, data.body, "ExtracurricularUpdateStructure");
-	var test = data.body.groupArray != null && data.body.groupArray.length > 0;
+    var theArray = data.body.groupArray.split(',');
+	var test = theArray != null && theArray.length > 0 && data.body.groupArray.length > 0;
 	if (! test) {
 		message = "You have not selected any groups for this update.";
 		result = false;
@@ -29,23 +30,17 @@ postSchema.methods.validateData = function(data) {
 		return { result: result , message: message, model: this };
 	}
 	this.postDate = new Date(moment().format());
-	this.finalUpdates = this.generateList(this, data.body.groupArray);
+	this.finalUpdates = this.generateObject(theArray);
 	message = "Group update successfully posted.";
 	result = true;
 	return { result: result , message: message, model: this};
 };
 
-postSchema.methods.generateList = function(group, array) {
-	var returnArray = new Array();
-	array = array.split(',');
-	for (var i = 0; i < array.length; i++) {
-		var structure = new ExtracurricularUpdateStructure();
-		structure.content = group.content;
-		structure.postDate = group.postDate;
-		structure.groupID = array[i];
-		returnArray.push(structure);
-	}
-	return returnArray;
+postSchema.methods.generateObject = function(array) {
+    var result = { };
+    for (var i = 0; i < array.length; i++)
+        result[i] = parseInt(array[i]);
+    return result;
 }
 
 var ExtracurricularUpdateStructure = mongoose.model('ExtracurricularUpdateStructure', postSchema);

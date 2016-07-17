@@ -34,14 +34,14 @@ var homeSchema = new Schema({
 	customModel : { type: mongoose.Schema.ObjectId, ref: 'CustomModel' }
 });
 
-homeSchema.methods.renderModel = function(path, action) {
+homeSchema.methods.renderModel = function(path, action, subaction) {
 	this.loadPageModel();
 	this.loadCustomModel();
 	this.initializeErrors();
-	this.setValues(path, action);	
+	this.setValues(path, action, subaction);
 };
 
-homeSchema.methods.setValues = function(path, action) {
+homeSchema.methods.setValues = function(path, action, subaction) {
 	var title = "";
 	var key = "";
 	var renderError = false;
@@ -54,6 +54,9 @@ homeSchema.methods.setValues = function(path, action) {
 				case "new":
 					title = "New Wildcat News Story";
 					break;
+                case "manage":
+                    title = "Manage News Stories";
+                    break;
 				default:
 					renderError = true;
 					break;
@@ -72,9 +75,11 @@ homeSchema.methods.setValues = function(path, action) {
 		case "event":
 			switch (action) {
 				case "new":
-					this.loadConfigurations(path, action);
 					title = "New Event";
 					break;
+                case "manage":
+                    title = "Manage Events";
+                    break;
 				default:
 					renderError = true;
 					break;
@@ -83,18 +88,40 @@ homeSchema.methods.setValues = function(path, action) {
 		case "group":
 			switch (action) {
 				case "post":
-					this.loadConfigurations(path, action);
 					title = "New Group Update";
 					break;
 				case "manage":
-					this.loadConfigurations(path, action);
-					title = "Manage Your Groups";
+				    if (subaction == "create") {
+                        title = "Create New Group";
+                    }
+                    else
+					    title = "Manage Groups";
 					break;
 				default:
 					renderError = true;
 					break;
 			}
 			break;
+        case "poll":
+            switch (action) {
+                case "manage":
+                    title = "Manage User Polls";
+                    break;
+                case "new":
+                    title = "New User Poll";
+                    break;
+            }
+            break;
+        case "scholarship":
+            switch (action) {
+                case "manage":
+                    title = "Manage Scholarships";
+                    break;
+                case "new":
+                    title = "New Scholarship";
+                    break;
+            }
+            break;
 		case "settings":
 			title = "Settings";
 			break;
@@ -104,8 +131,10 @@ homeSchema.methods.setValues = function(path, action) {
 	}
 	if (action == null)
 		key = path;
-	else
+	else if (subaction == null)
 		key = path + "." + action;
+    else
+        key = path + "." + action + "." + subaction;
 	this.page.title = title;
 	this.page.configurations.key = key;
 	this.doRender = ! renderError;
@@ -121,29 +150,6 @@ homeSchema.methods.loadCustomModel = function() {
 
 homeSchema.methods.initializeErrors = function() {
 	this.page.theErrors = new Array();
-};
-
-homeSchema.methods.loadConfigurations = function(path, action) {
-	switch (path) {
-		case "group":
-			switch (action) {
-				case "post":
-					this.parseConfig();
-					break;
-				case "manage":
-					this.parseConfig();
-					break;
-			}
-			break;
-	}
-};
-
-homeSchema.methods.parseConfig = function() {
-	var appId = utils.decrypt(config.appId);
-	var masterKey = utils.decrypt(config.masterKey);
-	this.page.configurations.appId = appId;
-	this.page.configurations.masterKey = masterKey;
-	this.page.configurations.serverURL = config.serverURL;
 };
 
 var Dashboard = mongoose.model('Dashboard', homeSchema);

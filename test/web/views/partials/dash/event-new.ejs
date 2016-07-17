@@ -38,8 +38,9 @@
 		document.form.eventDate.value = eventDate;
 	}
 
-	$('form').submit(function (e) {
-    	$("#loading").fadeIn();
+    $('form').submit(function (e) {
+        setLoadingMessage("Saving event...");
+        $("#loading").fadeIn();
     });
 
     var isData;

@@ -21,6 +21,7 @@
 	<br><br>
 	<div class="form-group">
 		<label for="content">Message and Information</label>
+        <h6><i>(i.e. location, contact information, hours earned, etc.)</i></h6>
 		<% include ../markdown.ejs %>
 	</div>
 	<button class="btn btn-lg btn-primary btn-block" type="submit">Submit for Approval</button>
@@ -68,8 +69,9 @@
 		document.form.endDate.value = endDate;
 	}
 
-	$('form').submit(function (e) {
-    	$("#loading").fadeIn();
+    $('form').submit(function (e) {
+        setLoadingMessage("Saving community service...");
+        $("#loading").fadeIn();
     });
 
     var isData;

@@ -24,7 +24,23 @@
 			<% include ./dash/event-new %>
 		<% } else if (key == "group.post") { %>
 			<% include ./dash/group-post %>
-		<% } %>
+		<% } else if (key == "group.manage") { %>
+        <% include ./dash/group-manage %>
+        <% } else if (key == "group.manage.create") { %>
+        <% include ./dash/group-create %>
+        <% } else if (key == "poll.new") { %>
+        <% include ./dash/poll-new %>
+        <% } else if (key == "poll.manage") { %>
+        <% include ./dash/poll-manage %>
+        <% } else if (key == "scholarship.manage") { %>
+        <% include ./dash/scholarship-manage %>
+        <% } else if (key == "scholarship.new") { %>
+        <% include ./dash/scholarship-new %>
+        <% } else if (key == "news.manage") { %>
+        <% include ./dash/news-manage %>
+        <% } else if (key == "event.manage") { %>
+        <% include ./dash/event-manage %>
+        <% } %>
 	</div>
 </div>
 <script type="text/javascript">

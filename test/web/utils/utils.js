@@ -1,3 +1,5 @@
+//region Module Imports...
+
 var JSON = require('./JSON.js').JSON;
 var winston = require('winston');
 var config = require('../config');
@@ -11,13 +13,15 @@ var nodeTag = config.nodeTag;
 var hasher = config.hasher;
 
 require('winston-loggly');
- 
+
 winston.add(winston.transports.Loggly, {
     token: logglyToken,
     subdomain: logglySubdomain,
     tags: [nodeTag],
     json: true
 });
+
+//endregion
 
 module.exports.processError = function(realError, fakeError, objects) {
 	/*
@@ -208,141 +212,116 @@ module.exports.fillModel = function(model, data, type) {
 	}
 };
 
-module.exports.saveModel = function(model, otherData) {
-	return new Promise(function(fulfill, reject) {
-		module.exports.convertToParseObject(model, otherData).then(function(response) {
-			if (response.auth && response.save) {
-				Parse.Cloud.run('saveGroupUpdates', { groupArray: response.objects }, {
-					success: function(theResponse) {
-						console.log(theResponse);
-					},
-					error: function(error) {
-						console.log(error);
-					}
-				});
-			} else if (response.auth) {
-				fulfill({ auth: true });
-			} else {
-				fulfill({ auth: false , error: response.error });
-			}
-		});
-	});
+module.exports.fillParamaters = function(model, ID, otherData) {
+	switch (model.customModel.type) {
+        case "NewsArticleStructure":
+            var result = { };
+            if (model.customModel.hasFiles) {
+                result.hasImage = 1;
+                var name = otherData.files.image.name;
+                var type = otherData.files.image.mimetype;
+                var file = module.exports.generateParseFile(otherData.files.image.data, name, type);
+                result.imageFile = file;
+            } else
+                result.hasImage = 0;
+            result.articleID = ID;
+            result.titleString = model.customModel.title;
+            result.authorString = model.customModel.author;
+            result.dateString = model.customModel.date;
+            result.summaryString = model.customModel.summary;
+            result.contentURLString = model.customModel.content;
+            result.likes = 0;
+            result.views = 0;
+            result.isApproved = 0;
+            result.email = model.object.user.email;
+            result.userString = module.exports.fullUserString(model);
+            return result;
+        case "CommunityServiceStructure":
+            var result = { };
+            result.communityServiceID = ID;
+            result.commTitleString = model.customModel.title;
+            result.commSummaryString = model.customModel.content;
+            result.startDate = new Date(model.customModel.startDate);
+            result.endDate = new Date(model.customModel.endDate);
+            result.isApproved = 0;
+            result.email = model.object.user.email;
+            result.userString = module.exports.fullUserString(model);
+            return result;
+        case "EventStructure":
+            var result = { };
+            result.ID = ID;
+            result.titleString = model.customModel.title;
+            result.locationString = model.customModel.location;
+            result.messageString = model.customModel.content;
+            result.eventDate = new Date(model.customModel.eventDate);
+            result.isApproved = 0;
+            result.email = model.object.user.email;
+            result.userString = module.exports.fullUserString(model);
+            return result;
+        case "ExtracurricularUpdateStructure":
+			return {
+				"extracurricularUpdateID": ID,
+				"content": model.customModel.content,
+				"postDate": model.customModel.postDate,
+				"finalUpdates": model.customModel.finalUpdates
+	        };
+        case "ExtracurricularStructure":
+            return {
+                "extracurricularID": ID,
+                "titleString": model.customModel.title,
+                "descriptionString": model.customModel.content,
+                "userString": module.exports.fullUserString(model),
+                "meetingIDs": "",
+                "hasImage": 0
+            };
+        case "PollStructure":
+            var result = { };
+            result.pollID = ID;
+            result.pollTitle = model.customModel.title;
+            result.pollQuestion = model.customModel.question;
+            result.pollMultipleChoices = model.customModel.finalChoices;
+            result.daysActive = model.customModel.daysActive; // Must be integer for cloud code functionality...
+            result.isActive = 1;
+            result.totalResponses = 0;
+            return result;
+        case "ScholarshipStructure":
+            return {
+                "ID": ID,
+                "titleString": model.customModel.title,
+                "messageString": model.customModel.content,
+                "dueDate": new Date(model.customModel.dueDate),
+                "email": model.object.user.email,
+                "userString": module.exports.fullUserString(model)
+            };
+	}
 };
 
-module.exports.convertToParseObject = function(model, otherData) {
-	return new Promise(function(fulfill, reject) {
-		var object = new Parse.Object(model.customModel.type);
-		switch (model.customModel.type) {
-			case "NewsArticleStructure":
-				var hasFile = module.exports.doesFileExist(otherData);
-				if (hasFile) {
-					object.set("hasImage", 1);
-					var name = otherData.files.image.name;
-					var type = otherData.files.image.mimetype;
-					var file = module.exports.generateParseFile(otherData.files.image.data, name, type);
-					object.set("imageFile", file);
-				} else {
-					object.set("hasImage", 0);
-				}
-				object.set("titleString", model.customModel.title);
-				object.set("authorString", model.customModel.author);
-				object.set("dateString", model.customModel.date);
-				object.set("summaryString", model.customModel.summary);
-				object.set("contentURLString", model.customModel.content);
-				object.set("likes", 0);
-				object.set("views", 0);
-				object.set("isApproved", 0);
-				object.set("email", model.object.user.email);
-				object.set("userString", module.exports.fullUserString(model));
-				module.exports.getID(model).then(function(response) {
-					if (response.auth) {
-						object.set("articleID", response.ID);
-						fulfill({ auth: true, objects: [ object ], save: true });
-					} else {
-						fulfill({ auth: false, error: response.error });
-					}
-				});
-				break;
-			case "CommunityServiceStructure":
-				object.set("commTitleString", model.customModel.title);
-				object.set("commSummaryString", model.customModel.content);
-				object.set("startDate", new Date(model.customModel.startDate));
-				object.set("endDate", new Date(model.customModel.endDate));
-				object.set("isApproved", 0);
-				object.set("email", model.object.user.email);
-				object.set("userString", module.exports.fullUserString(model));
-				module.exports.getID(model).then(function(response) {
-					if (response.auth) {
-						object.set("communityServiceID", response.ID);
-						fulfill({ auth: true, objects: [ object ], save: true });
-					} else {
-						fulfill({ auth: false, error: response.error });
-					}
-				});
-				break;
-			case "EventStructure":
-				object.set("titleString", model.customModel.title);
-				object.set("locationString", model.customModel.location);
-				object.set("messageString", model.customModel.content);
-				object.set("eventDate", new Date(model.customModel.eventDate));
-				object.set("isApproved", 0);
-				object.set("email", model.object.user.email);
-				object.set("userString", module.exports.fullUserString(model));
-				module.exports.getID(model).then(function(response) {
-					if (response.auth) {
-						object.set("ID", response.ID);
-						fulfill({ auth: true, objects: [ object ], save: true });
-					} else {
-						fulfill({ auth: false, error: response.error });
-					}
-				});
-				break;
-			case "ExtracurricularUpdateStructure":
-				module.exports.getID(model).then(function(response) {
-					if (response.auth) {
-						var result = new Array();
-						var i = 0;
-						var startID = response.ID;
-						while (i < model.customModel.finalUpdates.length) {
-							var update = model.customModel.finalUpdates[i];
-							var object = new Parse.Object(model.customModel.type);
-							object.set("extracurricularID", parseInt(update.groupID));
-							object.set("messageString", update.content);
-							object.set("postDate", update.postDate);
-							object.set("extracurricularUpdateID", startID);
-							result.push(object);
-							startID++;
-							i++;
-						}
-						fulfill({ auth: true, objects: result, save: true });
-					} else {
-						fulfill({ auth: false, error: response.error });
-					}
-				});
-				break;
-			case "SettingsStructure.ChangePassword":
-				Parse.User.requestPasswordReset(model.object.user.email, {
-				  	success: function() {
-				  		fulfill({ auth: true, save: false });
-				  	},
-				  	error: function(error) {
-				    	fulfill({ auth: false, error: error });
-				  	}
-				});
-				break;
-			case "SettingsStructure.ChangeEmail":
-				Parse.User.current().save({
-					"email" : model.customModel.data.email
-				}).then(function() {
-					return Parse.User.current().fetch();
-				}).then(function(finalUser) {
-					fulfill({ auth: true, save: false });
-				}, function(error) {
-					fulfill({ auth: false, error: error });
-				});
-				break;
-		}
-	});
+module.exports.needCustomSaveOperation = function(model) {
+    return model.customModel.type == "SettingsStructure.ChangePassword" || model.customModel.type == "SettingsStructure.ChangeEmail";
+};
+
+module.exports.customSaveOperation = function(model) {
+    return new Promise(function(fulfill, reject) {
+        switch (model.customModel.type) {
+            case "SettingsStructure.ChangePassword":
+                Parse.User.requestPasswordReset(model.object.user.email).then(function(error) {
+                    fulfill({ auth: error != null, save: false, error: error });
+                });
+                break;
+            case "SettingsStructure.ChangeEmail":
+                Parse.User.current().save({
+                    "email" : model.customModel.data.email
+                }).then(function() {
+                    var promise = Parse.Promise.as();
+                    promise = promise.then(function() {
+                        Parse.User.current().fetch().then(function (finalUser, error) {
+                            fulfill({ auth: error != null, save: false, error: error });
+                        });
+                    });
+                });
+                break;
+        }
+    });
 };
 
 module.exports.generateParseFile = function(data, fileName, type) {
@@ -359,71 +338,8 @@ module.exports.doesFileExist = function(data) {
 	return data.files.image.data.length > 0;
 };
 
-module.exports.getID = function(model) {
-	return new Promise(function(fulfill, reject) {
-		var query = new Parse.Query(model.customModel.type);
-		switch (model.customModel.type) {
-			case "NewsArticleStructure":
-				query.descending("articleID");
-	            query.first({
-	                success: function(structure) {
-	                    if (! structure) {
-	                        fulfill({ auth: true, ID: 0 });
-	                    } else {
-	                    	var ID = structure.get("articleID") + 1;
-	                    	fulfill({ auth: true, ID: ID });
-	                    };
-	                }, error: function(error) {
-	                	fulfill({ auth: false, error: error });
-	                }
-	            });
-	        	break;
-	        case "CommunityServiceStructure":
-				query.descending("communityServiceID");
-	            query.first({
-	                success: function(structure) {
-	                    if (! structure) {
-	                        fulfill({ auth: true, ID: 0 });
-	                    } else {
-	                    	var ID = structure.get("communityServiceID") + 1;
-	                    	fulfill({ auth: true, ID: ID });
-	                    };
-	                }, error: function(error) {
-	                	fulfill({ auth: false, error: error });
-	                }
-	            });
-	            break;
-	        case "EventStructure":
-				query.descending("ID");
-	            query.first({
-	                success: function(structure) {
-	                    if (! structure) {
-	                        fulfill({ auth: true, ID: 0 });
-	                    } else {
-	                    	var ID = structure.get("ID") + 1;
-	                    	fulfill({ auth: true, ID: ID });
-	                    };
-	                }, error: function(error) {
-	                	fulfill({ auth: false, error: error });
-	                }
-	            });
-	        	break;
-	        case "ExtracurricularUpdateStructure":
-	        	query.descending("extracurricularUpdateID");
-	        	query.first({
-	                success: function(structure) {
-	                    if (! structure) {
-	                        fulfill({ auth: true, ID: 0 });
-	                    } else {
-	                    	var ID = structure.get("extracurricularUpdateID") + 1;
-	                    	fulfill({ auth: true, ID: ID });
-	                    };
-	                }, error: function(error) {
-	                	fulfill({ auth: false, error: error });
-	                }
-	            });
-		}
-	});
+module.exports.getID = function(object) {
+	return object != null ? parseInt(object.get(config.IDdictionary[object.className])) + 1 : 0;
 };
 
 module.exports.validatePassword = function(password) {
