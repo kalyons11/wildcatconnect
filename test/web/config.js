@@ -31,7 +31,7 @@ config.IDdictionary = {
 
     ScholarshipStructure: "ID",
 
-    Testing: "testing"
+    Testing: "testingTwo"
 
 };
 
