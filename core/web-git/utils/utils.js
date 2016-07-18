@@ -293,6 +293,18 @@ module.exports.fillParamaters = function(model, ID, otherData) {
                 "email": model.object.user.email,
                 "userString": module.exports.fullUserString(model)
             };
+        case "AlertStructure":
+            var result = { };
+            result.alertID = ID;
+            result.titleString = model.customModel.title;
+            result.authorString = module.exports.fullUserString(model);
+            result.contentString = model.customModel.content;
+            result.dateString = model.customModel.dateString;
+            result.hasTime = model.customModel.hasTime ? 1 : 0;
+            result.alertTime = model.customModel.hasTime ? new Date(model.customModel.theTime) : null;
+            result.isReady = model.customModel.hasTime ? 0 : 1;
+            result.views = 0;
+            return result;
 	}
 };
 

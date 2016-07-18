@@ -9,6 +9,7 @@ var ExtracurricularUpdateStructure = require('./group-post');
 var ExtracurricularStructure = require('./group-create');
 var PollStructure = require('./poll');
 var ScholarshipStructure = require('./scholarship');
+var AlertStructure = require('./alert');
 
 exports.NewsArticleStructure = NewsArticleStructure;
 exports.Dashboard = Dashboard;
@@ -21,3 +22,4 @@ exports.ExtracurricularUpdateStructure = ExtracurricularUpdateStructure;
 exports.ExtracurricularStructure = ExtracurricularStructure;
 exports.PollStructure = PollStructure;
 exports.ScholarshipStructure = ScholarshipStructure;
+exports.AlertStructure = AlertStructure;

@@ -616,6 +616,48 @@ exports.custom = function (req, res) {
             }
         });
     }
+    else if (path == "alert" && action == "manage" && request == "load") {
+        var query = new Parse.Query("AlertStructure");
+        query.descending("createdAt");
+        query.equalTo("isReady", 0);
+        var requests = new Array();
+        var current = new Array();
+        query.find({
+            success: function (structures) {
+                requests = structures;
+                var queryTwo = new Parse.Query("AlertStructure");
+                queryTwo.descending("createdAt");
+                queryTwo.equalTo("isReady", 1);
+                queryTwo.find({
+                    success: function (two) {
+                        current = two;
+                        res.send({requests: requests, current: current});
+                    }, error: function (error) {
+                        res.send({res: error});
+                    }
+                });
+            }, error: function (error) {
+                res.send({res: error});
+            }
+        });
+    }
+    else if (path == "alert" && action == "manage" && request == "delete") {
+        var query = new Parse.Query("AlertStructure");
+        query.equalTo("alertID", parseInt(req.body.ID));
+        query.first({
+            success: function (structure) {
+                structure.destroy({
+                    success: function (object) {
+                        res.send({res: "SUCCESS"});
+                    }, error: function (error) {
+                        res.send({res: error});
+                    }
+                });
+            }, error: function (error) {
+                res.send({res: error});
+            }
+        });
+    }
 };
 
 exports.validateData = function(path, action, subaction, data) {
@@ -660,6 +702,12 @@ exports.validateData = function(path, action, subaction, data) {
             switch (action) {
                 case "new":
                     model = new Models.ScholarshipStructure();
+                    return model.validateData(data);
+            }
+        case "alert":
+            switch (action) {
+                case "new":
+                    model = new Models.AlertStructure();
                     return model.validateData(data);
             }
 		case "settings":

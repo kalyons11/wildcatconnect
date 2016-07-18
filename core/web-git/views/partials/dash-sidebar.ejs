@@ -81,6 +81,13 @@
               <% } %>
               <a href="/app/dashboard/community/manage"><img src="/images/community@2x.png" alt="Community" style="display: inline-block; vertical-align: middle; margin-right:10px; float:left;" width="22">Community Service</a>
           </li>
+          <% if (model.page.configurations.key == "alert.manage") { %>
+          <li class="active">
+              <% } else { %>
+          <li>
+              <% } %>
+              <a href="/app/dashboard/alert/manage"><img src="/images/alert@2x.png" alt="Alert" style="display: inline-block; vertical-align: middle; margin-right:10px; float:left;" width="22">Alerts</a>
+          </li>
       </ul>
     </div>
   <% } %>

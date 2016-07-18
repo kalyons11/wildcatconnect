@@ -10,6 +10,7 @@ window.onload = function() {
     pageArray.push('/app/dashboard/event/new');
     pageArray.push('/app/dashboard/group/post');
     pageArray.push('/app/dashboard/scholarship/new');
+    pageArray.push('/app/dashboard/alert/new');
 
     if (pageArray.indexOf(path) > -1) {
         var converter = new showdown.Converter();

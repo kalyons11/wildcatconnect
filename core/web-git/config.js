@@ -29,7 +29,9 @@ config.IDdictionary = {
 
     PollStructure: "pollID",
 
-    ScholarshipStructure: "ID"
+    ScholarshipStructure: "ID",
+
+    AlertStructure: "alertID"
 
 };
 

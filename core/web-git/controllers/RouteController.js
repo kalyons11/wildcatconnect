@@ -25,6 +25,10 @@ router.get(pages, function(req, res) {
     res.status(401).render("error", { model: model });
 });
 
+router.get('/app', function(req, res) {
+    res.redirect("/app/dashboard");
+});
+
 router.get('/app/login', AccountController.getLogin);
 router.post('/app/login', AccountController.postLogin);
 router.get('/app/signup', AccountController.getSignup);
