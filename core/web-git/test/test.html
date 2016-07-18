@@ -1,0 +1,20 @@
+<html>
+    <head>
+        <title>Hey there!</title>
+        <script src="./../public/js/jquery.min.js"></script>
+    </head>
+    <body>
+        <h1>Hello!!!</h1>
+        <script>
+            $.ajax({
+                url: "http://127.0.0.1:5000/app/dashboard/group/post/load",
+                type: "post",
+                data: {username: 'kalyons@mit.edu'},
+                datatype: 'json',
+                crossDomain: true
+            });
+        </script>
+    </body>
+</html>
+
+<!-- hchangeo -->

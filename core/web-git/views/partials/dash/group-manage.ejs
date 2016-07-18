@@ -1,0 +1,254 @@
+<h4><p class="text-muted">Manage groups under your account or create a new group.</p></h4>
+<a href="/app/dashboard"><button class="btn btn-primary btn-back">Cancel</button></a>
+<a href="/app/dashboard/group/manage/create"><button class="btn btn-primary btn-back" style="float:right;">Create New Group</button></a>
+<h4 id="titleLabel">Currently Registered Groups</h4><input type="text" id="search" placeholder=" SEARCH">
+<br><br>
+<div id="groups">
+
+</div>
+<script>
+
+    loadPage();
+
+    var structures = new Array();
+
+    function loadPage(message) {
+        $("#groups").html("");
+        setLoadingMessage("Loading groups...");
+        $("#loading").fadeIn();
+        $.ajax({
+            url: "manage/ajax/load",
+            type: "post",
+            data: {key: "value"}, // Encrypt all data...
+            datatype: 'json',
+            crossDomain: true,
+
+            success: function(response){
+                if (Array.isArray(response["res"])) {
+                    structures = response["res"];
+                    if (structures.length > 0) {
+                        loadTable();
+                    } else {
+                        $("#groups").html('<h4><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>You are not the owner of any Extracurricular groups. Click "Create New Group" to get one started today!</h4>');
+                    }
+                    if (message != null)
+                        setMessage(message, false);
+                    $("#loading").fadeOut();
+                } else {
+                    setMessage("Unable to load groups. Please try to reload the page.", true);
+                    $("#loading").fadeOut();
+                }
+            },
+
+            error: function(request, status, error) {
+                setMessage("Internal server error. If this problem continues, please contact support.", true);
+                $("#loading").fadeOut();
+            }
+        });
+    }
+
+    function loadTable() {
+        var tableDiv = document.getElementById("groups");
+        var table = document.createElement("TABLE");
+        var tableBody = document.createElement("TBODY");
+
+        table.appendChild(tableBody);
+        table.className = "table table-striped";
+        table.id = "groupTable";
+
+        var heading = new Array();
+        heading[0] = "Title";
+        heading[1] = "Owner";
+        heading[2] = "Description";
+        heading[3] = "Action";
+
+        //TABLE COLUMNS
+
+        var tr = document.createElement("TR");
+        tableBody.appendChild(tr);
+
+        $("#groups").html("");
+
+        for (var i = 0; i < heading.length; i++) {
+            var th = document.createElement("TH");
+            th.width = '25%';
+            th.appendChild(document.createTextNode(heading[i]));
+            tr.appendChild(th);
+        };
+
+        for (var i = 0; i < structures.length; i++) {
+            var tr = document.createElement("TR");
+
+            var tdOne = document.createElement("TD");
+            tdOne.appendChild(document.createTextNode(structures[i]["titleString"]));
+            tr.appendChild(tdOne);
+
+            var tdOne = document.createElement("TD");
+            tdOne.appendChild(document.createTextNode(structures[i]["userString"]));
+            tr.appendChild(tdOne);
+
+            var tdOne = document.createElement("TD");
+            tdOne.appendChild(document.createTextNode(structures[i]["descriptionString"]));
+            tr.appendChild(tdOne);
+
+            var tdFour = document.createElement("TD");
+
+            var button = document.createElement("INPUT");
+            button.type = "button";
+            button.className = "btn btn-lg btn-primary editGroup";
+            button.value = "Edit";
+            button.name = i;
+            button.style.marginRight = "10px";
+            tdFour.appendChild(button);
+
+            var buttonTwo = document.createElement("INPUT");
+            buttonTwo.type = "button";
+            buttonTwo.className = "btn btn-lg btn-primary deleteGroup";
+            buttonTwo.value = "Delete";
+            buttonTwo.style.marginRight = "10px";
+            buttonTwo.style.backgroundColor = "red";
+            buttonTwo.style.borderColor = "red";
+            buttonTwo.name = i;
+            tdFour.appendChild(buttonTwo);
+            tr.appendChild(tdFour);
+
+            tableBody.appendChild(tr);
+
+            tableDiv.appendChild(table);
+        }
+    }
+
+    $('#search').keyup(function() {
+
+        var $rows = $('#groupTable tr');
+
+        $rows.splice(0, 1);
+
+        var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+
+        $rows.show().filter(function() {
+            var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+            return !~text.indexOf(val);
+        }).hide();
+    });
+
+    $(document).on('click', ".editGroup", function() {
+        var ID = this.name;
+        var titleString = structures[ID]["titleString"];
+        var descriptionString = structures[ID]["descriptionString"];
+        var theID = structures[ID]["extracurricularID"];
+
+        BootstrapDialog.show({
+            title: 'Edit Group',
+            message: function(dialogItself) {
+                var $form = $('<form></form>');
+                var $title = $('<input class="form-control" type="text" maxlength="40"></div>');
+                $title.val(titleString);
+                dialogItself.setData('title', $title);
+                var $ID = $('<input type="hidden" value="'+theID+'">');
+                dialogItself.setData('ID', $ID);
+                var $div = $('<div style="padding-bottom:20px; class="form-group"></div>')
+                $div.append($('<label for="title">Group Title</label>')).append($title);
+                $form.append($div);
+                var $secondDiv = $('<div class="form-group"></div>');
+                var $message = $('<textarea class="form-control" maxlength="400" rows="4" style="overflow-y: scroll; resize: none; width:100%;"></textarea>');
+                $message.val(descriptionString);
+                dialogItself.setData('message', $message);
+                $secondDiv.append($('<label for="title">Description</label>')).append($message);
+                $form.append($secondDiv);
+                return $form;
+            },// <-- Default value is BootstrapDialog.TYPE_PRIMARY
+            closable: false, // <-- Default value is false
+            draggable: true, // <-- Default value is false
+            buttons: [{
+                label: 'Cancel',
+                action: function (dialogItself) {
+                    dialogItself.close();
+                }
+            }, {
+                label: 'Save',
+                cssClass: 'btn-primary',
+                action: function (dialogItself) {
+
+                    setLoadingMessage("Saving changes...");
+                    $("#loading").fadeIn();
+
+                    var title = dialogItself.getData('title').val();
+                    var content = dialogItself.getData('message').val();
+                    var ID = dialogItself.getData('ID').val();
+
+                    $.ajax({
+                        url: "manage/ajax/edit",
+                        type: "post",
+                        data: { title: title, content: content, ID: ID },
+                        datatype: 'json',
+                        crossDomain: true,
+
+                        success: function(response) {
+                            dialogItself.close();
+                            setLoadingMessage("Reloading groups...");
+                            if (response["res"] == "SUCCESS") {
+                                loadPage("Successfully updated group.");
+                            } else {
+                                setMessage("Unable to save group. Please try to reload the page.", true);
+                                $("#loading").fadeOut();
+                            }
+                        },
+
+                        error: function(request, status, error) {
+                            setMessage("Internal server error. If this problem continues, please contact support.", true);
+                            $("#loading").fadeOut();
+                        }
+                    });
+                }
+            }]
+        });
+    });
+
+    $(document).on('click', ".deleteGroup", function () {
+        var ID = this.name;
+        var theID = structures[ID]["extracurricularID"];
+
+        BootstrapDialog.confirm({
+            title: 'Confirmation',
+            message: 'Are you sure you want to delete this group?',
+            type: BootstrapDialog.TYPE_DANGER, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
+            closable: true, // <-- Default value is false
+            draggable: true, // <-- Default value is false
+            btnCancelLabel: 'No', // <-- Default value is 'Cancel',
+            btnOKLabel: 'Yes', // <-- Default value is 'OK',
+            btnOKClass: 'btn-primary', // <-- If you didn't specify it, dialog type will be used,
+            callback: function(result) {
+                // result will be true if button was click, while it will be false if users close the dialog directly.
+                if(result) {
+                    setLoadingMessage("Deleting group...");
+                    $("#loading").fadeIn();
+
+                    $.ajax({
+                        url: "manage/ajax/delete",
+                        type: "post",
+                        data: { ID: theID },
+                        datatype: 'json',
+                        crossDomain: true,
+
+                        success: function(response) {
+                            setLoadingMessage("Reloading groups...");
+                            if (response["res"] == "SUCCESS") {
+                                loadPage("Successfully deleted group.");
+                            } else {
+                                setMessage("Unable to delete group. Please try to reload the page.", true);
+                                $("#loading").fadeOut();
+                            }
+                        },
+
+                        error: function(request, status, error) {
+                            setMessage("Internal server error. If this problem continues, please contact support.", true);
+                            $("#loading").fadeOut();
+                        }
+                    });
+                };
+            }
+        });
+    });
+
+</script>
