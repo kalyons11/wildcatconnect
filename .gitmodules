@@ -1,0 +1,3 @@
+[submodule "core/test-wc-server-2"]
+	path = core/test-wc-server-2
+	url = https://git.heroku.com/test-wc-server-2.git
