@@ -8,10 +8,11 @@ var express = require('express');
 var ParseServer = require('parse-server').ParseServer;
 var path = require('path');
 var Parse = require('parse/node').Parse;
-var config = require('./config');
 var CryptoJS = require('crypto-js');
 var routes = require('./controllers/RouteController');
-var utils = require('./utils/utils.js');
+var utils = require('./utils/utils');
+var config = require('./config_enc');
+config = utils.decryptObject(config);
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var moment = require('moment');
@@ -21,31 +22,32 @@ var S3Adapter = require('parse-server').S3Adapter;
 var Models = require('./models/models');
 var cors = require('cors');
 
-var SimpleMailgunAdapter = require('./utils/SimpleMailgunAdapter');
-var simpleMailgunAdapter = new SimpleMailgunAdapter({
-  apiKey: 'key-21b93c07c71f9d42c7b0bec1fa68567f',
-  domain: 'wildcatconnect.org',
-  fromAddress: 'team@wildcatconnect.org'
+// Uncaught exceptions.
+
+process.on('uncaughtException', (error) => {
+    var rawError = new Error();
+var x = utils.processError(error, rawError, null);
+utils.log('error', x.message, { "stack" : x.stack , "objects" : x.objects });
 });
 
 // Variables configuration.
 
-var hasher = config.hasher;
-var bytes = CryptoJS.AES.decrypt(config.appId.toString(), hasher);
-var appId = bytes.toString(CryptoJS.enc.Utf8);
-var bytesTwo = CryptoJS.AES.decrypt(config.masterKey.toString(), hasher);
-var masterKey = bytesTwo.toString(CryptoJS.enc.Utf8);
-var serverURL = config.serverURL;
-var databaseUri = config.databaseUri;
+var appId = utils.decrypt(config.appId);
+var masterKey = utils.decrypt(config.masterKey);
+var serverURL = utils.decrypt(config.serverURL);
+var databaseUri = utils.decrypt(config.databaseUri);
 var theClassNames = config.classNames;
-var secret = config.secret;
+var secret = utils.decrypt(config.secret);
+var mailgunKey = utils.decrypt(config.mailgunKey);
+var awsAccessKey = utils.decrypt(config.awsAccessKey);
+var awsSecretKey = utils.decrypt(config.awsSecretKey);
+var awsBucketName = utils.decrypt(config.awsBucketName);
 
-// Uncaught exceptions.
-
-process.on('uncaughtException', (error) => {
-  var rawError = new Error();
-  var x = utils.processError(error, rawError, null);
-  utils.log('error', x.message, { "stack" : x.stack , "objects" : x.objects });
+var SimpleMailgunAdapter = require('./utils/SimpleMailgunAdapter');
+var simpleMailgunAdapter = new SimpleMailgunAdapter({
+    apiKey: mailgunKey,
+    domain: 'wildcatconnect.org',
+    fromAddress: 'team@wildcatconnect.org'
 });
 
 // Parse Server configuration.
@@ -59,14 +61,13 @@ var api = new ParseServer({
   liveQuery: { 
     classNames: theClassNames
   },
-  verifyUserEmails: true,
   publicServerURL: serverURL,
   appName: 'WildcatConnect',
   emailAdapter: simpleMailgunAdapter,
   filesAdapter: new S3Adapter(
-    "AKIAJZ2KYD7RZL2UKD3A",
-    "H+vd9D2b79dR4PNeUYVwjUQms6ZdMMegnYgqTmyM",
-    "test-wc-bucket",
+      awsAccessKey,
+      awsSecretKey,
+      awsBucketName,
     { directAccess: true }
   )
 });
@@ -136,19 +137,6 @@ var port = process.env.PORT || 5000;
 var httpServer = require('http').createServer(app);
 httpServer.listen(port, function() {
     console.log('Began client on port ' + port + '.', null);
-    /*var object = new Parse.Object("ExtracurricularUpdateStructure");
-    object.set("titleString", "My Group Two");
-    object.set("descriptionString", "Here it is!");
-    object.set("hasImage", 0);
-    object.set("imageFile", null);
-    object.set("extracurricularID", 1);
-    object.set("meetingIDs", "");
-    object.set("userString", "Kevin Lyons");
-    object.save(null, {
-      success: function(object) {
-        console.log("We did it!!");
-      }
-    });*/
 });
 
 // LiveQuery configuration.

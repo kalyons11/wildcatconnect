@@ -5,6 +5,7 @@
 <div id="pending">
 
 </div>
+<hr style="border-color:#561838";></hr>
 <h4 id="existingLabel">Recently Posted Alerts</h4><input type="text" id="search" placeholder=" SEARCH">
 <div id="alerts">
 
@@ -241,8 +242,27 @@
         var html = requests[count]["contentString"];
         var theID = requests[count]["alertID"];
 
-        // Call edit ajax, render new view, handle everything there, then come back here with success message / cancellation by user
-        // TODO
+        $("#loading").fadeIn();
+        setLoadingMessage("Opening alert...");
+        $.ajax({
+            url: "manage/ajax/edit",
+            type: "post",
+            data: { ID: theID },
+            datatype: 'json',
+            crossDomain: true,
+
+            success: function(response){
+                $("#loading").fadeOut();
+                $("#pageTitle").html("Editing Mode");
+                $("#innerDash").html(response);
+                $("#submitButton").html("Save Changes");
+            },
+
+            error: function(request, status, error) {
+                setMessage("Internal server error. If this problem continues, please contact support.", true);
+                $("#loading").fadeOut();
+            }
+        });
     });
 
     $(document).on('click', ".viewContentNew", function() {

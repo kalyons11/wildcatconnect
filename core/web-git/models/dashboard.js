@@ -133,6 +133,20 @@ homeSchema.methods.setValues = function(path, action, subaction) {
                 case "new":
                     title = "New Alert";
                     break;
+                if (subaction != null){
+                    switch (subaction) {
+                        case "edit":
+                            title = "Edit Alert";
+                            break;
+                    }
+                }
+            }
+            break;
+        case "user":
+            switch (action) {
+                case "manage":
+                    title = "Manage Users";
+                    break;
             }
             break;
 		case "settings":

@@ -10,7 +10,8 @@ var alertSchema = CustomSchema.extend({
     dateString: String,
     content: String,
     theTime: Date,
-    hasTime: Boolean
+    hasTime: Boolean,
+    editing: Boolean
 }, { collection: 'models' });
 
 alertSchema.methods.validateData = function(data) {

@@ -21,7 +21,7 @@
         <label for="content">Alert Content</label>
         <% include ../markdown %>
     </div>
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+    <button class="btn btn-lg btn-primary btn-block" id="submitButton" type="submit">Submit</button>
 </form>
 <script>
     var authorLabel = document.getElementById('author');
@@ -30,7 +30,12 @@
 
     $("#alertDate").datepicker();
     $("#alertDate").datepicker( "option", "showAnim", "blind" );
-    $('#alertDate').datepicker("setDate", new Date() );
+    if ("<%= model.customModel.theTime %>" != "") {
+        document.getElementById('time').checked = true;
+        $('#alertDate').datepicker("setDate", new Date("<%= model.customModel.theTime %>") );
+    }
+    else
+        $('#alertDate').datepicker("setDate", new Date() );
 
     $("#alertDate").on('input change', function() {
         document.getElementById('now').checked = false;

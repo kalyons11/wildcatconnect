@@ -7,10 +7,34 @@ var CryptoJS = require('crypto-js');
 var Dashboard = require('../models/dashboard');
 var Promise = require('promise');
 
-var logglyToken = config.logglyToken;
+var hasher = config.hasher;
+
+module.exports.encrypt = function(string) {
+    var result = CryptoJS.AES.encrypt(string, hasher);
+    return result.toString();
+};
+
+module.exports.encryptObject = function (object) {
+    var result = CryptoJS.AES.encrypt(JSON.stringify(object), hasher);
+    return result.toString();
+};
+
+module.exports.decrypt = function(string) {
+    var bytes  = CryptoJS.AES.decrypt(string, hasher);
+    var result = bytes.toString(CryptoJS.enc.Utf8);
+    return result;
+};
+
+module.exports.decryptObject = function (string) {
+    var bytes = CryptoJS.AES.decrypt(string, hasher);
+    return JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+};
+
+var Mailgun = require('mailgun-js')({ apiKey: module.exports.decrypt(config.mailgunKey), domain: 'wildcatconnect.org'} );
+
+var logglyToken = module.exports.decrypt(config.logglyToken);
 var logglySubdomain = config.logglySubdomain;
 var nodeTag = config.nodeTag;
-var hasher = config.hasher;
 
 require('winston-loggly');
 
@@ -128,18 +152,7 @@ module.exports.removeLineBreaks = function(string) {
 
 module.exports.log = function(level, message, objects) {
 	winston.log(level, message, objects);
-}
-
-module.exports.encrypt = function(string) {
-	var result = CryptoJS.AES.encrypt(string, hasher);
-	return result.toString();
-}
-
-module.exports.decrypt = function(string) {
-	var bytes  = CryptoJS.AES.decrypt(string, hasher);
-	var result = bytes.toString(CryptoJS.enc.Utf8);
-	return result;
-}
+};
 
 module.exports.generateKey = function() {
 	var string = "";
@@ -376,4 +389,24 @@ module.exports.validatePassword = function(password) {
 
 module.exports.escapeString = function(str) {
     return (str + '').replace(/[\\"']/g, '\\$&').replace(/\u0000/g, '\\0');
+};
+
+module.exports.sendEmail = function(to, from, cc, bcc, subject, body, isHtml, res) {
+    var data = { };
+    data.from = from;
+    data.to = to;
+    if (cc)
+        data.cc = cc;
+    if (bcc)
+        data.bcc = bcc;
+    data.subject = subject;
+    if (isHtml)
+        data.html = body;
+    else
+        data.text = body;
+    Mailgun.messages().send(data, function (err, body) {
+        if (err) {
+            res.send({res: err});
+        }
+    });
 };
