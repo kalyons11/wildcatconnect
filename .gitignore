@@ -41,3 +41,5 @@ jspm_packages
 # Config, for security reasons
 
 config.js
+
+common/test

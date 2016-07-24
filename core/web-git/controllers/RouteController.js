@@ -48,6 +48,9 @@ router.post('/app/signup', AccountController.postSignup);
 router.get('/app/forgot', ForgotController.getForgot);
 router.post('/app/forgot', ForgotController.postForgot);
 
+router.get('/app/verify', AccountController.getVerify);
+router.post('/app/verify', AccountController.postVerify);
+
 router.post('/app/dashboard/:path/:action/ajax/:request', DashboardController.custom);
 
 router.all('/app/*', AccountController.authenticate, function(req, res, next) {

@@ -149,6 +149,13 @@ homeSchema.methods.setValues = function(path, action, subaction) {
                     break;
             }
             break;
+        case "schedule":
+            switch (action) {
+                case "manage":
+                    title = "Manage Schedule";
+                    break;
+            }
+            break;
 		case "settings":
 			title = "Settings";
 			break;
