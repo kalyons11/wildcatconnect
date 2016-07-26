@@ -2,8 +2,9 @@
 
 var express = require('express');
 var router = express.Router();
-var config = require('../config');
 var utils = require('../utils/utils');
+var config = require('../config_enc');
+config = utils.decryptObject(config);
 var Models = require('../models/models');
 
 // Controller configuration.
@@ -12,7 +13,17 @@ var AccountController = require('./AccountController');
 var ForgotController = require('./ForgotController');
 var DashboardController = require('./DashboardController');
 
-var pages = config.pages;
+var pages = utils.decryptObject(config.pages);
+
+pages = pages.substring(1, pages.length - 1);
+
+pages = utils.replaceAll(pages, " ", "");
+
+pages = pages.split(", ");
+
+for (var i = 0; i < pages.length; i++) {
+    pages[i] = pages[i].substring(1, pages[i].length - 1);
+}
 
 router.get(pages, function(req, res) {
     utils.log('error', "Unauthorized request.", { url: req.url });
@@ -25,6 +36,10 @@ router.get(pages, function(req, res) {
     res.status(401).render("error", { model: model });
 });
 
+router.get('/app', function(req, res) {
+    res.redirect("/app/dashboard");
+});
+
 router.get('/app/login', AccountController.getLogin);
 router.post('/app/login', AccountController.postLogin);
 router.get('/app/signup', AccountController.getSignup);
@@ -32,6 +47,9 @@ router.post('/app/signup', AccountController.postSignup);
 
 router.get('/app/forgot', ForgotController.getForgot);
 router.post('/app/forgot', ForgotController.postForgot);
+
+router.get('/app/verify', AccountController.getVerify);
+router.post('/app/verify', AccountController.postVerify);
 
 router.post('/app/dashboard/:path/:action/ajax/:request', DashboardController.custom);
 

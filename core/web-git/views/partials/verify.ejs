@@ -1,0 +1,20 @@
+<div class="main-container" style="padding-left:20px; padding-right:20px;">
+    <form name="form" id="form" class="form-verify" style="width:400px; margin:0 auto;" role="form" method="post" action="/app/verify" enctype="multipart/form-data">
+        <h2 class="form-signin-heading" style="text-align:center;">Verify Account</h2>
+        <h4 style="text-align:center;"><i>You can find your registration key in the confirmation e-mail from our team.</i></h4>
+        <h4 style="text-align:center;"><b>Registration Key... CASE SENSITIVE</b></h4>
+        <input type="text" name="key" class="form-control" placeholder="Registration Key" required="" autofocus="" autocorrect="off" autocapitalize="off"><br>
+        <button class="btn btn-lg btn-primary btn-block loadingButton" id="verify" type="submit" style="padding-bottom:10px;"><img src="/images/spinner.gif" width="40px" id="btnimg" style="display:none;" class="btnimg"/><div id="signText">Verify</div></button>
+        <input type="hidden" name="username" value="<%= model.page.configurations.username %>">
+        <a href="/app/login"><button class="btn btn-lg btn-primary btn-block" type="button" style="margin-top:10px;">Cancel</button></a>
+        <hr style="border-color:#561838";></hr>
+        <button class="btn btn-lg btn-primary btn-block" type="submit" id="noMail" style="padding-bottom:10px;background-color:red;border-color:red; margin-top:10px;">Didn't get that message!</button>
+    </form>
+</div>
+<script>
+    $('#form').submit(function (e) {
+        $('#verify').attr("disabled", "true");
+        $('#signText').html("Verifying...");
+        $("#btnimg").fadeIn();
+    });
+</script>

@@ -5,6 +5,7 @@ var Promise = require('promise');
 var ApplicationMessage = require('../models/message');
 var Classes = require('../utils/classes');
 var utils = require('../utils/utils');
+var Models = require("../models/models");
 
 exports.authenticate = function(req, res, next) {
 	if (Parse.User.current()) {
@@ -32,7 +33,10 @@ exports.postLogin = function(req, res) {
 	exports.tryLogin(req.body).then(function(response) {
 		if (response.auth)
 			res.redirect('/app/dashboard');
-		else {
+        else if (response.auth == false && response.verify == true) {
+            req.session.username = req.body.username;
+            res.redirect("/app/verify");
+        } else {
 			var model = new Login();
 			var data = { user: { auth: false } };
 			model.renderModel(data);
@@ -55,7 +59,11 @@ exports.tryLogin = function(user) {
 	return new Promise(function(fulfill, reject) {
 		Parse.User.logIn(user.username, user.password, {
 			success: function(newUser) {
-				fulfill({ auth: true  });
+			    var verified = newUser.get("verified");
+                if (verified == 0)
+				    fulfill({ auth: false, verify: true  });
+                else
+                    fulfill({ auth: true  });
 			},
 			error: function(sorryUser, error) {
 				fulfill({ auth: false , error: error });
@@ -116,10 +124,6 @@ exports.postSignup = function(req, res) {
 };
 
 exports.trySignup = function(data) {
-	var user = new Parse.User();
-	user.set("username", data.username);
-	user.set("password", data.password);
-	user.set("email", data.email);
 	return new Promise(function(fulfill, reject) {
 		var userRegisterStructure = Classes.UserRegisterStructure.initialize(data);
 		Classes.UserRegisterStructure.validate(userRegisterStructure).then(function(response) {
@@ -137,4 +141,71 @@ exports.trySignup = function(data) {
 			}
 		});	
 	});
+};
+
+exports.getVerify = function(req, res) {
+    var username = req.session.username;
+    var model = Models.Verify();
+    model.renderModel(username);
+    var session = Object.assign({ }, req.session);
+    delete req.session.theErrors;
+    res.render("verify", { model: model, session : session });
+};
+
+exports.postVerify = function(req, res) {
+    exports.tryVerify(req.body).then(function (response) {
+        if (response.auth) {
+            var model = new Login();
+            var data = { user: { auth: false } };
+            model.renderModel(data);
+
+            var myError = new ApplicationMessage();
+            myError.message = "You have successfully verified your WildcatConnect account! Please log in one more time to access your Dashboard.";
+            myError.isError = false;
+            model.page.theErrors.push(myError);
+            req.session.theErrors = model.page.theErrors;
+            res.redirect("/app/login");
+        } else {
+            var model = new Login();
+            var data = { user: { auth: false } };
+            model.renderModel(data);
+
+            var myError = new ApplicationMessage();
+            myError.message = "Unable to verify account. Please try again and ensure that your key is correct. If you have continued issues, please contact us.";
+            myError.isError = true;
+            model.page.theErrors.push(myError);
+            req.session.theErrors = model.page.theErrors;
+            res.redirect("/app/login");
+        }
+    });
+};
+
+exports.tryVerify = function(data) {
+    return new Promise(function(fulfill, reject) {
+        var username = data.username;
+        var key = data.key;
+        var query = new Parse.Query("User");
+        query.equalTo("username", username);
+        query.first({
+            success: function(user) {
+                var actualKey = user.get("key");
+                var test = actualKey == key;
+                if (test) {
+                    user.set("verified", 1);
+                    user.save(null, {
+                       success: function(finalUser)  {
+                           fulfill({ auth: true });
+                       }, error: function(error) {
+                           fulfill({ auth: false, error: error });
+                       }
+                    });
+                } else {
+                    fulfill({ auth: false });
+                }
+            },
+            error: function(error) {
+                fulfill({ auth: false, error: error });
+            }
+        });
+    });
 };

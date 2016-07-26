@@ -1,19 +1,18 @@
 var config = {};
 
 config.hasher = "dc4862c8-6a8b-49b4-a0e4-fe2bda364281";
-config.appId = "U2FsdGVkX1++5zi8axe/UlYrVdFe06td8QxkJgqIDU0IF7TYd/2TEPHFv2UoZ3D1jX1Bu17qKzpc35UaQyjOwA=="; //fb577937-2edd-4d27-9854-0189dcaf37ad";
-config.masterKey = "U2FsdGVkX1+3J8ZSlobAZz7PC+v0VahJ6PzoEJZN23dtvRG6+8eR/1imjJM+bBox0EBjr2hljP3mHt2Fip6gdA=="; //5de584ea-b1bb-4a75-818b-6e64ea156ebb";
-config.serverURL = "https://test-wc-server-2.herokuapp.com/parse";
-config.databaseUri = "mongodb://wc-test-db-user:16cat5conn@ds023704.mlab.com:23704/wc-test-db";
-config.opLogUri = "mongodb://oplogger:opPass123@ds023704.mlab.com:23704/wc-test-db";
+config.appId = "U2FsdGVkX1++5zi8axe/UlYrVdFe06td8QxkJgqIDU0IF7TYd/2TEPHFv2UoZ3D1jX1Bu17qKzpc35UaQyjOwA==";
+config.masterKey = "U2FsdGVkX1+3J8ZSlobAZz7PC+v0VahJ6PzoEJZN23dtvRG6+8eR/1imjJM+bBox0EBjr2hljP3mHt2Fip6gdA==";
+config.serverURL = "U2FsdGVkX19lXrb2PFIpUUo0MHhR/kQBehvVWUdxYprTtCetrbesGGVxJn9UmwrgY5828ggyhfBpNQDCMkuTyWmN6+7i0FFdRH5u6C7cH6o=";
+config.databaseUri = "U2FsdGVkX19Dt0+Psrr6bIIiVmZNREk5e92SLYvgc+CZHmgkMU7D/4OLYjWHGXPiDAnoHy8l/kUc9R8hOR22rL4Fi4ovHo8AWbsePGw/nDAm9PZs06aTv3/jMF4x3Egm";
 config.parseMount = "/parse";
-config.logglyToken = "4e51ee0a-d0a5-4d24-90d7-16c1f4efdc20";
+config.logglyToken = "U2FsdGVkX1+UAqFctrhunJUKN9jLpYWZmpZY4R9ITvK3STwMnCnN45+e5cAZf1XxuGi4FRBZDjcl4yDAZQwxnQ==";
 config.logglySubdomain = "wildcatconnect";
 config.nodeTag = "web";
 config.mongoTag = "database";
 config.classNames = [ "TestClass" ];
-config.secret = "15928efc-0135-47e5-b3cc-c02e8d58a88c";
-config.pages = ['/.gitignore', '/config.js', '/Dockerfile', '/index.js', '/jsconfig.json', '/LICENSE', '/package.json', '/Procfile', '/cloud/*', '/controllers/*', '/node_modules/*', '/test/*', '/utils/*', '/views/*'];
+config.secret = "U2FsdGVkX19QnHfS0xMG9XoW3O53lxN5eLSCA8qfDNm0JP0MmYg1CNPwF3BX9AUVmw6buVn95MKqnLmO/vhIqQ==";
+config.pages = "U2FsdGVkX19SFk8dO8Xf1o1Ogl33R6hQU9JvQ60M6nvGV9f0tjemAPfXjNw9jvq/zNQWUq2IdoehQjbWP91AgzJ21sGnolHCI64HSzynasaWyKeBNYnPHdcxRaxN+u1Fy3XNJHrItOnyOeIJvwNvF4E4GO1jGPoq5vOT6vu/NyANBblef4CJvGBsxtPutw6iavI0+lyOqDHpZ8SHT8ahWtrLW+k/jEYEuG9Lt0jRAYT+SrssKyB3pZe29Ic7I9zA8Dqh4f17R28NS4nsY8DCs81w6UYI7JK/USDTROG7HUSxYLkfg+LO7Mu/Yvo+LWT3";
 config.customPages = ['group.post'];
 config.IDdictionary = { 
 
@@ -29,10 +28,15 @@ config.IDdictionary = {
 
     PollStructure: "pollID",
 
-    ScholarshipStructure: "ID"
+    ScholarshipStructure: "ID",
+
+    AlertStructure: "alertID"
 
 };
-
+config.mailgunKey = "U2FsdGVkX182thxWkEhY2GKyoeku1o2uifNrhQFZGs7q3b4QJ5Jd3ma5BJaul0wCwbXOreLKVeOkXVJ84dnJnw==";
+config.awsAccessKey = "U2FsdGVkX19LlSP0yCQFD7Jn+0ghi5qUOG5eFRiOXLIjz/I96URK3s0hE+CBhXp8";
+config.awsSecretKey = "U2FsdGVkX19L8D2pvolK2y8OCPsrq2jL5vmzrJoQHDlo7uOheDDqcSfHPbK8ojlLWPiTUErpdI3sy/dc5qMRDg==";
+config.awsBucketName = "U2FsdGVkX19dDRBGUloUcOVyP2T7Ka3VfZSqQGmd8rU=";
 
 module.exports = config;
 

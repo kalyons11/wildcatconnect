@@ -5,8 +5,9 @@ var Classes = require('../utils/classes');
 var utils = require('../utils/utils');
 var moment = require('moment');
 var Models = require('../models/models');
-var config = require('../config');
-var Mailgun = require('mailgun-js')({ apiKey: 'key-21b93c07c71f9d42c7b0bec1fa68567f', domain: 'wildcatconnect.org'} ); // TODO
+var config = require('../config_enc');
+config = utils.decryptObject(config);
+var AccountController = require("./AccountController");
 
 exports.authenticate = function(req, res) {
 	if (Parse.User.current()) {
@@ -344,34 +345,10 @@ exports.custom = function (req, res) {
         var admin = req.body.admin;
         var adminMail = req.body.adminMail;
         var adminMailString = admin + "<" + adminMail + ">";
-        var data = {
-            //Specify email data
-            from: "WildcatConnect <team@wildcatconnect.org>",
-            //The email to contact
-            to: email,
-            //Subject and text data
-            subject: "Wildcat News Story Denial",
-            text: name + ",\n\nUnfortunately, your recent Wildcat News Story has been denied by a member of administration. Please see below for details.\n\nArticle Title - " + title + "\nDenial Message - " + message + "\nAdministrative User - " + admin + "\n\nIf you would like, you can recreate the article and resubmit for approval. Thank you for your understanding.\n\nBest,\n\nWildcatConnect App Team"
-        };
-        Mailgun.messages().send(data, function (err, body) {
-            if (err) {
-                res.send({res: err});
-            }
-        });
-        var data = {
-            //Specify email data
-            from: "WildcatConnect <team@wildcatconnect.org>",
-            //The email to contact
-            to: adminMailString,
-            //Subject and text data
-            subject: "Wildcat News Story Denial",
-            text: name + ",\n\nUnfortunately, your recent Wildcat News Story has been denied by a member of administration. Please see below for details.\n\nArticle Title - " + title + "\nDenial Message - " + message + "\nAdministrative User - " + admin + "\n\nIf you would like, you can recreate the article and resubmit for approval. Thank you for your understanding.\n\nBest,\n\nWildcatConnect App Team"
-        };
-        Mailgun.messages().send(data, function (err, body) {
-            if (err) {
-                res.send({res: err});
-            }
-        });
+        var text = name + ",\n\nUnfortunately, your recent Wildcat News Story has been denied by a member of administration. Please see below for details.\n\nArticle Title - " + title + "\nDenial Message - " + message + "\nAdministrative User - " + admin + "\n\nIf you would like, you can recreate the article and resubmit for approval. Thank you for your understanding.\n\nBest,\n\nWildcatConnect App Team";
+        // TODO - create configurable here ???
+        utils.sendEmail(email, "WildcatConnect <team@wildcatconnect.org>", null, null, "Wildcat News Story Denial", text, false, res);
+        utils.sendEmail(adminMailString, "WildcatConnect <team@wildcatconnect.org>", null, null, "Wildcat News Story Denial", text, false, res);
         var query = new Parse.Query("NewsArticleStructure");
         query.equalTo("articleID", parseInt(req.body.ID));
         query.first({
@@ -458,34 +435,9 @@ exports.custom = function (req, res) {
         var admin = req.body.admin;
         var adminMail = req.body.adminMail;
         var adminMailString = admin + "<" + adminMail + ">";
-        var data = {
-            //Specify email data
-            from: "WildcatConnect <team@wildcatconnect.org>",
-            //The email to contact
-            to: email,
-            //Subject and text data
-            subject: "Event Denial",
-            text: name + ",\n\nUnfortunately, your recent event has been denied by a member of administration. Please see below for details.\n\nEvent Title - " + title + "\nDenial Message - " + message + "\nAdministrative User - " + admin + "\n\nIf you would like, you can recreate the event and resubmit for approval. Thank you for your understanding.\n\nBest,\n\nWildcatConnect App Team"
-        };
-        Mailgun.messages().send(data, function (err, body) {
-            if (err) {
-                res.send({res: err});
-            }
-        });
-        var data = {
-            //Specify email data
-            from: "WildcatConnect <team@wildcatconnect.org>",
-            //The email to contact
-            to: adminMailString,
-            //Subject and text data
-            subject: "Event Denial",
-            text: name + ",\n\nUnfortunately, your recent event has been denied by a member of administration. Please see below for details.\n\nEvent Title - " + title + "\nDenial Message - " + message + "\nAdministrative User - " + admin + "\n\nIf you would like, you can recreate the event and resubmit for approval. Thank you for your understanding.\n\nBest,\n\nWildcatConnect App Team"
-        };
-        Mailgun.messages().send(data, function (err, body) {
-            if (err) {
-                res.send({res: err});
-            }
-        });
+        var text = name + ",\n\nUnfortunately, your recent event has been denied by a member of administration. Please see below for details.\n\nEvent Title - " + title + "\nDenial Message - " + message + "\nAdministrative User - " + admin + "\n\nIf you would like, you can recreate the event and resubmit for approval. Thank you for your understanding.\n\nBest,\n\nWildcatConnect App Team";
+        utils.sendEmail(email, "WildcatConnect <team@wildcatconnect.org>", null, null, "Event Denial", text, false, res);
+        utils.sendEmail(adminMailString, "WildcatConnect <team@wildcatconnect.org>", null, null, "Event Denial", text, false, res);
         var query = new Parse.Query("EventStructure");
         query.equalTo("ID", parseInt(req.body.ID));
         query.first({
@@ -572,34 +524,9 @@ exports.custom = function (req, res) {
         var admin = req.body.admin;
         var adminMail = req.body.adminMail;
         var adminMailString = admin + "<" + adminMail + ">";
-        var data = {
-            //Specify email data
-            from: "WildcatConnect <team@wildcatconnect.org>",
-            //The email to contact
-            to: email,
-            //Subject and text data
-            subject: "Community Service Denial",
-            text: name + ",\n\nUnfortunately, your recent community service opportunity has been denied by a member of administration. Please see below for details.\n\nOpportunity Title - " + title + "\nDenial Message - " + message + "\nAdministrative User - " + admin + "\n\nIf you would like, you can recreate the opportunity and resubmit for approval. Thank you for your understanding.\n\nBest,\n\nWildcatConnect App Team"
-        };
-        Mailgun.messages().send(data, function (err, body) {
-            if (err) {
-                res.send({res: err});
-            }
-        });
-        var data = {
-            //Specify email data
-            from: "WildcatConnect <team@wildcatconnect.org>",
-            //The email to contact
-            to: adminMailString,
-            //Subject and text data
-            subject: "Community Service Denial",
-            text: name + ",\n\nUnfortunately, your recent community service opportunity has been denied by a member of administration. Please see below for details.\n\nOpportunity Title - " + title + "\nDenial Message - " + message + "\nAdministrative User - " + admin + "\n\nIf you would like, you can recreate the opportunity and resubmit for approval. Thank you for your understanding.\n\nBest,\n\nWildcatConnect App Team"
-        };
-        Mailgun.messages().send(data, function (err, body) {
-            if (err) {
-                res.send({res: err});
-            }
-        });
+        var text = name + ",\n\nUnfortunately, your recent community service opportunity has been denied by a member of administration. Please see below for details.\n\nOpportunity Title - " + title + "\nDenial Message - " + message + "\nAdministrative User - " + admin + "\n\nIf you would like, you can recreate the opportunity and resubmit for approval. Thank you for your understanding.\n\nBest,\n\nWildcatConnect App Team";
+        utils.sendEmail(email, "WildcatConnect <team@wildcatconnect.org>", null, null, "Community Service Denial", text, false, res);
+        utils.sendEmail(adminMailString, "WildcatConnect <team@wildcatconnect.org>", null, null, "Community Service Denial", text, false, res);
         var query = new Parse.Query("CommunityServiceStructure");
         query.equalTo("communityServiceID", parseInt(req.body.ID));
         query.first({
@@ -607,6 +534,192 @@ exports.custom = function (req, res) {
                 structure.destroy({
                     success: function (object) {
                         res.send({res: "SUCCESS"});
+                    }, error: function (error) {
+                        res.send({res: error});
+                    }
+                });
+            }, error: function (error) {
+                res.send({res: error});
+            }
+        });
+    }
+    else if (path == "alert" && action == "manage" && request == "load") {
+        var query = new Parse.Query("AlertStructure");
+        query.descending("createdAt");
+        query.equalTo("isReady", 0);
+        var requests = new Array();
+        var current = new Array();
+        query.find({
+            success: function (structures) {
+                requests = structures;
+                var queryTwo = new Parse.Query("AlertStructure");
+                queryTwo.descending("createdAt");
+                queryTwo.equalTo("isReady", 1);
+                queryTwo.find({
+                    success: function (two) {
+                        current = two;
+                        res.send({requests: requests, current: current});
+                    }, error: function (error) {
+                        res.send({res: error});
+                    }
+                });
+            }, error: function (error) {
+                res.send({res: error});
+            }
+        });
+    }
+    else if (path == "alert" && action == "manage" && request == "delete") {
+        var query = new Parse.Query("AlertStructure");
+        query.equalTo("alertID", parseInt(req.body.ID));
+        query.first({
+            success: function (structure) {
+                structure.destroy({
+                    success: function (object) {
+                        res.send({res: "SUCCESS"});
+                    }, error: function (error) {
+                        res.send({res: error});
+                    }
+                });
+            }, error: function (error) {
+                res.send({res: error});
+            }
+        });
+    }
+    else if (path == "alert" && action == "manage" && request == "edit") {
+        var query = new Parse.Query("AlertStructure");
+        query.equalTo("alertID", parseInt(req.body.ID));
+        query.first({
+            success: function (object) {
+                var model = utils.initializeHomeUserModel(Parse.User.current());
+                exports.prepareDashboard(model, path, action, request);
+                var custom = new Models.AlertStructure();
+                custom.title = object.get("titleString");
+                custom.dateString = object.get("dateString");
+                custom.content = object.get("contentString");
+                custom.theTime = object.get("alertTime").toString();
+                model.customModel = custom;
+                res.render("../partials/dash/alert-new", { model: model, session: null});
+            }, error: function (error) {
+                res.send({res: error});
+            }
+        });
+    }
+    else if (path == "user" && action == "manage" && request == "load") {
+        var query = new Parse.Query("UserRegisterStructure");
+        query.descending("createdAt");
+        var requests = new Array();
+        var current = new Array();
+        query.find({
+            success: function (structures) {
+                requests = structures;
+                var queryTwo = new Parse.Query("User");
+                queryTwo.ascending("lastName");
+                queryTwo.find({
+                    success: function (two) {
+                        current = two;
+                        res.send({requests: requests, current: current});
+                    }, error: function (error) {
+                        res.send({res: error});
+                    }
+                });
+            }, error: function (error) {
+                res.send({res: error});
+            }
+        });
+    }
+    else if (path == "user" && action == "manage" && request == "approve") {
+        Parse.Cloud.run("registerUser", { useMasterKey: true, username: req.body.username }, {
+            success: function(final) {
+                res.send({ res: "SUCCESS" });
+            }, error: function(error) {
+                res.send({ res: error });
+            }
+        });
+    }
+    else if (path == "user" && action == "manage" && request == "delete") {
+        Parse.Cloud.run("deleteUser", { useMasterKey: true, username: req.body.username }, {
+            success: function(final) {
+                res.send({ res: "SUCCESS" });
+            }, error: function(error) {
+                res.send({ res: error });
+            }
+        });
+    }
+    else if (path == "user" && action == "manage" && request == "deny") {
+        var query = new Parse.Query("UserRegisterStructure");
+        query.equalTo("username", req.body.username);
+        query.first({
+            success: function (structure) {
+                structure.destroy({
+                    success: function (object) {
+                        res.send({res: "SUCCESS"});
+                    }, error: function (error) {
+                        res.send({res: error});
+                    }
+                });
+            }, error: function (error) {
+                res.send({res: error});
+            }
+        });
+    }
+    else if (path == "user" && action == "manage" && request == "update") {
+        Parse.Cloud.run("updateUser", { username: req.body.username, type: req.body.type }, {
+            success: function(final) {
+                res.send({ res: "SUCCESS" });
+            }, error: function(error) {
+                res.send({ res: error });
+            }
+        });
+    }
+    else if (path == "schedule" && action == "manage" && request == "load") {
+        var dictionary = { };
+        var firstQuery = new Parse.Query("ScheduleType");
+        firstQuery.ascending("typeID");
+        firstQuery.find({
+            success: function (objects) {
+                for (var j = 0; j < objects.length; j++) {
+                    var key = objects[j].get("typeID");
+                    var value = objects[j].get("fullScheduleString");
+                    dictionary[key] = value;
+                }
+                ;
+                var query = new Parse.Query("SchoolDayStructure");
+                query.equalTo("isActive", 1);
+                query.ascending("schoolDayID");
+                var structures = new Array();
+                query.find({
+                    success: function (theStructures) {
+
+                        var queryTwo = new Parse.Query("SchoolDayStructure");
+                        queryTwo.equalTo("isActive", 0);
+                        queryTwo.descending("schoolDayID");
+
+                        queryTwo.first({
+                            success: function (day) {
+
+                                structures.push(day);
+
+                                for (var i = 0; i < theStructures.length; i++) {
+                                    structures.push(theStructures[i]);
+                                }
+
+                                var queryLast = new Parse.Query("SpecialKeyStructure");
+                                queryLast.equalTo("key", "scheduleMode");
+                                queryLast.first({
+                                    success: function(object) {
+                                        var theString = object.get("value");
+                                        res.send({ mode: theString, structures: structures, dictionary: dictionary });
+                                    },
+                                    error: function(error) {
+                                        response.error(error);
+                                    }
+                                });
+
+                                res.send({structures: structures, dictionary: dictionary});
+                            }, error: function (error) {
+                                res.send({res: error});
+                            }
+                        });
                     }, error: function (error) {
                         res.send({res: error});
                     }
@@ -660,6 +773,12 @@ exports.validateData = function(path, action, subaction, data) {
             switch (action) {
                 case "new":
                     model = new Models.ScholarshipStructure();
+                    return model.validateData(data);
+            }
+        case "alert":
+            switch (action) {
+                case "new":
+                    model = new Models.AlertStructure();
                     return model.validateData(data);
             }
 		case "settings":
