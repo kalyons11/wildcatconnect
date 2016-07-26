@@ -88,19 +88,26 @@
               <% } %>
               <a href="/app/dashboard/alert/manage"><img src="/images/alert@2x.png" alt="Alert" style="display: inline-block; vertical-align: middle; margin-right:10px; float:left;" width="22">Alerts</a>
           </li>
-          <% if (model.page.configurations.key== "user.manage") { %>
+          <% if (model.page.configurations.key == "user.manage") { %>
           <li class="active">
               <% } else { %>
           <li>
               <% } %>
               <a href="/app/dashboard/user/manage"><img src="/images/user@2x.png" alt="User" style="display: inline-block; vertical-align: middle; margin-right:10px; float:left;" width="22">Users</a>
           </li>
-          <% if (model.page.configurations.key== "schedule.manage") { %>
+          <% if (model.page.configurations.key == "schedule.manage") { %>
           <li class="active">
               <% } else { %>
           <li>
               <% } %>
               <a href="/app/dashboard/schedule/manage"><img src="/images/schedule@2x.png" alt="Schedule" style="display: inline-block; vertical-align: middle; margin-right:10px; float:left;" width="22">Schedule</a>
+          </li>
+          <% if (model.page.configurations.key == "food.manage") { %>
+          <li class="active">
+              <% } else { %>
+          <li>
+              <% } %>
+              <a href="/app/dashboard/food/manage"><img src="/images/food@2x.png" alt="Food" style="display: inline-block; vertical-align: middle; margin-right:10px; float:left;" width="22">Food</a>
           </li>
       </ul>
     </div>

@@ -626,7 +626,8 @@ exports.custom = function (req, res) {
                 res.send({res: error});
             }
         });
-    } else if (path == "user" && action == "manage" && request == "approve") {
+    }
+    else if (path == "user" && action == "manage" && request == "approve") {
         Parse.Cloud.run("registerUser", { useMasterKey: true, username: req.body.username }, {
             success: function(final) {
                 res.send({ res: "SUCCESS" });
@@ -634,7 +635,8 @@ exports.custom = function (req, res) {
                 res.send({ res: error });
             }
         });
-    } else if (path == "user" && action == "manage" && request == "delete") {
+    }
+    else if (path == "user" && action == "manage" && request == "delete") {
         Parse.Cloud.run("deleteUser", { useMasterKey: true, username: req.body.username }, {
             success: function(final) {
                 res.send({ res: "SUCCESS" });
@@ -642,7 +644,8 @@ exports.custom = function (req, res) {
                 res.send({ res: error });
             }
         });
-    } else if (path == "user" && action == "manage" && request == "deny") {
+    }
+    else if (path == "user" && action == "manage" && request == "deny") {
         var query = new Parse.Query("UserRegisterStructure");
         query.equalTo("username", req.body.username);
         query.first({
@@ -658,12 +661,71 @@ exports.custom = function (req, res) {
                 res.send({res: error});
             }
         });
-    } else if (path == "user" && action == "manage" && request == "update") {
-        Parse.Cloud.run("updateUser", { useMasterKey: true, username: req.body.username, type: req.body.type }, {
+    }
+    else if (path == "user" && action == "manage" && request == "update") {
+        Parse.Cloud.run("updateUser", { username: req.body.username, type: req.body.type }, {
             success: function(final) {
                 res.send({ res: "SUCCESS" });
             }, error: function(error) {
                 res.send({ res: error });
+            }
+        });
+    }
+    else if (path == "schedule" && action == "manage" && request == "load") {
+        var dictionary = { };
+        var firstQuery = new Parse.Query("ScheduleType");
+        firstQuery.ascending("typeID");
+        firstQuery.find({
+            success: function (objects) {
+                for (var j = 0; j < objects.length; j++) {
+                    var key = objects[j].get("typeID");
+                    var value = objects[j].get("fullScheduleString");
+                    dictionary[key] = value;
+                }
+                ;
+                var query = new Parse.Query("SchoolDayStructure");
+                query.equalTo("isActive", 1);
+                query.ascending("schoolDayID");
+                var structures = new Array();
+                query.find({
+                    success: function (theStructures) {
+
+                        var queryTwo = new Parse.Query("SchoolDayStructure");
+                        queryTwo.equalTo("isActive", 0);
+                        queryTwo.descending("schoolDayID");
+
+                        queryTwo.first({
+                            success: function (day) {
+
+                                structures.push(day);
+
+                                for (var i = 0; i < theStructures.length; i++) {
+                                    structures.push(theStructures[i]);
+                                }
+
+                                var queryLast = new Parse.Query("SpecialKeyStructure");
+                                queryLast.equalTo("key", "scheduleMode");
+                                queryLast.first({
+                                    success: function(object) {
+                                        var theString = object.get("value");
+                                        res.send({ mode: theString, structures: structures, dictionary: dictionary });
+                                    },
+                                    error: function(error) {
+                                        response.error(error);
+                                    }
+                                });
+
+                                res.send({structures: structures, dictionary: dictionary});
+                            }, error: function (error) {
+                                res.send({res: error});
+                            }
+                        });
+                    }, error: function (error) {
+                        res.send({res: error});
+                    }
+                });
+            }, error: function (error) {
+                res.send({res: error});
             }
         });
     }

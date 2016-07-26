@@ -83,6 +83,7 @@ Parse.Cloud.define("updateUser", function(request, response) {
         success: function (user) {
             user.set("userType", type);
             user.save(null, {
+                useMasterKey : true,
                 success: function (object) {
                     response.success("SUCCESS");
                 }, error: function (object, error) {
