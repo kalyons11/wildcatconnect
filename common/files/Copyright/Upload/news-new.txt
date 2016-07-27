@@ -1,0 +1,47 @@
+<h4><p class="text-muted">Complete the following form to submit a new Wildcat News Story.</p></h4>
+<% include ./navigation %>
+<h6><i>NOTE: All Wildcat News Stories will require administrative approval before they appear in the app. You should use this tool to post significant accomplishments of your students or groups. (i.e. big athletic victory, individual award, notable community work, etc.) <b>It may be in your best interest to save a copy of this story before sumbitting for approval.</b><br><br>Wildcat News Stories will be visible in the iOS app for 10 days following their creation.</i></h6>
+<form id="form" role="form" method="post" action="/app/dashboard/news/new" enctype="multipart/form-data">
+	<div class="form-group">
+		<label for="title">Title (50 characters max)</label>
+		<input type="text" name="title" class="form-control" id="title" placeholder="Title" maxlength="50">
+	</div>
+	<div class="form-group">
+		<label for="author">Author</label>
+		<input type="text" name="author" class="form-control" id="author" placeholder="Author">
+	</div>
+	<div class="form-group">
+		<label for="date">Date</label>
+		<input type='text' id="date" name="date" readOnly/>
+	</div>
+	<div class="form-group">
+		<label for="summary">Summary (60 characters max)</label>
+		<input type="text" name="summary" class="form-control" id="summary" placeholder="Summary" maxlength="50">
+	</div>
+	<div class="form-group">
+		<label for="content">Content</label>
+		<% include ../markdown.ejs %>
+	</div>
+	<div class="form-group" id="imageDiv">
+		<label id="imageThing" for="image">Image</label>
+		<img src="/images/picture@2x.png" alt="Logo" width="30" style="vertical-align: middle; margin-left:10px; margin-bottom:10px;"/>
+		<input type="file" name="image" id="image" accept="image/*">
+		<br>
+	</div>
+	<button class="btn btn-lg btn-primary btn-block" type="submit">Submit for Approval</button>
+</form>
+<script>
+	document.getElementById('title').value = "<%= model.customModel.title %>";
+	document.getElementById('author').value = "<%= model.customModel.author %>";
+	document.getElementById('date').value = "<%= model.customModel.date %>";
+	document.getElementById('summary').value = "<%= model.customModel.summary %>";
+	$('#pad').val(`<%- model.customModel.content %>`);
+    $("#date").datepicker();
+    $("#date").datepicker( "option", "showAnim", "blind" );
+    if (document.getElementById('date').value == "")
+    	$('#date').datepicker("setDate", new Date() );
+    $('form').submit(function (e) {
+        setLoadingMessage("Saving news article...");
+    	$("#loading").fadeIn();
+    });
+ </script>

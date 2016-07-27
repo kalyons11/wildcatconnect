@@ -1,0 +1,8 @@
+<h2 style="text-align:center;">Developer Tools</h2>
+<table class="table">
+<tr>
+  <td width="33%" style="padding-bottom: 1em; padding-top: 1em;"><a href="./errors"><button class="add-ec btn btn-lg btn-primary" style="margin-bottom:100px; display: block; width: 80%; margin:auto; background-color:#561838; border-color:#561838;" id="errorButton"><img src="/images/error@2x.png" alt="Logo" width="30" style="vertical-align: middle; margin-right:10px;"/>Error Management</button></a></td>
+  <td width="33%" style="padding-bottom: 1em; padding-top: 1em;"><a href="./app"><button class="add-ec btn btn-lg btn-primary" style="margin-bottom:100px; display: block; width: 80%; margin:auto; background-color:#561838; border-color:#561838;" id="errorButton"><img src="/images/error@2x.png" alt="Logo" width="30" style="vertical-align: middle; margin-right:10px;"/>Application Status</button></a></td>
+  <td width="33%" style="padding-bottom: 1em; padding-top: 1em;"><a href="./links"><button class="add-ec btn btn-lg btn-primary" style="margin-bottom:100px; display: block; width: 80%; margin:auto; background-color:#561838; border-color:#561838;"><img src="/images/link@2x.png" alt="Logo" width="30" style="vertical-align: middle; margin-right:10px;"/>Links Management</button></a></td>
+</tr>
+</table>

@@ -1,0 +1,436 @@
+<h4><p class="text-muted">Manage current Wildcat News Stories, and approve new requests.</p></h4>
+<a href="/app/dashboard"><button class="btn btn-primary btn-back">Cancel</button></a>
+<h4 id="newLabel">New User Requests</h4>
+<div id="newUsers">
+
+</div>
+<hr style="border-color:#561838";></hr>
+<h4 id="existingLabel">Existing Users</h4>
+<input type="text" id="search" placeholder=" SEARCH">
+<br><br>
+<div id="existingUsers">
+
+</div>
+<script>
+
+    loadPage();
+
+    var requests = new Array();
+    var current = new Array();
+
+    function loadPage(message) {
+        $("#newUsers").html("");
+        $("#existingUsers").html("");
+        setLoadingMessage("Loading users...");
+        $("#loading").fadeIn();
+        $.ajax({
+            url: "manage/ajax/load",
+            type: "post",
+            data: {key: "value"}, // Encrypt all data...
+            datatype: 'json',
+            crossDomain: true,
+
+            success: function(response){
+                requests = response["requests"];
+                current = response["current"];
+                if (requests != null && current != null) {
+                    if (requests.length > 0) {
+                        loadNewTable();
+                    } else {
+                        $("#newLabel").html("New User Requests");
+                        $("#newUsers").html('<h4><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>There are currently no active user requests.</h4>');
+                    }
+                    if (current.length > 0) {
+                        loadCurrentTable();
+                    } else {
+                        $("#existingLabel").html("Existing Users");
+                        $("#existingUsers").html('<h4><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>There are currently no active app users.</h4>');
+                    }
+                    if (message != null)
+                        setMessage(message, false);
+                    $("#loading").fadeOut();
+                } else {
+                    setMessage("Unable to load news articles. Please try to reload the page.", true);
+                    $("#loading").fadeOut();
+                }
+            },
+
+            error: function(request, status, error) {
+                setMessage("Internal server error. If this problem continues, please contact support.", true);
+                $("#loading").fadeOut();
+            }
+        });
+    }
+
+    function loadNewTable() {
+        $("#newLabel").html("New User Requests (" + requests.length+")");
+
+        var tableDiv = document.getElementById("newUsers");
+        var table = document.createElement("TABLE");
+        var tableBody = document.createElement("TBODY");
+
+        $("#newUsers").html("");
+
+        table.appendChild(tableBody);
+        table.className = "table table-striped";
+
+        var heading = new Array();
+        heading[0] = "Last Name";
+        heading[1] = "First Name";
+        heading[2] = "E-Mail";
+        heading[3] = "Action";
+
+        //TABLE COLUMNS
+
+        var tr = document.createElement("TR");
+        tableBody.appendChild(tr);
+
+        for (var i = 0; i < heading.length; i++) {
+            var th = document.createElement("TH");
+            th.width = '25%';
+            th.appendChild(document.createTextNode(heading[i]));
+            tr.appendChild(th);
+        };
+
+        window.userArray = new Array();
+
+        for (var i = 0; i < requests.length; i++) {
+            window.userArray.push(requests[i]);
+            var tr = document.createElement("TR");
+            var tdTwo = document.createElement("TD");
+            tdTwo.appendChild(document.createTextNode(requests[i]["lastName"]));
+            tr.appendChild(tdTwo);
+            var tdOne = document.createElement("TD");
+            tdOne.appendChild(document.createTextNode(requests[i]["firstName"]));
+            tr.appendChild(tdOne);
+            var tdThree = document.createElement("TD");
+            tdThree.innerHTML = '<a href="mailto:'+requests[i]["email"]+'">'+requests[i]["email"]+'</a>';
+            tr.appendChild(tdThree);
+            var tdFour = document.createElement("TD");
+            var button =document.createElement("INPUT");
+            button.type = "button";
+            button.className = "btn btn-lg btn-primary approve";
+            button.value = "Approve";
+            button.name = i;
+            button.style.marginRight = "10px";
+            tdFour.appendChild(button);
+
+            var buttonTwo =document.createElement("INPUT");
+            buttonTwo.type = "button";
+            buttonTwo.className = "btn btn-lg btn-primary deny";
+            buttonTwo.value = "Deny";
+            buttonTwo.name = i;
+            buttonTwo.style.marginRight = "10px";
+            buttonTwo.style.backgroundColor = "red";
+            buttonTwo.style.borderColor = "red";
+            tdFour.appendChild(buttonTwo);
+            tr.appendChild(tdFour);
+            tableBody.appendChild(tr);
+
+            tableDiv.appendChild(table);
+        };
+    }
+
+    function loadCurrentTable() {
+        $("#existingLabel").html("Existing Users (" + current.length + ")");
+
+        var tableDiv = document.getElementById("existingUsers");
+        var table = document.createElement("TABLE");
+        var tableBody = document.createElement("TBODY");
+
+        table.appendChild(tableBody);
+        table.className = "table table-striped";
+        table.id = "userTable";
+
+        var heading = new Array();
+        heading[0] = "Last Name";
+        heading[1] = "First Name";
+        heading[2] = "Username";
+        heading[3] = "E-Mail";
+        heading[4] = "User Type";
+        heading[5] = "Change Type";
+        heading[6] = "Action";
+
+        //TABLE COLUMNS
+
+        var tr = document.createElement("TR");
+        tableBody.appendChild(tr);
+
+        $("#existingUsers").html("");
+
+        for (var i = 0; i < heading.length; i++) {
+            var th = document.createElement("TH");
+            th.width = '15%';
+            th.appendChild(document.createTextNode(heading[i]));
+            tr.appendChild(th);
+        }
+        ;
+
+        window.existingUserArray = new Array();
+
+        for (var i = 0; i < current.length; i++) {
+            var tr = document.createElement("TR");
+            var tdTwo = document.createElement("TD");
+            tdTwo.appendChild(document.createTextNode(current[i]["lastName"]));
+            tr.appendChild(tdTwo);
+
+            var tdOne = document.createElement("TD");
+            tdOne.appendChild(document.createTextNode(current[i]["firstName"]));
+            tr.appendChild(tdOne);
+
+            var tdOne = document.createElement("TD");
+            if (current["verified"] === 0) {
+                tdOne.appendChild(document.createTextNode(current[i]["username"] + " - UNVERIFIED"));
+                tdOne.style.color = "red";
+            } else {
+                tdOne.appendChild(document.createTextNode(current[i]["username"]));
+            }
+            tr.appendChild(tdOne);
+
+            var tdOther = document.createElement("TD");
+            tdOther.innerHTML = '<a href="mailto:' + current[i]["email"] + '">' + current[i]["email"] + '</a>';
+            tr.appendChild(tdOther);
+
+            var tdType = document.createElement("TD");
+            tdType.appendChild(document.createTextNode(current[i]["userType"]));
+            tr.appendChild(tdType);
+
+            var tdThree = document.createElement("TD");
+            var selectList = document.createElement("SELECT");
+            selectList.name = i;
+            selectList.className = "selectType";
+            var option = document.createElement("option");
+            option.value = -1;
+            option.text = "NONE SELECTED";
+            selectList.appendChild(option);
+
+            // TODO - do not hardcode this array - what if we add another role down the road?
+
+            var theArray = ["Developer", "Administration", "Faculty", "Lunch Manager", "Student"];
+
+            for (var j = 0; j < theArray.length; j++) {
+                var option = document.createElement("option");
+                option.value = j;
+                option.text = theArray[j];
+                selectList.appendChild(option);
+            }
+
+            tdThree.appendChild(selectList);
+            tr.appendChild(tdThree);
+
+            var tdFour = document.createElement("TD");
+            var button = document.createElement("INPUT");
+            button.type = "button";
+            button.className = "btn btn-lg btn-primary delete";
+            button.value = "Delete";
+            button.name = i;
+            button.style.marginRight = "10px";
+            button.style.backgroundColor = "red";
+            button.style.borderColor = "red";
+            tdFour.appendChild(button);
+            tr.appendChild(tdFour);
+            tableBody.appendChild(tr);
+
+            tableDiv.appendChild(table);
+        }
+    }
+
+    $(document).on('click', ".approve", function() {
+        var index = this.name;
+        var username = requests[index]["username"];
+
+        BootstrapDialog.confirm({
+            title: 'Confirmation',
+            message: 'Are you sure you want to approve this user?',
+            type: BootstrapDialog.TYPE_DANGER, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
+            closable: true, // <-- Default value is false
+            draggable: true, // <-- Default value is false
+            btnCancelLabel: 'No', // <-- Default value is 'Cancel',
+            btnOKLabel: 'Yes', // <-- Default value is 'OK',
+            btnOKClass: 'btn-primary', // <-- If you didn't specify it, dialog type will be used,
+            callback: function(result) {
+                // result will be true if button was click, while it will be false if users close the dialog directly.
+                if(result) {
+                    $("#loading").fadeIn();
+                    setLoadingMessage("Approving user...");
+                    $.ajax({
+                        url: "manage/ajax/approve",
+                        type: "post",
+                        data: { username: username },
+                        datatype: 'json',
+                        crossDomain: true,
+
+                        success: function(response){
+                            setLoadingMessage("Reloading users...");
+                            if (response["res"] == "SUCCESS") {
+                                loadPage("User successfully approved.");
+                            } else {
+                                setMessage("Unable to approve user. Please try to reload the page.", true);
+                                $("#loading").fadeOut();
+                            }
+                        },
+
+                        error: function(request, status, error) {
+                            setMessage("Internal server error. If this problem continues, please contact support.", true);
+                            $("#loading").fadeOut();
+                        }
+                    });
+                };
+            }
+        });
+    });
+
+    $(document).on('click', ".deny", function () {
+        var count = this.name;
+        var username = requests[count]["username"];
+
+        BootstrapDialog.confirm({
+            title: 'Confirmation',
+            message: 'Are you sure you want to delete this user?',
+            type: BootstrapDialog.TYPE_DANGER, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
+            closable: true, // <-- Default value is false
+            draggable: true, // <-- Default value is false
+            btnCancelLabel: 'No', // <-- Default value is 'Cancel',
+            btnOKLabel: 'Yes', // <-- Default value is 'OK',
+            btnOKClass: 'btn-primary', // <-- If you didn't specify it, dialog type will be used,
+            callback: function(result) {
+                // result will be true if button was click, while it will be false if users close the dialog directly.
+                if(result) {
+                    $("#loading").fadeIn();
+                    setLoadingMessage("Denying user...");
+                    $.ajax({
+                        url: "manage/ajax/deny",
+                        type: "post",
+                        data: { username: username },
+                        datatype: 'json',
+                        crossDomain: true,
+
+                        success: function(response){
+                            setLoadingMessage("Reloading users...");
+                            if (response["res"] == "SUCCESS") {
+                                loadPage("User successfully denied.");
+                            } else {
+                                setMessage("Unable to deny user. Please try to reload the page.", true);
+                                $("#loading").fadeOut();
+                            }
+                        },
+
+                        error: function(request, status, error) {
+                            setMessage("Internal server error. If this problem continues, please contact support.", true);
+                            $("#loading").fadeOut();
+                        }
+                    });
+                };
+            }
+        });
+    });
+
+    $(document).on('click', ".delete", function() {
+        var index = this.name;
+        var username = current[index]["username"];
+
+        BootstrapDialog.confirm({
+            title: 'Confirmation',
+            message: 'Are you sure you want to delete this user?',
+            type: BootstrapDialog.TYPE_DANGER, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
+            closable: true, // <-- Default value is false
+            draggable: true, // <-- Default value is false
+            btnCancelLabel: 'No', // <-- Default value is 'Cancel',
+            btnOKLabel: 'Yes', // <-- Default value is 'OK',
+            btnOKClass: 'btn-primary', // <-- If you didn't specify it, dialog type will be used,
+            callback: function(result) {
+                // result will be true if button was click, while it will be false if users close the dialog directly.
+                if(result) {
+                    $("#loading").fadeIn();
+                    setLoadingMessage("Deleting user...");
+                    $.ajax({
+                        url: "manage/ajax/delete",
+                        type: "post",
+                        data: { username: username },
+                        datatype: 'json',
+                        crossDomain: true,
+
+                        success: function(response){
+                            setLoadingMessage("Reloading users...");
+                            if (response["res"] == "SUCCESS") {
+                                loadPage("User successfully deleted.");
+                            } else {
+                                setMessage("Unable to delete user. Please try to reload the page.", true);
+                                $("#loading").fadeOut();
+                            }
+                        },
+
+                        error: function(request, status, error) {
+                            setMessage("Internal server error. If this problem continues, please contact support.", true);
+                            $("#loading").fadeOut();
+                        }
+                    });
+                };
+            }
+        });
+    });
+
+    $('#search').keyup(function() {
+
+        var $rows = $('#userTable tr');
+
+        $rows.splice(0, 1);
+
+        var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+
+        $rows.show().filter(function() {
+            var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+            return !~text.indexOf(val);
+        }).hide();
+    });
+
+    $(document).on('change', ".selectType", function () {
+        var index = this.name;
+        var username = current[index]["username"];
+        if (username == "<%= model.object.user.username %>") {
+            setMessage("You cannot update your own user type.", true);
+        } else {
+            var type = this.selectedOptions[0].text;
+            BootstrapDialog.confirm({
+                title: 'Confirmation',
+                message: 'Are you sure you want to update this user?',
+                type: BootstrapDialog.TYPE_DANGER, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
+                closable: true, // <-- Default value is false
+                draggable: true, // <-- Default value is false
+                btnCancelLabel: 'No', // <-- Default value is 'Cancel',
+                btnOKLabel: 'Yes', // <-- Default value is 'OK',
+                btnOKClass: 'btn-primary', // <-- If you didn't specify it, dialog type will be used,
+                callback: function (result) {
+                    // result will be true if button was click, while it will be false if users close the dialog directly.
+                    if (result) {
+                        $("#loading").fadeIn();
+                        setLoadingMessage("Updating user...");
+                        $.ajax({
+                            url: "manage/ajax/update",
+                            type: "post",
+                            data: { username: username, type: type },
+                            datatype: 'json',
+                            crossDomain: true,
+
+                            success: function(response){
+                                setLoadingMessage("Reloading users...");
+                                if (response["res"] == "SUCCESS") {
+                                    loadPage("User successfully updated.");
+                                } else {
+                                    setMessage("Unable to update user. Please try to reload the page.", true);
+                                    $("#loading").fadeOut();
+                                }
+                            },
+
+                            error: function(request, status, error) {
+                                setMessage("Internal server error. If this problem continues, please contact support.", true);
+                                $("#loading").fadeOut();
+                            }
+                        });
+                    };
+                }
+            });
+        }
+    });
+
+</script>
