@@ -35,6 +35,7 @@ utils.log('error', x.message, { "stack" : x.stack , "objects" : x.objects });
 var appId = utils.decrypt(config.appId);
 var masterKey = utils.decrypt(config.masterKey);
 var serverURL = utils.decrypt(config.serverURL);
+serverURL = serverURL.substring(1, serverURL.length - 1);
 var databaseUri = utils.decrypt(config.databaseUri);
 var theClassNames = config.classNames;
 var secret = utils.decrypt(config.secret);

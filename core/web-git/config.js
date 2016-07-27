@@ -3,7 +3,7 @@ var config = {};
 config.hasher = "dc4862c8-6a8b-49b4-a0e4-fe2bda364281";
 config.appId = "U2FsdGVkX1++5zi8axe/UlYrVdFe06td8QxkJgqIDU0IF7TYd/2TEPHFv2UoZ3D1jX1Bu17qKzpc35UaQyjOwA==";
 config.masterKey = "U2FsdGVkX1+3J8ZSlobAZz7PC+v0VahJ6PzoEJZN23dtvRG6+8eR/1imjJM+bBox0EBjr2hljP3mHt2Fip6gdA==";
-config.serverURL = "U2FsdGVkX19lXrb2PFIpUUo0MHhR/kQBehvVWUdxYprTtCetrbesGGVxJn9UmwrgY5828ggyhfBpNQDCMkuTyWmN6+7i0FFdRH5u6C7cH6o=";
+config.serverURL = "U2FsdGVkX1+9Rb5jsGloDIlPaWQjnDH4sSbTWqVO0prQdC0s0kjcyQ2pPnXRmLHMpJ+u36YbhLApoPH29viTIg==";
 config.databaseUri = "U2FsdGVkX19Dt0+Psrr6bIIiVmZNREk5e92SLYvgc+CZHmgkMU7D/4OLYjWHGXPiDAnoHy8l/kUc9R8hOR22rL4Fi4ovHo8AWbsePGw/nDAm9PZs06aTv3/jMF4x3Egm";
 config.parseMount = "/parse";
 config.logglyToken = "U2FsdGVkX1+UAqFctrhunJUKN9jLpYWZmpZY4R9ITvK3STwMnCnN45+e5cAZf1XxuGi4FRBZDjcl4yDAZQwxnQ==";
