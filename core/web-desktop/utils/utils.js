@@ -2,12 +2,12 @@
 
 var JSON = require('./JSON.js').JSON;
 var winston = require('winston');
-var config = require('../config');
+var config = require('../config_enc');
 var CryptoJS = require('crypto-js');
 var Dashboard = require('../models/dashboard');
 var Promise = require('promise');
 
-var hasher = config.hasher;
+var hasher = "dc4862c8-6a8b-49b4-a0e4-fe2bda364281";
 
 module.exports.encrypt = function(string) {
     var result = CryptoJS.AES.encrypt(string, hasher);
@@ -29,6 +29,8 @@ module.exports.decryptObject = function (string) {
     var bytes = CryptoJS.AES.decrypt(string, hasher);
     return JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
 };
+
+var config = module.exports.decryptObject(config);
 
 var Mailgun = require('mailgun-js')({ apiKey: module.exports.decrypt(config.mailgunKey), domain: 'wildcatconnect.org'} );
 

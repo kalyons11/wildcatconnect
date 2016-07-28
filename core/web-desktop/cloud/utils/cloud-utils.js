@@ -2,11 +2,11 @@
 
 var JSON = require('./JSON.js').JSON;
 var winston = require('winston');
-var config = require('./config');
+var config = require('./config_enc');
 var CryptoJS = require('crypto-js');
 var Promise = require('promise');
 
-var hasher = config.hasher;
+var hasher = "dc4862c8-6a8b-49b4-a0e4-fe2bda364281";
 
 module.exports.encrypt = function(string) {
     var result = CryptoJS.AES.encrypt(string, hasher);
@@ -29,6 +29,8 @@ module.exports.decryptObject = function (string) {
     return JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
 };
 
+var config = module.exports.decryptObject(config);
+
 var Mailgun = require('mailgun-js')({ apiKey: module.exports.decrypt(config.mailgunKey), domain: 'wildcatconnect.org'} );
 
 var logglyToken = module.exports.decrypt(config.logglyToken);
@@ -37,117 +39,124 @@ var nodeTag = config.nodeTag;
 
 require('winston-loggly');
 
+winston.add(winston.transports.Loggly, {
+    token: logglyToken,
+    subdomain: logglySubdomain,
+    tags: [nodeTag],
+    json: true
+});
+
 //endregion
 
 module.exports.processError = function(realError, fakeError, objects) {
-	/*
-	 * processError
-	 *
-	 * Handles a client error and returns an object ready for logging.
-	 *
-	 * @param realError (Error) - Actual application error that threw exception.
-	 * @param fakeError (Error) - Custom error declared to retreive stack information.
-	 * @param objects (Array) - Array of relevant objects that should be included in JSON object for logging.
-	 * 
-	 * @return (JSON) - JSON of the following form - { message : messageString, stack = stackString, objects: objectsArray }.
-	 */
-	 var JSON = {};
-	 JSON.message = module.exports.parseError(realError);
-	 JSON.stack = fakeError.stack;
-	 JSON.objects = module.exports.generateObjects(objects);
-	 return JSON;
+    /*
+     * processError
+     *
+     * Handles a client error and returns an object ready for logging.
+     *
+     * @param realError (Error) - Actual application error that threw exception.
+     * @param fakeError (Error) - Custom error declared to retreive stack information.
+     * @param objects (Array) - Array of relevant objects that should be included in JSON object for logging.
+     *
+     * @return (JSON) - JSON of the following form - { message : messageString, stack = stackString, objects: objectsArray }.
+     */
+    var JSON = {};
+    JSON.message = module.exports.parseError(realError);
+    JSON.stack = fakeError.stack;
+    JSON.objects = module.exports.generateObjects(objects);
+    return JSON;
 };
 
 module.exports.parseError = function(error) {
-	/*
-	 * parseError
-	 *
-	 * Handles an error and returns a precise message/reason for the error based on its specified type.
-	 *
-	 * @param error (Error) - The error to be parsed.
-	 * 
-	 * @return (String) - String of error message.
-	 */
-	var errorType = module.exports.getObjectType(error);
-	switch (errorType) {
-		case "ParseError":
-			return module.exports.removeLineBreaks(error.message);
-		case "model":
-			return error.message;
-		default:
-			return "Unable to extract error message for error." + error.toString();
-	}
+    /*
+     * parseError
+     *
+     * Handles an error and returns a precise message/reason for the error based on its specified type.
+     *
+     * @param error (Error) - The error to be parsed.
+     *
+     * @return (String) - String of error message.
+     */
+    var errorType = module.exports.getObjectType(error);
+    switch (errorType) {
+        case "ParseError":
+            return module.exports.removeLineBreaks(error.message);
+        case "model":
+            return error.message;
+        default:
+            return "Unable to extract error message for error." + error.toString();
+    }
 };
 
 module.exports.generateObjects = function(objects) {
-	/*
-	 * generateObjects
-	 *
-	 * Generates JSON object with key objects, helping the above procesError method.
-	 *
-	 * @param objects (Array) - Objects to be parsed.
-	 * 
-	 * @return (JSON) - JSON object with key value pairs of form keyString : valueString.
-	 */
-	if (objects != null) {
-		var theJSON = {};
-		for (var i = 0; i < objects.length; i++) {
-			var obj = objects[i];
-			var type = module.exports.getObjectType(obj);
-			theJSON[type] = JSON.stringify(obj);
-		}
-		return theJSON;
-	} else
-		return null;
+    /*
+     * generateObjects
+     *
+     * Generates JSON object with key objects, helping the above procesError method.
+     *
+     * @param objects (Array) - Objects to be parsed.
+     *
+     * @return (JSON) - JSON object with key value pairs of form keyString : valueString.
+     */
+    if (objects != null) {
+        var theJSON = {};
+        for (var i = 0; i < objects.length; i++) {
+            var obj = objects[i];
+            var type = module.exports.getObjectType(obj);
+            theJSON[type] = JSON.stringify(obj);
+        }
+        return theJSON;
+    } else
+        return null;
 };
 
 module.exports.getObjectType = function(object) {
-	/*
-	 * getObjectType
-	 *
-	 * Gets type of object for the generateObjects keyString key.
-	 *
-	 * @param object (Object) - Object to be parsed.
-	 * 
-	 * @return (String) - String for the key.
-	 */
-	return object.constructor.name.toString();
+    /*
+     * getObjectType
+     *
+     * Gets type of object for the generateObjects keyString key.
+     *
+     * @param object (Object) - Object to be parsed.
+     *
+     * @return (String) - String for the key.
+     */
+    return object.constructor.name.toString();
 };
 
 module.exports.replaceAll = function(string, old, theNew) {
-	/*
-	 * replaceAll
-	 *
-	 * Replaces all occurances of "old" with "theNew" in "string".
-	 *
-	 * @param string (String) - The string undergoing editing here.
-	 * @param old (String) - The string that will be replaced.
-	 * @param theNew (String) - The string that replaces.
-	 * 
-	 * @return (String) - Final modified string.
-	 */
-	return string.replace(/old/g, theNew);
+    /*
+     * replaceAll
+     *
+     * Replaces all occurances of "old" with "theNew" in "string".
+     *
+     * @param string (String) - The string undergoing editing here.
+     * @param old (String) - The string that will be replaced.
+     * @param theNew (String) - The string that replaces.
+     *
+     * @return (String) - Final modified string.
+     */
+    return string.replace(/old/g, theNew);
 };
 
 module.exports.removeLineBreaks = function(string) {
-	/*
-	 * removeLineBreaks
-	 *
-	 * Removes all unwanted line breaks in a given string.
-	 *
-	 * @param string (String) - The string undergoing editing here.
-	 * 
-	 * @return (String) - Final modified string.
-	 */
-	return string.replace(/\r?\n|\r/g, "");
+    /*
+     * removeLineBreaks
+     *
+     * Removes all unwanted line breaks in a given string.
+     *
+     * @param string (String) - The string undergoing editing here.
+     *
+     * @return (String) - Final modified string.
+     */
+    return string.replace(/\r?\n|\r/g, "");
 };
 
 module.exports.log = function(level, message, objects) {
-	winston.log(level, message, objects);
+    winston.log(level, message, objects);
 };
 
 module.exports.generateKey = function() {
-	var string = "";
+    var string = "";
     var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     for (var i = 0; i < 11; i++) {
         string += possible.charAt(Math.floor(Math.random() * possible.length));
@@ -156,69 +165,69 @@ module.exports.generateKey = function() {
 };
 
 module.exports.removeParams = function(object) {
-	if (object.password != null)
-		delete object.password;
-	if (object.passwordConfirm != null)
-		delete object.passwordConfirm;
-	if (object.current != null)
-		delete object.current;
-	if (object.newPass != null)
-		delete object.newPass;
-	if (object.confirmNew != null)
-		delete object.confirmNew;
-	return object;
+    if (object.password != null)
+        delete object.password;
+    if (object.passwordConfirm != null)
+        delete object.passwordConfirm;
+    if (object.current != null)
+        delete object.current;
+    if (object.newPass != null)
+        delete object.newPass;
+    if (object.confirmNew != null)
+        delete object.confirmNew;
+    return object;
 };
 
 module.exports.initializeHomeUserModel = function(user) {
-	var model = new Dashboard();
-	if (user) {
-		model.renderModel("Home", null);
-		model.object.user.username = user.get("username");
-		model.object.user.firstName = user.get("firstName");
-		model.object.user.lastName = user.get("lastName");
-		model.object.user.email = user.get("email");
-		model.object.user.userType = user.get("userType");
-		module.exports.determineHomeUserType(model);
-		model.page.user.auth = true;
-	} else {
-		model.renderModel("error", null);
-		model.page.user.auth = false;
-	}
-	return model;
+    var model = new Dashboard();
+    if (user) {
+        model.renderModel("Home", null);
+        model.object.user.username = user["username"];
+        model.object.user.firstName = user["firstName"];
+        model.object.user.lastName = user["lastName"];
+        model.object.user.email = user["email"];
+        model.object.user.userType = user["userType"];
+        module.exports.determineHomeUserType(model);
+        model.page.user.auth = true;
+    } else {
+        model.renderModel("error", null);
+        model.page.user.auth = false;
+    }
+    return model;
 };
 
 module.exports.determineHomeUserType = function(model) {
-	if (model.object.user.userType == "Developer") {
-		model.object.user.isAdmin = true;
-		model.object.user.isDeveloper = true;
-	} else if (model.object.user.userType == "Administration") {
-		model.object.user.isAdmin = true;
-		model.object.user.isDeveloper = false;
-	} else {
-		model.object.user.isAdmin = false;
-		model.object.user.isDeveloper = false;
-	}
+    if (model.object.user.userType == "Developer") {
+        model.object.user.isAdmin = true;
+        model.object.user.isDeveloper = true;
+    } else if (model.object.user.userType == "Administration") {
+        model.object.user.isAdmin = true;
+        model.object.user.isDeveloper = false;
+    } else {
+        model.object.user.isAdmin = false;
+        model.object.user.isDeveloper = false;
+    }
 };
 
 module.exports.fillModel = function(model, data, type) {
-	model.type = type;
-	if (type.indexOf("SettingsStructure") > -1) {
-		for (var key in data) {
-			model.data[key] = data[key];
-		}
-	} else if (type == "UserRegisterStructure") {
-		for (var key in data) {
-			model.object[key] = data[key];
-		}
-	} else {
-		for (var key in data) {
-			model[key] = data[key];
-		}
-	}
+    model.type = type;
+    if (type.indexOf("SettingsStructure") > -1) {
+        for (var key in data) {
+            model.data[key] = data[key];
+        }
+    } else if (type == "UserRegisterStructure") {
+        for (var key in data) {
+            model.object[key] = data[key];
+        }
+    } else {
+        for (var key in data) {
+            model[key] = data[key];
+        }
+    }
 };
 
 module.exports.fillParamaters = function(model, ID, otherData) {
-	switch (model.customModel.type) {
+    switch (model.customModel.type) {
         case "NewsArticleStructure":
             var result = { };
             if (model.customModel.hasFiles) {
@@ -264,12 +273,12 @@ module.exports.fillParamaters = function(model, ID, otherData) {
             result.userString = module.exports.fullUserString(model);
             return result;
         case "ExtracurricularUpdateStructure":
-			return {
-				"extracurricularUpdateID": ID,
-				"content": model.customModel.content,
-				"postDate": model.customModel.postDate,
-				"finalUpdates": model.customModel.finalUpdates
-	        };
+            return {
+                "extracurricularUpdateID": ID,
+                "content": model.customModel.content,
+                "postDate": model.customModel.postDate,
+                "finalUpdates": model.customModel.finalUpdates
+            };
         case "ExtracurricularStructure":
             return {
                 "extracurricularID": ID,
@@ -310,14 +319,14 @@ module.exports.fillParamaters = function(model, ID, otherData) {
             result.isReady = model.customModel.hasTime ? 0 : 1;
             result.views = 0;
             return result;
-	}
+    }
 };
 
 module.exports.needCustomSaveOperation = function(model) {
     return model.customModel.type == "SettingsStructure.ChangePassword" || model.customModel.type == "SettingsStructure.ChangeEmail";
 };
 
-module.exports.customSaveOperation = function(model) {
+module.exports.customSaveOperation = function(model, req) {
     return new Promise(function(fulfill, reject) {
         switch (model.customModel.type) {
             case "SettingsStructure.ChangePassword":
@@ -326,15 +335,13 @@ module.exports.customSaveOperation = function(model) {
                 });
                 break;
             case "SettingsStructure.ChangeEmail":
-                Parse.User.current().save({
-                    "email" : model.customModel.data.email
-                }).then(function() {
-                    var promise = Parse.Promise.as();
-                    promise = promise.then(function() {
-                        Parse.User.current().fetch().then(function (finalUser, error) {
-                            fulfill({ auth: error != null, save: false, error: error });
-                        });
-                    });
+                Parse.Cloud.run("updateEmail", { email: model.customModel.data.email }, {
+                    success: function(response) {
+                        var y = 5;
+                    },
+                    error: function (error) {
+                        var x = 5;
+                    }
                 });
                 break;
         }
@@ -342,41 +349,41 @@ module.exports.customSaveOperation = function(model) {
 };
 
 module.exports.generateParseFile = function(data, fileName, type) {
-	var fileData = Array.prototype.slice.call(data, 0);
-	var file = new Parse.File(fileName, fileData, type);
-	return file;
+    var fileData = Array.prototype.slice.call(data, 0);
+    var file = new Parse.File(fileName, fileData, type);
+    return file;
 }
 
 module.exports.fullUserString = function(model) {
-	return model.object.user.firstName + " " + model.object.user.lastName;
+    return model.object.user.firstName + " " + model.object.user.lastName;
 };
 
 module.exports.doesFileExist = function(data) {
-	return data.files.image.data.length > 0;
+    return data.files.image.data.length > 0;
 };
 
 module.exports.getID = function(object) {
-	return object != null ? parseInt(object.get(config.IDdictionary[object.className])) + 1 : 0;
+    return object != null ? parseInt(object.get(config.IDdictionary[object.className])) + 1 : 0;
 };
 
 module.exports.validatePassword = function(password) {
-	var result = false;
-	var message = "";
-	var test = password.length >= 8;
-	if (! test) {
-		message = "Password must be at least 8 characters long.";
-		result = false;
-		return { result: result , message: message, model: this };
-	}
-	test = password.indexOf(" ");
-	if (! test) {
-		message = "Password cannot contain any spaces.";
-		result = false;
-		return { result: result , message: message, model: this };
-	}
-	message = "Validated.";
-	result = true;
-	return { result: result , message: message };
+    var result = false;
+    var message = "";
+    var test = password.length >= 8;
+    if (! test) {
+        message = "Password must be at least 8 characters long.";
+        result = false;
+        return { result: result , message: message, model: this };
+    }
+    test = password.indexOf(" ");
+    if (! test) {
+        message = "Password cannot contain any spaces.";
+        result = false;
+        return { result: result , message: message, model: this };
+    }
+    message = "Validated.";
+    result = true;
+    return { result: result , message: message };
 };
 
 module.exports.escapeString = function(str) {

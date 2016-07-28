@@ -43,3 +43,7 @@ common/test
 common/downloads
 
 .idea/
+
+# Security
+
+config.js
