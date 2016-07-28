@@ -126,3 +126,24 @@ Parse.Cloud.define("countInstallations", function(request, response) {
         }
     });
 });
+
+Parse.Cloud.define("verifyUser", function(request, response) {
+    var username = request.params.username;
+    var query = new Parse.Query("User");
+    query.equalTo("username", username);
+    query.first({
+        success: function(user)  {
+            user.set("verified", 1);
+            user.save(null, {
+                useMasterKey: true,
+                success: function(finalUser)  {
+                    response.success("SUCCESS");
+                }, error: function(error) {
+                    response.error(error);
+                }
+            });
+        }, error: function(error) {
+            response.error(error);
+        }
+    });
+});

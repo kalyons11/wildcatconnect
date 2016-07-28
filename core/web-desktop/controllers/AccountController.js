@@ -198,13 +198,12 @@ exports.tryVerify = function(data) {
                 var actualKey = user.get("key");
                 var test = actualKey == key;
                 if (test) {
-                    user.set("verified", 1);
-                    user.save(null, {
-                       success: function(finalUser)  {
-                           fulfill({ auth: true });
-                       }, error: function(error) {
-                           fulfill({ auth: false, error: error });
-                       }
+                    Parse.Cloud.run("verifyUser", { username: username }, {
+                        success: function(response)  {
+                            fulfill({ auth: true });
+                        }, error: function(error) {
+                            fulfill({ auth: false, error: error });
+                        }
                     });
                 } else {
                     fulfill({ auth: false });
