@@ -31,7 +31,7 @@ module.exports.decryptObject = function (string) {
 
 var config = module.exports.decryptObject(config);
 
-var Mailgun = require('mailgun-js')({ apiKey: module.exports.decrypt(config.mailgunKey), domain: 'wildcatconnect.org'} );
+var Mailgun = require('mailgun-js')({ apiKey: module.exports.decrypt(config.mailgunKey), domain: 'wildcatconnect.com'} );
 
 var logglyToken = module.exports.decrypt(config.logglyToken);
 var logglySubdomain = config.logglySubdomain;

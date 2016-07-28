@@ -35,7 +35,6 @@ process.on('uncaughtException', (error) => {
 var appId = utils.decrypt(config.appId);
 var masterKey = utils.decrypt(config.masterKey);
 var serverURL = utils.decrypt(config.serverURL);
-serverURL = serverURL.substring(1, serverURL.length - 1);
 var databaseUri = utils.decrypt(config.databaseUri);
 var theClassNames = config.classNames;
 var secret = utils.decrypt(config.secret);
@@ -47,8 +46,8 @@ var awsBucketName = utils.decrypt(config.awsBucketName);
 var SimpleMailgunAdapter = require('./utils/SimpleMailgunAdapter');
 var simpleMailgunAdapter = new SimpleMailgunAdapter({
     apiKey: mailgunKey,
-    domain: 'wildcatconnect.org',
-    fromAddress: 'team@wildcatconnect.org'
+    domain: 'wildcatconnect.com',
+    fromAddress: 'team@wildcatconnect.com'
 });
 
 // Parse Server configuration.

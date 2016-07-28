@@ -22,6 +22,7 @@ module.exports.encryptObject = function (object) {
 module.exports.decrypt = function(string) {
     var bytes  = CryptoJS.AES.decrypt(string, hasher);
     var result = bytes.toString(CryptoJS.enc.Utf8);
+    result =  module.exports.trimQuotes(result);
     return result;
 };
 
@@ -30,9 +31,15 @@ module.exports.decryptObject = function (string) {
     return JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
 };
 
+module.exports.trimQuotes = function(string) {
+    if (string.charAt(0) == '"')
+        string = string.substring(1, string.length - 1);
+    return string;
+};
+
 var config = module.exports.decryptObject(config);
 
-var Mailgun = require('mailgun-js')({ apiKey: module.exports.decrypt(config.mailgunKey), domain: 'wildcatconnect.org'} );
+var Mailgun = require('mailgun-js')({ apiKey: module.exports.decrypt(config.mailgunKey), domain: 'wildcatconnect.com'} );
 
 var logglyToken = module.exports.decrypt(config.logglyToken);
 var logglySubdomain = config.logglySubdomain;
@@ -338,10 +345,11 @@ module.exports.customSaveOperation = function(model, req) {
             case "SettingsStructure.ChangeEmail":
                 Parse.Cloud.run("updateEmail", { username: req.session.user["username"], email: model.customModel.data.email }, {
                      success: function(response) {
-                         var y = 5;
+                         req.session.user.email = model.customModel.data.email;
+                         fulfill({ auth: true, save: false});
                      },
                      error: function (error) {
-                         var x = 5;
+                         fulfill({ auth: false, save: false, error: error});
                      }
                 });
                 break;

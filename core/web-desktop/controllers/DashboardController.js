@@ -73,7 +73,7 @@ exports.saveModel = function(model, req, res, message, path, action, subaction) 
 };
 
 exports.handleSave = function(theModel, error, req, res, message, path, action, subaction) {
-	if (error == null) {
+	if (error == null || Object.keys(error).length == 0) {
 		var model = utils.initializeHomeUserModel(req.session.user);
 		model.renderModel("home", null);
 		model.customModel = theModel.customModel;
@@ -350,8 +350,8 @@ exports.custom = function (req, res) {
         var adminMailString = admin + "<" + adminMail + ">";
         var text = name + ",\n\nUnfortunately, your recent Wildcat News Story has been denied by a member of administration. Please see below for details.\n\nArticle Title - " + title + "\nDenial Message - " + message + "\nAdministrative User - " + admin + "\n\nIf you would like, you can recreate the article and resubmit for approval. Thank you for your understanding.\n\nBest,\n\nWildcatConnect App Team";
         // TODO - create configurable here ???
-        utils.sendEmail(email, "WildcatConnect <team@wildcatconnect.org>", null, null, "Wildcat News Story Denial", text, false, res);
-        utils.sendEmail(adminMailString, "WildcatConnect <team@wildcatconnect.org>", null, null, "Wildcat News Story Denial", text, false, res);
+        utils.sendEmail(email, "WildcatConnect <team@wildcatconnect.com>", null, null, "Wildcat News Story Denial", text, false, res);
+        utils.sendEmail(adminMailString, "WildcatConnect <team@wildcatconnect.com>", null, null, "Wildcat News Story Denial", text, false, res);
         var query = new Parse.Query("NewsArticleStructure");
         query.equalTo("articleID", parseInt(req.body.ID));
         query.first({
@@ -439,8 +439,8 @@ exports.custom = function (req, res) {
         var adminMail = req.body.adminMail;
         var adminMailString = admin + "<" + adminMail + ">";
         var text = name + ",\n\nUnfortunately, your recent event has been denied by a member of administration. Please see below for details.\n\nEvent Title - " + title + "\nDenial Message - " + message + "\nAdministrative User - " + admin + "\n\nIf you would like, you can recreate the event and resubmit for approval. Thank you for your understanding.\n\nBest,\n\nWildcatConnect App Team";
-        utils.sendEmail(email, "WildcatConnect <team@wildcatconnect.org>", null, null, "Event Denial", text, false, res);
-        utils.sendEmail(adminMailString, "WildcatConnect <team@wildcatconnect.org>", null, null, "Event Denial", text, false, res);
+        utils.sendEmail(email, "WildcatConnect <team@wildcatconnect.com>", null, null, "Event Denial", text, false, res);
+        utils.sendEmail(adminMailString, "WildcatConnect <team@wildcatconnect.com>", null, null, "Event Denial", text, false, res);
         var query = new Parse.Query("EventStructure");
         query.equalTo("ID", parseInt(req.body.ID));
         query.first({
@@ -528,8 +528,8 @@ exports.custom = function (req, res) {
         var adminMail = req.body.adminMail;
         var adminMailString = admin + "<" + adminMail + ">";
         var text = name + ",\n\nUnfortunately, your recent community service opportunity has been denied by a member of administration. Please see below for details.\n\nOpportunity Title - " + title + "\nDenial Message - " + message + "\nAdministrative User - " + admin + "\n\nIf you would like, you can recreate the opportunity and resubmit for approval. Thank you for your understanding.\n\nBest,\n\nWildcatConnect App Team";
-        utils.sendEmail(email, "WildcatConnect <team@wildcatconnect.org>", null, null, "Community Service Denial", text, false, res);
-        utils.sendEmail(adminMailString, "WildcatConnect <team@wildcatconnect.org>", null, null, "Community Service Denial", text, false, res);
+        utils.sendEmail(email, "WildcatConnect <team@wildcatconnect.com>", null, null, "Community Service Denial", text, false, res);
+        utils.sendEmail(adminMailString, "WildcatConnect <team@wildcatconnect.com>", null, null, "Community Service Denial", text, false, res);
         var query = new Parse.Query("CommunityServiceStructure");
         query.equalTo("communityServiceID", parseInt(req.body.ID));
         query.first({
