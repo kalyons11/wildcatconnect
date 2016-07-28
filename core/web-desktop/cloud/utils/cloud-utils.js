@@ -21,12 +21,19 @@ module.exports.encryptObject = function (object) {
 module.exports.decrypt = function(string) {
     var bytes  = CryptoJS.AES.decrypt(string, hasher);
     var result = bytes.toString(CryptoJS.enc.Utf8);
+    result =  module.exports.trimQuotes(result);
     return result;
 };
 
 module.exports.decryptObject = function (string) {
     var bytes = CryptoJS.AES.decrypt(string, hasher);
     return JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+};
+
+module.exports.trimQuotes = function(string) {
+    if (string.charAt(0) == '"')
+        string = string.substring(1, string.length - 1);
+    return string;
 };
 
 var config = module.exports.decryptObject(config);
