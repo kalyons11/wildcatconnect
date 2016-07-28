@@ -46,4 +46,4 @@ common/downloads
 
 # Security
 
-config.js
+config.js*
