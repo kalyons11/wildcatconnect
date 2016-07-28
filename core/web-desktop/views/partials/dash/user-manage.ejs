@@ -329,45 +329,49 @@
         var index = this.name;
         var username = current[index]["username"];
 
-        BootstrapDialog.confirm({
-            title: 'Confirmation',
-            message: 'Are you sure you want to delete this user?',
-            type: BootstrapDialog.TYPE_DANGER, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
-            closable: true, // <-- Default value is false
-            draggable: true, // <-- Default value is false
-            btnCancelLabel: 'No', // <-- Default value is 'Cancel',
-            btnOKLabel: 'Yes', // <-- Default value is 'OK',
-            btnOKClass: 'btn-primary', // <-- If you didn't specify it, dialog type will be used,
-            callback: function(result) {
-                // result will be true if button was click, while it will be false if users close the dialog directly.
-                if(result) {
-                    $("#loading").fadeIn();
-                    setLoadingMessage("Deleting user...");
-                    $.ajax({
-                        url: "manage/ajax/delete",
-                        type: "post",
-                        data: { username: username },
-                        datatype: 'json',
-                        crossDomain: true,
+        if (username == "<%= model.object.user.username %>") {
+            setMessage("You cannot delete your own user.", true);
+        } else {
+            BootstrapDialog.confirm({
+                title: 'Confirmation',
+                message: 'Are you sure you want to delete this user?',
+                type: BootstrapDialog.TYPE_DANGER, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
+                closable: true, // <-- Default value is false
+                draggable: true, // <-- Default value is false
+                btnCancelLabel: 'No', // <-- Default value is 'Cancel',
+                btnOKLabel: 'Yes', // <-- Default value is 'OK',
+                btnOKClass: 'btn-primary', // <-- If you didn't specify it, dialog type will be used,
+                callback: function(result) {
+                    // result will be true if button was click, while it will be false if users close the dialog directly.
+                    if(result) {
+                        $("#loading").fadeIn();
+                        setLoadingMessage("Deleting user...");
+                        $.ajax({
+                            url: "manage/ajax/delete",
+                            type: "post",
+                            data: { username: username },
+                            datatype: 'json',
+                            crossDomain: true,
 
-                        success: function(response){
-                            setLoadingMessage("Reloading users...");
-                            if (response["res"] == "SUCCESS") {
-                                loadPage("User successfully deleted.");
-                            } else {
-                                setMessage("Unable to delete user. Please try to reload the page.", true);
+                            success: function(response){
+                                setLoadingMessage("Reloading users...");
+                                if (response["res"] == "SUCCESS") {
+                                    loadPage("User successfully deleted.");
+                                } else {
+                                    setMessage("Unable to delete user. Please try to reload the page.", true);
+                                    $("#loading").fadeOut();
+                                }
+                            },
+
+                            error: function(request, status, error) {
+                                setMessage("Internal server error. If this problem continues, please contact support.", true);
                                 $("#loading").fadeOut();
                             }
-                        },
-
-                        error: function(request, status, error) {
-                            setMessage("Internal server error. If this problem continues, please contact support.", true);
-                            $("#loading").fadeOut();
-                        }
-                    });
-                };
-            }
-        });
+                        });
+                    };
+                }
+            });
+        }
     });
 
     $('#search').keyup(function() {

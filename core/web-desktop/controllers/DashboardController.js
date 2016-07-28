@@ -810,6 +810,26 @@ exports.custom = function (req, res) {
             });
         }
     }
+    else if (path == "dev" && action == "manage" && request == "message") {
+        var message = req.body.message;
+        var query = new Parse.Query("SpecialKeyStructure");
+        query.equalTo("key", "appMessage");
+        query.first({
+            success: function(active) {
+                active.set("value", message);
+                active.save(null, {
+                    success: function(final) {
+                        res.send({res: "SUCCESS"});
+                    }, error: function(object, error) {
+                        res.send({res: error});
+                    }
+                });
+            },
+            error: function(error) {
+                res.send({res: error});
+            }
+        });
+    }
 };
 
 exports.validateData = function(req, path, action, subaction, data) {

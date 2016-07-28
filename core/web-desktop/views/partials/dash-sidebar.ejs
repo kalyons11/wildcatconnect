@@ -123,6 +123,20 @@
               <% } %>
               <a href="/app/dashboard/dev/manage"><img src="/images/error@2x.png" alt="Status" style="display: inline-block; vertical-align: middle; margin-right:10px; float:left;" width="22">Manage Application</a>
           </li>
+          <% if (model.page.configurations.key == "dev.links") { %>
+          <li class="active">
+              <% } else { %>
+          <li>
+              <% } %>
+              <a href="/app/dashboard/dev/links"><img src="/images/link@2x.png" alt="Links" style="display: inline-block; vertical-align: middle; margin-right:10px; float:left;" width="22">Useful Links</a>
+          </li>
+          <% if (model.page.configurations.key == "dev.console") { %>
+          <li class="active">
+              <% } else { %>
+          <li>
+              <% } %>
+              <a href="/app/dashboard/dev/console"><img src="/images/console@2x.png" alt="Console" style="display: inline-block; vertical-align: middle; margin-right:10px; float:left;" width="22">Developer Console</a>
+          </li>
       </ul>
     </div>
   <% } %>
