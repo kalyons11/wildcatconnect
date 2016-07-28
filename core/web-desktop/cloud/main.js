@@ -27,7 +27,6 @@ Parse.Cloud.define('registerUser', function(request, response) {
             theUser.set("lastName", lastName);
             theUser.set("verified", 0);
             theUser.set("key", key);
-
             theUser.signUp(null, {
                 success: function (user) {
                     object.destroy({
@@ -110,6 +109,19 @@ Parse.Cloud.define("updateEmail", function(request, response) {
                 }
             });
         }, error: function (error) {
+            response.error(error);
+        }
+    });
+});
+
+Parse.Cloud.define("countInstallations", function(request, response) {
+    var query = new Parse.Query("_Installation");
+    query.count({
+        useMasterKey: true,
+        success: function(count) {
+            response.success(count);
+        },
+        error: function(error) {
             response.error(error);
         }
     });

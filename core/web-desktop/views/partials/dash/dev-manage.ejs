@@ -1,0 +1,130 @@
+<h4><p class="text-muted">Manage application status and view installation count.</p></h4>
+<a href="/app/dashboard"><button class="btn btn-primary btn-back">Cancel</button></a>
+<h4 id="mainLabel">Current Installation Count</h4>
+<h2 id="countLabel" style="color:#561838;">LOADING...</h2>
+<h4 id="mainLabel">Current Application Status</h4>
+<h2 id="modeLabel" style="color:#561838;">LOADING...</h2>
+<select id='modeSelect' name="modeSelect" onchange="changeFunction();">
+</select>
+<br><br>
+<div class="form-group">
+    <label for="title">General Application Message (default is "None.")</label>
+    <input type="text" name="title" class="form-control" id="message" placeholder="Message">
+</div>
+<button class="saveMessage btn btn-lg btn-primary">Save Message</button>
+<script>
+
+    loadPage();
+
+    var count = 0;
+    var active = "";
+    var message = "";
+
+    function loadPage(message) {
+        $("#countLabel").html("");
+        $("#modeLabel").html("");
+        setLoadingMessage("Loading configurations...");
+        $("#loading").fadeIn();
+        $.ajax({
+            url: "manage/ajax/load",
+            type: "post",
+            data: {key: "value"}, // Encrypt all data...
+            datatype: 'json',
+            crossDomain: true,
+
+            success: function(response){
+                count = response["count"];
+                active = response["active"];
+                message = response["message"];
+                if (requests != null && status != null && message != null) {
+                    loadContent();
+                    if (message != null)
+                        setMessage(message, false);
+                    $("#loading").fadeOut();
+                } else {
+                    setMessage("Unable to load configurations. Please try to reload the page.", true);
+                    $("#loading").fadeOut();
+                }
+            },
+
+            error: function(request, status, error) {
+                setMessage("Internal server error. If this problem continues, please contact support.", true);
+                $("#loading").fadeOut();
+            }
+        });
+    }
+
+    function loadContent() {
+
+        $("#countLabel").html(count);
+
+        var select = document.getElementById("modeSelect");
+
+        var arrayList = ["INACTIVE", "ACTIVE"];
+
+        for (var i = 0; i < arrayList.length; i++) {
+            var option = document.createElement('option');
+            option.text = arrayList[i];
+            option.value = i;
+            select.appendChild(option);
+        };
+
+        $("#modeLabel").html(arrayList[parseInt(active)]);
+        $('#modeSelect option[value='+parseInt(active)+']').attr('selected', 'selected');
+
+        $("#message").val(message);
+    }
+
+    $(document).on('change', "#modeSelect", function() {
+        var mode = this.selectedOptions[0].text;
+
+        console.log(mode);
+    });
+
+    $(document).on('click', ".saveMessage", function() {
+        var message = $("#message").val();
+
+        console.log(message);
+
+        BootstrapDialog.confirm({
+            title: 'Confirmation',
+            message: 'Are you sure you save this application message? It will be live to all app users.',
+            type: BootstrapDialog.TYPE_DANGER, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
+            closable: true, // <-- Default value is false
+            draggable: true, // <-- Default value is false
+            btnCancelLabel: 'No', // <-- Default value is 'Cancel',
+            btnOKLabel: 'Yes', // <-- Default value is 'OK',
+            btnOKClass: 'btn-primary', // <-- If you didn't specify it, dialog type will be used,
+            callback: function(result) {
+                // result will be true if button was click, while it will be false if users close the dialog directly.
+                if(result) {
+                    $("#loading").fadeIn();
+                    setLoadingMessage("Approving news story...");
+                    $.ajax({
+                        url: "manage/ajax/message",
+                        type: "post",
+                        data: { ID: ID },
+                        datatype: 'json',
+                        crossDomain: true,
+
+                        success: function(response){
+                            setLoadingMessage("Reloading news stories...");
+                            if (response["res"] == "SUCCESS") {
+                                loadPage("Story successfully approved.");
+                            } else {
+                                setMessage("Unable to approve news story. Please try to reload the page.", true);
+                                $("#loading").fadeOut();
+                            }
+                        },
+
+                        error: function(request, status, error) {
+                            setMessage("Internal server error. If this problem continues, please contact support.", true);
+                            $("#loading").fadeOut();
+                        }
+                    });
+                };
+            }
+        });
+    });
+
+</script>

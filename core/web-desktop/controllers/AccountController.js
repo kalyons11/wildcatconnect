@@ -21,8 +21,8 @@ exports.go = function(req, res) {
 
 exports.getLogin = function(req, res) {
     try {
-        Parse.User.logOut();
         req.session.user = null;
+        Parse.User.logOut();
     } catch (e) {
         // Move on
     }
