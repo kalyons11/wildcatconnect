@@ -97,13 +97,20 @@ Parse.Cloud.define("updateUser", function(request, response) {
 });
 
 Parse.Cloud.define("updateEmail", function(request, response) {
-    response.success("Here!!! - " + request.user + "///");
-    /*request.user.save({ email: request.params.email }, {
-        useMasterKey: true,
-        success: function (final) {
-            response.success("SUCCESS");
+    var query = new Parse.Query("User");
+    query.equalTo("username", request.params.username);
+    query.first({
+        success: function (user) {
+            user.save({ email: request.params.email }, {
+                useMasterKey: true,
+                success: function (final) {
+                    response.success("SUCCESS");
+                }, error: function (error) {
+                    response.error(error);
+                }
+            });
         }, error: function (error) {
             response.error(error);
         }
-    });*/
+    });
 });

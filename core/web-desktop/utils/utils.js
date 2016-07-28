@@ -336,7 +336,7 @@ module.exports.customSaveOperation = function(model, req) {
                 });
                 break;
             case "SettingsStructure.ChangeEmail":
-                Parse.Cloud.run("updateEmail", { email: model.customModel.data.email }, {
+                Parse.Cloud.run("updateEmail", { username: req.session.user["username"], email: model.customModel.data.email }, {
                      success: function(response) {
                          var y = 5;
                      },

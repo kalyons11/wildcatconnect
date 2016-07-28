@@ -2,7 +2,6 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var PageModel = require('./page.js');
 var CustomModel = require('./custom.js');
-var config = require('../config');
 var utils = require('../utils/utils');
 
 var page = new PageModel({
