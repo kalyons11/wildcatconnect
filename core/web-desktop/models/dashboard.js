@@ -167,6 +167,12 @@ homeSchema.methods.setValues = function(path, action, subaction) {
                 case "manage":
                     title = "Manage Application";
                     break;
+                case "links":
+                    title = "Manage Links";
+                    break;
+                case "console":
+                    title = "Developer Console";
+                    break;
             }
             break;
 		case "settings":

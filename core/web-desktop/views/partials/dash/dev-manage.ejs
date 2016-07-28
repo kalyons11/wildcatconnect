@@ -190,8 +190,6 @@
     $(document).on('click', ".saveMessage", function() {
         var message = $("#message").val();
 
-        console.log(message);
-
         BootstrapDialog.confirm({
             title: 'Confirmation',
             message: 'Are you sure you save this application message? It will be live to all app users.',
@@ -205,20 +203,19 @@
                 // result will be true if button was click, while it will be false if users close the dialog directly.
                 if(result) {
                     $("#loading").fadeIn();
-                    setLoadingMessage("Approving news story...");
+                    setLoadingMessage("Saving message...");
                     $.ajax({
                         url: "manage/ajax/message",
                         type: "post",
-                        data: { ID: ID },
+                        data: { message: message },
                         datatype: 'json',
                         crossDomain: true,
 
                         success: function(response){
-                            setLoadingMessage("Reloading news stories...");
                             if (response["res"] == "SUCCESS") {
-                                loadPage("Story successfully approved.");
+                                loadPage("Message successfully updated.");
                             } else {
-                                setMessage("Unable to approve news story. Please try to reload the page.", true);
+                                setMessage("Unable to update application message. Please try to reload the page.", true);
                                 $("#loading").fadeOut();
                             }
                         },
