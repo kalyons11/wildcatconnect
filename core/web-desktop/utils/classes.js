@@ -33,8 +33,8 @@ Classes.UserRegisterStructure.validate = function(object) {
 		}).then(function(usersB) {
 		    count += usersB.length;
 		    var queryTwo = new Parse.Query("UserRegisterStructure");
-		    query.equalTo("username", username);
-		    return query.find();
+            queryTwo.equalTo("username", username);
+		    return queryTwo.find();
 		  }).then(function(usersC) {
 		    count += usersC.length;
 		    var queryThree = new Parse.Query("UserRegisterStructure");

@@ -829,6 +829,15 @@ exports.custom = function (req, res) {
                 res.send({res: error});
             }
         });
+    } else if (path == "dev" && action == "links" && request == "load") {
+        var query = new Parse.Query("UsefulLinkArray");
+        query.ascending("index");
+        query.find({
+            success: function(structures) {
+                res.send({res: structures });
+            }, error: function(error) {
+                res.send({res: error});
+            }
     }
 };
 
