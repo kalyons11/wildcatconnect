@@ -46,13 +46,6 @@ var nodeTag = config.nodeTag;
 
 require('winston-loggly');
 
-winston.add(winston.transports.Loggly, {
-    token: logglyToken,
-    subdomain: logglySubdomain,
-    tags: [nodeTag],
-    json: true
-});
-
 //endregion
 
 module.exports.processError = function(realError, fakeError, objects) {

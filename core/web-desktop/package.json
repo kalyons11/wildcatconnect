@@ -19,7 +19,7 @@
     "crypto-js": "^3.1.6",
     "dicer": "^0.2.5",
     "ejs": "^2.4.2",
-    "express": "~4.11.x",
+    "express": "^4.14.0",
     "express-session": "^1.14.0",
     "kerberos": "~0.0.x",
     "mailgun-js": "^0.7.11",

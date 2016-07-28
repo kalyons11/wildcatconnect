@@ -25,6 +25,7 @@ var cors = require('cors');
 // Uncaught exceptions.
 
 process.on('uncaughtException', (error) => {
+	console.log(error);
     var rawError = new Error();
     var x = utils.processError(error, rawError, null);
     utils.log('error', x.message, { "stack" : x.stack , "objects" : x.objects });
