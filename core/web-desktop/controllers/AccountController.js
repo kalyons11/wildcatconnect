@@ -1,4 +1,4 @@
-var Parse = require('parse/node').Parse;
+//var Parse = require('parse/node').Parse;
 var Login = require('../models/login');
 var Signup = require('../models/signup');
 var Promise = require('promise');
@@ -64,18 +64,23 @@ exports.postLogin = function(req, res) {
 
 exports.tryLogin = function(user) {
 	return new Promise(function(fulfill, reject) {
-		Parse.User.logIn(user.username, user.password, {
-			success: function(newUser) {
-			    var verified = newUser.get("verified");
-                if (verified == 0)
-				    fulfill({ auth: false, verify: true  });
-                else
-                    fulfill({ auth: true, user: newUser });
-			},
-			error: function(sorryUser, error) {
-				fulfill({ auth: false , error: error });
-			}
-		});
+		try {
+
+			Parse.User.logIn(user.username, user.password, {
+				success: function(newUser) {
+					var verified = newUser.get("verified");
+					if (verified == 0)
+						fulfill({ auth: false, verify: true  });
+					else
+						fulfill({ auth: true, user: newUser });
+				},
+				error: function(sorryUser, error) {
+					fulfill({ auth: false , error: error });
+				}
+			});
+		} catch (e) {
+			var x = 5;
+		}
 	});
 };
 
