@@ -60,6 +60,8 @@
 
         var select = document.getElementById("modeSelect");
 
+        select.innerHTML = "";
+
         var arrayList = ["INACTIVE", "ACTIVE"];
 
         for (var i = 0; i < arrayList.length; i++) {
@@ -135,9 +137,10 @@
                                             datatype: 'json',
                                             crossDomain: true,
 
-                                            success: function(response){
+                                            success: function(response) {
                                                 if (response["res"] == "SUCCESS") {
-                                                    console.log("Here!!!");
+                                                    loadPage("Successfully deactivated application."); // TODO
+                                                    $("#loading").fadeOut();
                                                 } else {
                                                     setMessage("Unable to deactivate application. Please try to reload the page.", true);
                                                     $("#loading").fadeOut();
@@ -168,7 +171,8 @@
 
                 success: function(response){
                     if (response["res"] == "SUCCESS") {
-                        console.log("Here!!!");
+                        loadPage("Successfully activated application."); // TODO
+                        $("#loading").fadeOut();
                     } else {
                         setMessage("Unable to reactivate application. Please try to reload the page.", true);
                         $("#loading").fadeOut();

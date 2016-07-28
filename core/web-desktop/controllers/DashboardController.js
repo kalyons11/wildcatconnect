@@ -640,7 +640,7 @@ exports.custom = function (req, res) {
         });
     }
     else if (path == "user" && action == "manage" && request == "delete") {
-        Parse.Cloud.run("deleteUser", { useMasterKey: true, username: req.body.username }, {
+        Parse.Cloud.run("deleteUser", { username: req.body.username }, {
             success: function(final) {
                 res.send({ res: "SUCCESS" });
             }, error: function(error) {
@@ -789,35 +789,26 @@ exports.custom = function (req, res) {
                     res.send({res: error});
                 }
             });
+        } else {
+            var query = new Parse.Query("SpecialKeyStructure");
+            query.equalTo("key", "appActive");
+            query.first({
+                success: function(active) {
+                    active.set("value", req.body.active.toString());
+                    active.set("message", "None.");
+                    active.save(null, {
+                        success: function(final) {
+                            res.send({res: "SUCCESS"});
+                        }, error: function(object, error) {
+                            res.send({res: error});
+                        }
+                    });
+                },
+                error: function(error) {
+                    res.send({res: error});
+                }
+            });
         }
-        Parse.Cloud.run("countInstallations", null, {
-            success: function(count) {
-                var query = new Parse.Query("SpecialKeyStructure");
-                query.equalTo("key", "appActive");
-                query.first({
-                    success: function(active) {
-                        active = active.get("value");
-                        var query = new Parse.Query("SpecialKeyStructure");
-                        query.equalTo("key", "appMessage");
-                        query.first({
-                            success: function(message) {
-                                message = message.get("value");
-                                res.send({ count: count, active: active, message: message });
-                            },
-                            error: function(error) {
-                                res.send({res: error});
-                            }
-                        });
-                    },
-                    error: function(error) {
-                        res.send({res: error});
-                    }
-                });
-            },
-            error: function(error) {
-                res.send({res: error});
-            }
-        });
     }
 };
 

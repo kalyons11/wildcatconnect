@@ -54,13 +54,11 @@ Parse.Cloud.define('registerUser', function(request, response) {
 Parse.Cloud.define('deleteUser', function(request, response) {
     var query = new Parse.Query("User");
     query.equalTo("username", request.params.username);
-    utils.log("info", "Query initialized.", null);
     query.first({
         success: function(user) {
-            utils.log("info", "Got user object.", null);
             user.destroy({
+                useMasterKey: true,
                 success: function (done) {
-                    utils.log("info", "Deleted user!", null);
                     response.success("SUCCESS!");
                 },
                 error: function (error) {
