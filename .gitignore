@@ -38,10 +38,8 @@ jspm_packages
 
 .DS_Store
 
-# Config, for security reasons
-
-config.js
-
 common/test
 
 common/downloads
+
+.idea/

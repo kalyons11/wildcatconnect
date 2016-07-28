@@ -338,9 +338,9 @@ module.exports.customSaveOperation = function(model, req) {
                      success: function(response) {
                          var y = 5;
                      },
-                    error: function (error) {
-                        var x = 5;
-                    }
+                     error: function (error) {
+                         var x = 5;
+                     }
                 });
                 break;
         }
