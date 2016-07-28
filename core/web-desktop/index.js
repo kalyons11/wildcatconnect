@@ -7,7 +7,7 @@
 var express = require('express');
 var ParseServer = require('parse-server').ParseServer;
 var path = require('path');
-var Parse = require('parse/node').Parse;
+global.Parse = require('parse/node').Parse;
 var CryptoJS = require('crypto-js');
 var routes = require('./controllers/RouteController');
 var utils = require('./utils/utils');
@@ -26,8 +26,8 @@ var cors = require('cors');
 
 process.on('uncaughtException', (error) => {
     var rawError = new Error();
-var x = utils.processError(error, rawError, null);
-utils.log('error', x.message, { "stack" : x.stack , "objects" : x.objects });
+    var x = utils.processError(error, rawError, null);
+    utils.log('error', x.message, { "stack" : x.stack , "objects" : x.objects });
 });
 
 // Variables configuration.
@@ -59,9 +59,6 @@ var api = new ParseServer({
   appId: appId,
   masterKey: masterKey,
   serverURL: serverURL,
-  liveQuery: { 
-    classNames: theClassNames
-  },
   publicServerURL: serverURL,
   appName: 'WildcatConnect',
   emailAdapter: simpleMailgunAdapter,
@@ -120,7 +117,7 @@ app.use('/', routes);
 
 app.use(function(req, res, next) {
   utils.log('error', "Page not found.", { url: req.url });
-  var model = utils.initializeHomeUserModel(Parse.User.current());
+  var model = utils.initializeHomeUserModel(req.session.user);
   model.page.title = "Not Found";
   model.error = {
     url: req.url,
@@ -138,17 +135,4 @@ var port = process.env.PORT || 5000;
 var httpServer = require('http').createServer(app);
 httpServer.listen(port, function() {
     console.log('Began client on port ' + port + '.', null);
-});
-
-// LiveQuery configuration.
-
-ParseServer.createLiveQueryServer(httpServer);
-
-let query = new Parse.Query("TestClass");
-query.equalTo("testKey", "Here it is!!!");
-let subscription = query.subscribe();
-
-subscription.on('create', (objects) => {
-  //Do something with this new object...
-  console.log("Woop.");
 });

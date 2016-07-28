@@ -181,11 +181,11 @@ module.exports.initializeHomeUserModel = function(user) {
 	var model = new Dashboard();
 	if (user) {
 		model.renderModel("Home", null);
-		model.object.user.username = user.get("username");
-		model.object.user.firstName = user.get("firstName");
-		model.object.user.lastName = user.get("lastName");
-		model.object.user.email = user.get("email");
-		model.object.user.userType = user.get("userType");
+		model.object.user.username = user["username"];
+		model.object.user.firstName = user["firstName"];
+		model.object.user.lastName = user["lastName"];
+		model.object.user.email = user["email"];
+		model.object.user.userType = user["userType"];
 		module.exports.determineHomeUserType(model);
 		model.page.user.auth = true;
 	} else {
@@ -325,7 +325,7 @@ module.exports.needCustomSaveOperation = function(model) {
     return model.customModel.type == "SettingsStructure.ChangePassword" || model.customModel.type == "SettingsStructure.ChangeEmail";
 };
 
-module.exports.customSaveOperation = function(model) {
+module.exports.customSaveOperation = function(model, req) {
     return new Promise(function(fulfill, reject) {
         switch (model.customModel.type) {
             case "SettingsStructure.ChangePassword":
@@ -334,15 +334,13 @@ module.exports.customSaveOperation = function(model) {
                 });
                 break;
             case "SettingsStructure.ChangeEmail":
-                Parse.User.current().save({
-                    "email" : model.customModel.data.email
-                }).then(function() {
-                    var promise = Parse.Promise.as();
-                    promise = promise.then(function() {
-                        Parse.User.current().fetch().then(function (finalUser, error) {
-                            fulfill({ auth: error != null, save: false, error: error });
-                        });
-                    });
+                Parse.Cloud.run("updateEmail", { email: model.customModel.data.email }, {
+                     success: function(response) {
+                         var y = 5;
+                     },
+                    error: function (error) {
+                        var x = 5;
+                    }
                 });
                 break;
         }

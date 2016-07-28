@@ -1,4 +1,3 @@
-var Parse = require('parse/node').Parse;
 var Promise = require('promise');
 var ApplicationMessage = require('../models/message');
 var Classes = require('../utils/classes');
@@ -10,10 +9,10 @@ config = utils.decryptObject(config);
 var AccountController = require("./AccountController");
 
 exports.authenticate = function(req, res) {
-	if (Parse.User.current()) {
-		var model = utils.initializeHomeUserModel(Parse.User.current());
-		var path = "home";
-		var action = null;
+	if (req.session.user) {
+		var model = utils.initializeHomeUserModel(req.session.user);
+		var path = req.body.path != null ? req.body.path : "home";
+        var action = req.body.action;
 		exports.prepareDashboard(model, path, action);
 		var session = Object.assign({ }, req.session);
 		delete req.session.theErrors;
@@ -24,9 +23,9 @@ exports.authenticate = function(req, res) {
 };
 
 exports.processPost = function(req, res, path, action, subaction, data) {
-	var obj = exports.validateData(path, action, subaction, data);
+	var obj = exports.validateData(req, path, action, subaction, data);
 	if (obj.result == false) {
-		var model = utils.initializeHomeUserModel(Parse.User.current());
+		var model = utils.initializeHomeUserModel(req.session.user);
 		model.renderModel(path, action, subaction);
 		model.customModel = obj.model;
 		var myError = new ApplicationMessage();
@@ -43,7 +42,7 @@ exports.processPost = function(req, res, path, action, subaction, data) {
 		delete req.session.theErrors;
 		return res.render("main", { model: model , session: null });
 	} else {
-		var model = utils.initializeHomeUserModel(Parse.User.current());
+		var model = utils.initializeHomeUserModel(req.session.user);
 		model.renderModel("home", null);
 		model.customModel = obj.model;
 		return exports.saveModel(model, req, res, obj.message, path, action, subaction);
@@ -52,7 +51,7 @@ exports.processPost = function(req, res, path, action, subaction, data) {
 
 exports.saveModel = function(model, req, res, message, path, action, subaction) {
     if (utils.needCustomSaveOperation(model)) {
-        utils.customSaveOperation(model).then(function (response) {
+        utils.customSaveOperation(model, req).then(function (response) {
             return exports.handleSave(model, response.error, req, res, message, path, action, subaction);
         });
     } else {
@@ -75,7 +74,7 @@ exports.saveModel = function(model, req, res, message, path, action, subaction) 
 
 exports.handleSave = function(theModel, error, req, res, message, path, action, subaction) {
 	if (error == null) {
-		var model = utils.initializeHomeUserModel(Parse.User.current());
+		var model = utils.initializeHomeUserModel(req.session.user);
 		model.renderModel("home", null);
 		model.customModel = theModel.customModel;
 		var myError = new ApplicationMessage();
@@ -89,7 +88,7 @@ exports.handleSave = function(theModel, error, req, res, message, path, action, 
 		else
 			res.redirect("/app/dashboard");
 	} else {
-		var model = utils.initializeHomeUserModel(Parse.User.current());
+		var model = utils.initializeHomeUserModel(req.session.user);
 		model.renderModel(path, action, subaction);
 		model.customModel = theModel.customModel;
 
@@ -113,25 +112,29 @@ exports.handlePost = function(req, res, path, action, subaction) {
 };
 
 exports.route = function(req, res, next) {
-	if (req.method == 'GET') {
-		var path = req.params.path;
-		var action = req.params.action;
-        var subaction = req.params.subaction;
-		var model = utils.initializeHomeUserModel(Parse.User.current());
-		exports.prepareDashboard(model, path, action, subaction);
-		var session = Object.assign({ }, req.session);
-		delete req.session.theErrors;
-		if (model.doRender)
-			return res.render("main", { model: model, session: session });
-		else {
-			next();
-		}
-	} else if (req.method == 'POST') {
-		var path = req.params.path;
-		var action = req.params.action;
-        var subaction = req.params.subaction;
-		return exports.handlePost(req, res, path, action, subaction);
-	}
+    if (req.session.user) {
+        if (req.method == 'GET') {
+            var path = req.params.path;
+            var action = req.params.action;
+            var subaction = req.params.subaction;
+            var model = utils.initializeHomeUserModel(req.session.user);
+            exports.prepareDashboard(model, path, action, subaction);
+            var session = Object.assign({ }, req.session);
+            delete req.session.theErrors;
+            if (model.doRender)
+                return res.render("main", { model: model, session: session });
+            else {
+                next();
+            }
+        } else if (req.method == 'POST') {
+            var path = req.params.path;
+            var action = req.params.action;
+            var subaction = req.params.subaction;
+            return exports.handlePost(req, res, path, action, subaction);
+        }
+    } else {
+        res.redirect('/app/login');
+    }
 };
 
 exports.custom = function (req, res) {
@@ -148,7 +151,7 @@ exports.custom = function (req, res) {
                 if (user.get("userType") === "Administration" || user.get("userType") === "Developer") {
                     //
                 } else {
-                    query.containedIn("extracurricularID", Parse.User.current().get("ownedEC")); // TODO
+                    query.containedIn("extracurricularID", req.session.user["ownedEC"]); // TODO
                 };
                 query.find({
                     success: function (structures) {
@@ -167,10 +170,10 @@ exports.custom = function (req, res) {
     else if (path == "group" && action == "manage" && request == "load") {
         var query = new Parse.Query("ExtracurricularStructure");
         query.ascending("titleString");
-        if (Parse.User.current() && (Parse.User.current().get("userType") === "Developer" || Parse.User.current().get("userType") === "Administration")) {
+        if (req.session.user && (req.session.user["userType"] === "Developer" || req.session.user["userType"] === "Administration")) {
             //
         } else {
-            var array = Parse.User.current().get("ownedEC");
+            var array = req.session.user["ownedEC"];
             query.containedIn("extracurricularID", array);
         };
         query.find({
@@ -590,7 +593,7 @@ exports.custom = function (req, res) {
         query.equalTo("alertID", parseInt(req.body.ID));
         query.first({
             success: function (object) {
-                var model = utils.initializeHomeUserModel(Parse.User.current());
+                var model = utils.initializeHomeUserModel(req.session.user);
                 exports.prepareDashboard(model, path, action, request);
                 var custom = new Models.AlertStructure();
                 custom.title = object.get("titleString");
@@ -731,7 +734,7 @@ exports.custom = function (req, res) {
     }
 };
 
-exports.validateData = function(path, action, subaction, data) {
+exports.validateData = function(req, path, action, subaction, data) {
 	var model = null;
 	switch(path) {
 		case "news":
@@ -784,7 +787,7 @@ exports.validateData = function(path, action, subaction, data) {
 		case "settings":
 			model = new Models.Settings();
 			model.renderModel(action);
-			return model.validateData(data);
+			return model.validateData(data, req.session.user["email"]);
 	}
 };
 

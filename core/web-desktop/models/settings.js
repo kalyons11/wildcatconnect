@@ -14,7 +14,7 @@ settingsSchema.methods.renderModel = function(action) {
 	this.data = { };
 };
 
-settingsSchema.methods.validateData = function(data) {
+settingsSchema.methods.validateData = function(data, currentEmail) {
 	var result = false;
 	var message = "";
 	if (this.action == "changePassword") {
@@ -30,7 +30,7 @@ settingsSchema.methods.validateData = function(data) {
 			result = false;
 			return { result: result , message: message, model: this };
 		}
-		test = data.body.email == Parse.User.current().get("email");
+		test = data.body.email == currentEmail;
 		if (test) {
 			message = "This is your current e-mail address.";
 			result = false;

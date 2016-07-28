@@ -8,7 +8,7 @@ var utils = require('../utils/utils');
 var Models = require("../models/models");
 
 exports.authenticate = function(req, res, next) {
-	if (Parse.User.current()) {
+	if (req.session.user) {
 		next();
 	} else {
 		res.redirect('/app/login');
@@ -20,7 +20,12 @@ exports.go = function(req, res) {
 };
 
 exports.getLogin = function(req, res) {
-	Parse.User.logOut();
+    try {
+        Parse.User.logOut();
+        req.session.user = null;
+    } catch (e) {
+        // Move on
+    }
 	var model = new Login();
 	var data = { user: { auth: false } };
 	model.renderModel(data);
@@ -31,8 +36,10 @@ exports.getLogin = function(req, res) {
 
 exports.postLogin = function(req, res) {
 	exports.tryLogin(req.body).then(function(response) {
-		if (response.auth)
-			res.redirect('/app/dashboard');
+		if (response.auth) {
+            req.session.user = response.user;
+            res.redirect('/app/dashboard');
+		}
         else if (response.auth == false && response.verify == true) {
             req.session.username = req.body.username;
             res.redirect("/app/verify");
@@ -63,7 +70,7 @@ exports.tryLogin = function(user) {
                 if (verified == 0)
 				    fulfill({ auth: false, verify: true  });
                 else
-                    fulfill({ auth: true  });
+                    fulfill({ auth: true, user: newUser });
 			},
 			error: function(sorryUser, error) {
 				fulfill({ auth: false , error: error });

@@ -27,7 +27,7 @@ for (var i = 0; i < pages.length; i++) {
 
 router.get(pages, function(req, res) {
     utils.log('error', "Unauthorized request.", { url: req.url });
-    var model = utils.initializeHomeUserModel(Parse.User.current());
+    var model = utils.initializeHomeUserModel(req.session.user);
     model.page.title = "Unauthorized";
     model.error = {
         url: req.url,
