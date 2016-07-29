@@ -119,12 +119,23 @@ exports.route = function(req, res, next) {
             var subaction = req.params.subaction;
             var model = utils.initializeHomeUserModel(req.session.user);
             exports.prepareDashboard(model, path, action, subaction);
-            var session = Object.assign({ }, req.session);
-            delete req.session.theErrors;
-            if (model.doRender)
-                return res.render("main", { model: model, session: session });
-            else {
-                next();
+            var allow = utils.verifyPage(model);
+            if (allow) {
+                var session = Object.assign({ }, req.session);
+                delete req.session.theErrors;
+                if (model.doRender)
+                    return res.render("main", { model: model, session: session });
+                else {
+                    next();
+                }
+            } else {
+                var myError = new ApplicationMessage();
+                myError.message = "You do not have sufficient privileges to access this page.";
+                myError.isError = true;
+                if (! req.session.theErrors)
+                    req.session.theErrors = new Array();
+                req.session.theErrors.push(myError);
+                res.redirect("/app/dashboard");
             }
         } else if (req.method == 'POST') {
             var path = req.params.path;
@@ -830,7 +841,15 @@ exports.custom = function (req, res) {
             }
         });
     } else if (path == "dev" && action == "links" && request == "load") {
-        //
+        var query = new Parse.Query("UsefulLinkArray");
+        query.ascending("index");
+        query.find({
+            success: function(structures) {
+                res.send({ structures: structures });
+            }, error: function (error) {
+                res.send({res: error});
+            }
+        });
     }
 };
 

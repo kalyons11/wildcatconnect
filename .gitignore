@@ -47,3 +47,6 @@ common/downloads
 # Security
 
 config.js*
+
+bundles/
+parse-dashboard-config.json*

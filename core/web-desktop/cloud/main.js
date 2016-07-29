@@ -145,3 +145,66 @@ Parse.Cloud.define("verifyUser", function(request, response) {
         }
     });
 });
+
+Parse.Cloud.define("updateLinks", function(request, response) {
+    console.log("Yup1.");
+    var query = new Parse.Query("UsefulLinkArray");
+    query.find({
+        success: function(objects) {
+            // Data in request.params.data
+            console.log("Yup1.");
+            var data = request.params.data;
+            console.log("Bool test..." + data != null);
+            var updateArray = new Array();
+            var addArray = new Array();
+            var deleteArray = new Array();
+            for (var i = 0; i < data.length; i++) {
+                var thisOne = data[i];
+                if (utils.containsObject(thisOne["objectId"], objects))
+                    updateArray.push(thisOne);
+                else
+                    addArray.push(thisOne);
+            }
+            for (var j = 0; j < objects.length; j++) {
+                if (! utils.containsObject(objects[i]["objectId"], data))
+                    deleteArray.push(objects[i]);
+            }
+            console.log("Yup2.");
+            Parse.Object.destroyAll(deleteArray, {
+                success: function(next){
+                    // Update new fields
+                    console.log("Yup3.");
+                    for (var index = 0; index < updateArray.length; index++) {
+                        var objectToSave = updateArray[index];
+                        objectToSave.save(null, {
+                            success: function(done) {
+                                console.log("Yup1.");
+                            }, error: function (error) {
+                                response.error(error);
+                            }
+                        });
+                    }
+                    // Save new objects too
+                    for (var index = 0; index < newArray.length; index++) {
+                        var objectToSave = newArray[index];
+                        objectToSave.save(null, {
+                            success: function(done) {
+                                console.log("Yup77.");
+                                if (index == newArray.length - 1) {
+                                    console.log("Yup999.");
+                                    response.success("SUCCESS");
+                                }
+                            }, error: function (error) {
+                                response.error(error);
+                            }
+                        });
+                    }
+                }, error: function (error) {
+                    response.error(error);
+                }
+            });
+        }, error: function (error) {
+            response.error(error);
+        }
+    });
+});

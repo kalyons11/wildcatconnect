@@ -1,7 +1,7 @@
 //region Module Imports...
 
 var JSON = require('./JSON.js').JSON;
-var winston = require('winston');
+global.winston = require('winston');
 var config = require('../config_enc');
 var CryptoJS = require('crypto-js');
 var Dashboard = require('../models/dashboard');
@@ -88,7 +88,10 @@ module.exports.parseError = function(error) {
 	var errorType = module.exports.getObjectType(error);
 	switch (errorType) {
 		case "ParseError":
-			return module.exports.removeLineBreaks(error.message);
+		    var message = module.exports.removeLineBreaks(error.message);
+            if (message.indexOf("Unable to connect to the Parse API") > -1)
+                return "Network error. Please ensure you are connected to the Internet.";
+			else return message;
 		case "model":
 			return error.message;
 		default:
@@ -417,4 +420,20 @@ module.exports.sendEmail = function(to, from, cc, bcc, subject, body, isHtml, re
             res.send({res: err});
         }
     });
+};
+
+module.exports.verifyPage = function(model) {
+    if (model.object.user.isDeveloper)
+        return true;
+    else if (model.object.user.isAdmin) {
+        var key = model.page.configurations.key;
+        return key.indexOf("dev") == -1;
+    } else {
+        // Faculty
+        var key = model.page.configurations.key;
+        var test = key.indexOf("poll") == -1 && key.indexOf("scholarship") == -1 && key.indexOf("alert") == -1 && key.indexOf("dev") == -1;
+        test = test && key != "news.manage" && key != "event.manage" && key != "news.manage";
+        test = test && key != "user.manage" && key != "schedule.manage" && key != "food.manage";
+        return test;
+    }
 };

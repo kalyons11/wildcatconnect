@@ -196,38 +196,13 @@ function addCategoryFunction() {
 
     var button = document.createElement("INPUT");
     button.type = "button";
-    button.className = "btn btn-lg btn-primary";
+    button.className = "btn btn-lg btn-primary deleteCategory";
     button.value = "Delete Category";
     button.name = count;
     button.id = "deleteCategory_" + count;
     button.style.float = "right";
     button.style.backgroundColor = "red";
     button.style.borderColor = "red";
-    button.onclick = (function() {
-
-        return function(e) {
-
-            var here = $(this);
-
-            BootstrapDialog.confirm({
-                title: 'Confirmation',
-                message: 'Are you sure you want to delete this category?',
-                type: BootstrapDialog.TYPE_DANGER, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
-                closable: true, // <-- Default value is false
-                draggable: true, // <-- Default value is false
-                btnCancelLabel: 'No', // <-- Default value is 'Cancel',
-                btnOKLabel: 'Yes', // <-- Default value is 'OK',
-                btnOKClass: 'btn-primary', // <-- If you didn't specify it, dialog type will be used,
-                callback: function(result) {
-                    // result will be true if button was click, while it will be false if users close the dialog directly.
-                    if(result) {
-                        deleteCategoryFunction($(this));
-                    };
-                }
-            });
-
-        };
-    })();
     bigDiv.appendChild(button);
 
     var label = document.createElement("H4");
@@ -309,51 +284,21 @@ function addCategoryFunction() {
 
     var button = document.createElement("INPUT");
     button.type = "button";
-    button.className = "btn btn-lg btn-primary";
+    button.className = "btn btn-lg btn-primary deleteLink";
     button.value = "Delete";
     button.name = count;
     button.id = "delete_" + count + "_" + 0;
     button.style.marginRight = "10px";
+    button.style.marginBottom = "10px";
     button.style.backgroundColor = "red";
     button.style.borderColor = "red";
-    button.onclick = (function() {
-        return function(e) {
-
-            var here = $(this);
-
-            BootstrapDialog.confirm({
-                title: 'Confirmation',
-                message: 'Are you sure you want to delete this link?',
-                type: BootstrapDialog.TYPE_DANGER, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
-                closable: true, // <-- Default value is false
-                draggable: true, // <-- Default value is false
-                btnCancelLabel: 'No', // <-- Default value is 'Cancel',
-                btnOKLabel: 'Yes', // <-- Default value is 'OK',
-                btnOKClass: 'btn-primary', // <-- If you didn't specify it, dialog type will be used,
-                callback: function(result) {
-                    // result will be true if button was click, while it will be false if users close the dialog directly.
-                    if(result) {
-                        removeRowFunction(here);
-                    };
-                }
-            });
-
-        };
-    })();
     tdOne.appendChild(button);
+
     var button = document.createElement("INPUT");
     button.type = "button";
-    button.className = "btn btn-lg btn-primary";
+    button.className = "btn btn-lg btn-primary addLink";
     button.value = "Add Link";
     button.id = "add_" + count;
-    button.onclick = (function() {
-
-        return function(e) {
-
-            addRowFunction($(this));
-
-        };
-    })();
     tdOne.appendChild(button);
 
     tr.appendChild(tdOne);
@@ -530,52 +475,20 @@ function addRowFunction(button) {
 
     var button = document.createElement("INPUT");
     button.type = "button";
-    button.className = "btn btn-lg btn-primary";
+    button.className = "btn btn-lg btn-primary deleteLink";
     button.value = "Delete";
     button.id = "delete_" + bigRow + "_" + littleRow;
+    button.style.marginBottom = "10px";
     button.style.marginRight = "10px";
     button.style.backgroundColor = "red";
     button.style.borderColor = "red";
-    button.onclick = (function() {
-
-        return function(e) {
-
-            var here = $(this);
-
-            BootstrapDialog.confirm({
-                title: 'Confirmation',
-                message: 'Are you sure you want to delete this link?',
-                type: BootstrapDialog.TYPE_DANGER, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
-                closable: true, // <-- Default value is false
-                draggable: true, // <-- Default value is false
-                btnCancelLabel: 'No', // <-- Default value is 'Cancel',
-                btnOKLabel: 'Yes', // <-- Default value is 'OK',
-                btnOKClass: 'btn-primary', // <-- If you didn't specify it, dialog type will be used,
-                callback: function(result) {
-                    // result will be true if button was click, while it will be false if users close the dialog directly.
-                    if(result) {
-                        removeRowFunction(here);
-                    };
-                }
-            });
-
-        };
-    })();
     tdOne.appendChild(button);
 
     var button = document.createElement("INPUT");
     button.type = "button";
-    button.className = "btn btn-lg btn-primary";
+    button.className = "btn btn-lg btn-primary addLink";
     button.value = "Add Link";
     button.id = "add_" + bigRow;
-    button.onclick = (function() {
-
-        return function(e) {
-
-            addRowFunction($(this));
-
-        };
-    })();
     tdOne.appendChild(button);
 
     tr.appendChild(tdOne);

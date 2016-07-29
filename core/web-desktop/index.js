@@ -135,22 +135,9 @@ var port = process.env.PORT || 5000;
 var httpServer = require('http').createServer(app);
 httpServer.listen(port, function() {
     console.log('Began client on port ' + port + '.', null);
-    /*var object = new Parse.Object("SpecialKeyStructure");
-    object.set("key", "appActive");
-    object.set("password", "U2FsdGVkX1+a+2pTaLd8U/LxbNJAHXuIP9YFVlPZxo4=");
-    object.set("message", "None.");
-    object.set("value", "1");
-    object.save();
-    var objectTwo = new Parse.Object("SpecialKeyStructure");
-    objectTwo.set("key", "appMessage");
-    objectTwo.set("message", "None.");
-    objectTwo.set("value", "None.");
-    objectTwo.set("password", "None.");
-    objectTwo.save();
-    var objectThree = new Parse.Object("SpecialKeyStructure");
-    objectThree.set("key", "scheduleMode");
-    objectThree.set("message", "None.");
-    objectThree.set("value", "SUMMER.");
-    objectThree.set("password", "None.");
-    objectThree.save();*/
+    var link = new Parse.Object("UsefulLinkArray");
+    link.set("index", 0);
+    link.set("headerTitle", "Test Header");
+    link.set("linksArray", new Array());
+    link.save();
 });

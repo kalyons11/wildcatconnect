@@ -1,7 +1,6 @@
 //region Module Imports...
 
 var JSON = require('./JSON.js').JSON;
-var winston = require('winston');
 var config = require('./config_enc');
 var CryptoJS = require('crypto-js');
 var Promise = require('promise');
@@ -47,6 +46,14 @@ var nodeTag = config.nodeTag;
 require('winston-loggly');
 
 //endregion
+
+module.exports.containsObject = function(objectId, parseData) {
+    for (var p in parseData) {
+        if (p["objectId"] == objectId)
+            return true;
+    }
+    return false;
+}
 
 module.exports.processError = function(realError, fakeError, objects) {
     /*
