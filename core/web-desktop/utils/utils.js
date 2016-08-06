@@ -163,6 +163,8 @@ module.exports.removeLineBreaks = function(string) {
 };
 
 module.exports.log = function(level, message, objects) {
+    console.log(message);
+    console.log(objects);
 	winston.log(level, message, objects);
 };
 

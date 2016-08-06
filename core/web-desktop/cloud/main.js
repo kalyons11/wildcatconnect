@@ -1,6 +1,7 @@
 var utils = require("./utils/cloud-utils.js");
 var ejs = require("ejs");
 var pathModule = require("path");
+var fs = require("fs");
 
 Parse.Cloud.define('registerUser', function(request, response) {
     try {
@@ -34,13 +35,16 @@ Parse.Cloud.define('registerUser', function(request, response) {
                     object.destroy({
                         success: function() {
                             var filePath = pathModule.join(__dirname, "./mail", "verify.ejs");
+                            utils.log("info", filePath, null);
                             var templateContent = fs.readFileSync(filePath, 'utf8');
+                            utils.log("info", templateContent, null);
                             var model = {
                                 name: firstName + " " + lastName,
                                 username: username,
                                 key: key
                             };
                             var html = ejs.render(templateContent, { model: model });
+                            utils.log("info", html, null);
                             utils.sendEmail(email, "WildcatConnect <team@wildcatconnect.com>", null, "team@wildcatconnect.com", "WildcatConnect Account Confirmation", html, true, null);
                             response.success("SUCCESS");
                         },
