@@ -36,6 +36,10 @@ router.get(pages, function(req, res) {
     res.status(401).render("error", { model: model });
 });
 
+router.get('/', DashboardController.home);
+
+router.post('/:action', DashboardController.homePost);
+
 router.get('/app', function(req, res) {
     res.redirect("/app/dashboard");
 });

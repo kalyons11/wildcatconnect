@@ -7,6 +7,9 @@ var Models = require('../models/models');
 var config = require('../config_enc');
 config = utils.decryptObject(config);
 var AccountController = require("./AccountController");
+var ejs = require("ejs");
+var pathModule = require("path");
+var fs = require("fs");
 
 exports.authenticate = function(req, res) {
 	if (req.session.user) {
@@ -109,6 +112,42 @@ exports.handleSave = function(theModel, error, req, res, message, path, action, 
 exports.handlePost = function(req, res, path, action, subaction) {
 	var data = { body: req.body, files: req.files };
 	return exports.processPost(req, res, path, action, subaction, data);
+};
+
+exports.home = function(req, res) {
+    var model = utils.initializeHomeUserModel(req.session.user);
+    model.page.title = "WildcatConnect";
+    return res.render("home", { model: model });
+};
+
+exports.homePost = function (req, res) {
+    var action = req.params.action;
+    if (action == "statistics") {
+        // Add Install
+        var sum = 0;
+        var queryTwo = new Parse.Query("User");
+        queryTwo.count().then(function(user) {
+            var queryThree = new Parse.Query("NewsArticleStructure"); // TO DO - Make archive to look for old ones (:
+            queryThree.count().then(function(a){
+                sum += a;
+                var queryFour = new Parse.Query("EventStructure");
+                queryFour.count().then(function(b) {
+                sum += b;
+                var queryFive = new Parse.Query("CommunityServiceStructure");
+                queryFive.count().then(function(c) {
+                sum += c;
+                var querySix = new Parse.Query("PollStructure");
+                querySix.count().then(function(d) {
+                sum += d;
+                    var querySeven = new Parse.Query("ScholarshipStructure");
+                querySeven.count().then(function(e) {
+                sum += e;
+                var queryEight = new Parse.Query("AlertStructure");
+                queryEight.count().then(function(f) {
+                    sum += f;
+                    res.send({install: 0, user: user, content: sum});
+                })})})})})})});
+    }
 };
 
 exports.route = function(req, res, next) {
@@ -352,17 +391,16 @@ exports.custom = function (req, res) {
         });
     }
     else if (path == "news" && action == "manage" && request == "deny") {
+        var filePath = pathModule.join(__dirname, "../mail", "denial.ejs");
+        var templateContent = fs.readFileSync(filePath, 'utf8');
+        var model = new Models.Denial();
+        model.renderModel(req.body, "news");
+        var html = ejs.render(templateContent, { model: model });
         var email = req.body.email;
-        var name = req.body.name;
-        var message = req.body.message;
-        var title = req.body.title;
-        var admin = req.body.admin;
-        var adminMail = req.body.adminMail;
-        var adminMailString = admin + "<" + adminMail + ">";
-        var text = name + ",\n\nUnfortunately, your recent Wildcat News Story has been denied by a member of administration. Please see below for details.\n\nArticle Title - " + title + "\nDenial Message - " + message + "\nAdministrative User - " + admin + "\n\nIf you would like, you can recreate the article and resubmit for approval. Thank you for your understanding.\n\nBest,\n\nWildcatConnect App Team";
-        // TODO - create configurable here ???
-        utils.sendEmail(email, "WildcatConnect <team@wildcatconnect.com>", null, null, "Wildcat News Story Denial", text, false, res);
-        utils.sendEmail(adminMailString, "WildcatConnect <team@wildcatconnect.com>", null, null, "Wildcat News Story Denial", text, false, res);
+        var adminMailString = req.body.admin + "<" + req.body.adminMail + ">";
+        // TODO - Configure these values.
+        utils.sendEmail(email, "WildcatConnect <team@wildcatconnect.com>", null, null, "Wildcat News Story Denial", html, true, res);
+        utils.sendEmail(adminMailString, "WildcatConnect <team@wildcatconnect.com>", null, null, "Wildcat News Story Denial", html, true, res);
         var query = new Parse.Query("NewsArticleStructure");
         query.equalTo("articleID", parseInt(req.body.ID));
         query.first({

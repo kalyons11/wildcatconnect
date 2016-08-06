@@ -160,3 +160,64 @@
      -moz-background-clip: padding;
      background-clip: padding-box;
  }​
+
+ .hero-spacer {
+    margin-top: 50px;
+}
+
+.hero-feature {
+    margin-bottom: 30px;
+    padding:10px;
+    display:block;
+    height:400px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    margin:10px;
+}
+
+.hero-feature-small {
+    margin-bottom: 30px;
+    padding:10px;
+    display:block;
+    height:auto;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    margin:10px;
+}
+
+#jumbo {
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+}
+
+.holderHome {
+    display: flex;
+    overflow: hidden;
+    height: 100vh;
+    margin-top: -100px;
+    padding-top: 101px;
+    position: relative;
+    width: 100%;
+    backface-visibility: hidden;
+    will-change: overflow;
+}
+
+.fixedHome {
+    overflow: auto;
+    height: auto;
+    padding: .5rem;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: none;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.innerHolder {
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-bottom: 100px;
+}
+
+.info {
+    font-size: 18px;
+}

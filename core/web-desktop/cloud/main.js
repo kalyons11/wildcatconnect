@@ -1,4 +1,5 @@
 var utils = require("./utils/cloud-utils.js");
+var ejs = require("ejs");
 
 Parse.Cloud.define('registerUser', function(request, response) {
     try {
@@ -31,8 +32,15 @@ Parse.Cloud.define('registerUser', function(request, response) {
                 success: function (user) {
                     object.destroy({
                         success: function() {
-                            var text = firstName + ", \n\nYour new WildcatConnect account has been approved! With your faculty account, you will now be able to log in to both the WildcatConnect iOS App and our web portal at http://www.wildcatconnect.com. For your first login, you will be required to enter the following credentials...\n\nUsername = " + username + "\nPassword = The password you created during registration...\n\n***Registration Key = " + key +"\n\nNOTE: All usernames, passwords and keys are case-sensitive.\n\nEnjoy posting and sharing with students, faculty and families!\n\nBest,\n\nWildcatConnect Development Team\n\nWeb: http://www.wildcatconnect.com\nSupport: support@wildcatconnect.com\nContact: team@wildcatconnect.com\n\n---\n\nIf you did not register an account and are receiving this e-mail in error, please contact us immediately at support@wildcatconnect.com. For security purposes, your registration key will expire in 72 hours, at which time you will need to re-register your account.\n";
-                            utils.sendEmail(email, "WildcatConnect <team@wildcatconnect.com>", null, "team@wildcatconnect.com", "WildcatConnect Account Confirmation", text, false, null);
+                            var filePath = pathModule.join(__dirname, "./mail", "verify.ejs");
+                            var templateContent = fs.readFileSync(filePath, 'utf8');
+                            var model = {
+                                name: firstName + " " + lastName,
+                                username: username,
+                                key: key
+                            };
+                            var html = ejs.render(templateContent, { model: model });
+                            utils.sendEmail(email, "WildcatConnect <team@wildcatconnect.com>", null, "team@wildcatconnect.com", "WildcatConnect Account Confirmation", html, true, null);
                             response.success("SUCCESS");
                         },
                         error: function(error) {
