@@ -24,7 +24,7 @@ var cors = require('cors');
 
 // Uncaught exceptions.
 
-process.on('uncaughtException', (error) => {
+process.on('uncaughtException', function(error) {
 	console.log(error);
     var rawError = new Error();
     var x = utils.processError(error, rawError, null);
@@ -60,7 +60,7 @@ var api = new ParseServer({
   masterKey: masterKey,
   serverURL: serverURL,
   publicServerURL: serverURL,
-  appName: 'WildcatConnect',
+  appName: config.page.applicationName,
   emailAdapter: simpleMailgunAdapter,
   filesAdapter: new S3Adapter(
       awsAccessKey,
@@ -135,9 +135,7 @@ var port = process.env.PORT || 5000;
 var httpServer = require('http').createServer(app);
 httpServer.listen(port, function() {
     console.log('Began client on port ' + port + '.', null);
-    var link = new Parse.Object("UsefulLinkArray");
-    link.set("index", 0);
-    link.set("headerTitle", "Test Header");
-    link.set("linksArray", new Array());
-    link.save();
+    var obj = new Parse.Object("ContentStructure");
+    obj.set("value", 101);
+    obj.save();
 });

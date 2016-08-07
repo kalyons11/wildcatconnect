@@ -4,6 +4,9 @@ var Schema = mongoose.Schema;
 var utils = require('../utils/utils');
 var moment = require('moment');
 var CustomSchema = require('./custom').customSchema;
+var utils = require("../utils/utils");
+var config = require("../config_enc");
+config = utils.decryptObject(config);
 
 var newsSchema = CustomSchema.extend({
 	title: String,
@@ -52,7 +55,7 @@ newsSchema.methods.validateData = function(data) {
 		result = false;
 		return { result: result , message: message, model: this};
 	}
-	message = "Wildcat News Story successfully submitted for approval. Please allow 1-2 days for processing.";
+	message = config.page.newsStructure + " successfully submitted for approval. Please allow 1-2 days for processing.";
 	result = true;
 	return { result: result , message: message, model: this};
 };

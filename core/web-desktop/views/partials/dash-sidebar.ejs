@@ -15,7 +15,7 @@
     <% } else { %>
       <li>
     <% } %>
-    <a href="/app/dashboard/news/new"><img src="/images/news@2x.png" alt="Home" style="display: inline-block; vertical-align: middle; margin-right:10px; float:left;" width="22">New Wildcat News Story</a></li>
+    <a href="/app/dashboard/news/new"><img src="/images/news@2x.png" alt="Home" style="display: inline-block; vertical-align: middle; margin-right:10px; float:left;" width="22">New <%= model.page.configurations.newsStructure %></a></li>
       <% if (model.page.configurations.key == "event.new") { %>
       <li class="active">
           <% } else { %>

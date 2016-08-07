@@ -23,6 +23,7 @@ forgotSchema.methods.renderModel = function(data) {
 
 forgotSchema.methods.loadPageModel = function() {
 	this.page = page;
+    this.page.loadPageModel();
 };
 
 forgotSchema.methods.initializeErrors = function() {

@@ -1,6 +1,9 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var PageModel = require('./page.js');
+var utils = require("../utils/utils");
+var config = require('../config_enc');
+config = utils.decryptObject(config);
 
 var page = new PageModel({
 	title: "Test Page",
@@ -27,6 +30,7 @@ denialSchema.methods.renderModel = function(data, type) {
 
 denialSchema.methods.loadPageModel = function() {
 	this.page = page;
+    this.page.loadPageModel();
 };
 
 denialSchema.methods.renderData = function(data, type) {
@@ -35,7 +39,7 @@ denialSchema.methods.renderData = function(data, type) {
         this.object[key] = data[key];
     switch (type) {
         case "news":
-            this.object.structureName = "Wildcat News Story";
+            this.object.structureName = config.page.newsStructure;
             break;
         case "cs":
             this.object.structureName = "community service opportunity";

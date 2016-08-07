@@ -4,7 +4,6 @@ var JSON = require('./JSON.js').JSON;
 global.winston = require('winston');
 var config = require('../config_enc');
 var CryptoJS = require('crypto-js');
-var Dashboard = require('../models/dashboard');
 var Promise = require('promise');
 
 var hasher = "dc4862c8-6a8b-49b4-a0e4-fe2bda364281";
@@ -30,6 +29,8 @@ module.exports.decryptObject = function (string) {
     var bytes = CryptoJS.AES.decrypt(string, hasher);
     return JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
 };
+
+var Dashboard = require('../models/dashboard');
 
 module.exports.trimQuotes = function(string) {
     if (string.charAt(0) == '"')

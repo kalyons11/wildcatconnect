@@ -1,6 +1,6 @@
-<h4><p class="text-muted">Complete the following form to submit a new Wildcat News Story.</p></h4>
+<h4><p class="text-muted">Complete the following form to submit a new <%= model.page.configurations.newsStructure %>.</p></h4>
 <% include ./navigation %>
-<h6><i>NOTE: All Wildcat News Stories will require administrative approval before they appear in the app. You should use this tool to post significant accomplishments of your students or groups. (i.e. big athletic victory, individual award, notable community work, etc.) <b>It may be in your best interest to save a copy of this story before sumbitting for approval.</b><br><br>Wildcat News Stories will be visible in the iOS app for 10 days following their creation.</i></h6>
+<h6><i>NOTE: All news stories will require administrative approval before they appear in the app. You should use this tool to post significant accomplishments of your students or groups. (i.e. big athletic victory, individual award, notable community work, etc.) <b>It may be in your best interest to save a copy of this story before sumbitting for approval.</b><br><br>News stories will be visible in the iOS app for 10 days following their creation.</i></h6>
 <form id="form" role="form" method="post" action="/app/dashboard/news/new" enctype="multipart/form-data">
 	<div class="form-group">
 		<label for="title">Title (50 characters max)</label>

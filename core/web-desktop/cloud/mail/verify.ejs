@@ -171,11 +171,11 @@
             <div class="content">
                 <div>
                     <div class="imageLeft">
-                        <img src="https://static.wildcatconnect.com/wey-logo.png" width="100%">
+                        <img src="<%= model.page.configurations.logoUrl %>" width="100%">
                     </div>
                     <div class="text-right">
-                        <h1>WildcatConnect</h1>
-                        <p>Bringing together Weymouth students, families, faculty and administrators in a user-friendly mobile application.</p>
+                        <h1><%= model.page.configurations.applicationName %></h1>
+                        <p>Bringing together <%= model.page.configurations.townName %> students, families, faculty and administrators in a user-friendly mobile application.</p>
                     </div>
                 </div>
                 <hr style="margin-bottom: 10px;">
@@ -184,8 +184,8 @@
                         <td>
                             <p>Dear <%= model.name %>,</p>
                             <br>
-                            <p>Your new WildcatConnect account has been approved!
-                                With your faculty account, you will now be able to log in to both the <a href="https://wildcatconnect.com/download/ios">WildcatConnect iOS App</a> and our <a href="https://wildcatconnect.com/app">Web Application</a>.
+                            <p>Your new <%= model.page.configurations.applicationName %> account has been approved!
+                                With your faculty account, you will now be able to log in to both the <a href="<%= model.page.configurations.baseUrl%>/download/ios"><%= model.page.configurations.applicationName %> iOS App</a> and our <a href="<%= model.page.configurations.baseUrl%>/app">Web Application</a>.
                                 For your first login, you will be required to enter the following credentials...</p>
                             <br>
                             <p>Username = <strong><%= model.username %></strong></p>
@@ -199,7 +199,7 @@
                             <br>
                             <p>Best,</p>
                             <br>
-                            <p>WildcatConnect Development Team</p>
+                            <p><%= model.page.configurations.applicationName %> Development Team</p>
                         </td>
                     </tr>
                 </table>

@@ -2,14 +2,13 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var PageModel = require('./page.js');
 var CustomModel = require('./custom.js');
-var utils = require('../utils/utils');
+var utils = require("../utils/utils");
+var config = require("../config_enc");
+config = utils.decryptObject(config);
 
 var page = new PageModel({
 	title: "Home",
-	configurations: {
-		key: "Sample value.",
-		view: "Sample key"
-	}
+	configurations: { }
 });
 
 var custom = new CustomModel({
@@ -51,7 +50,7 @@ homeSchema.methods.setValues = function(path, action, subaction) {
 		case "news":
 			switch (action) {
 				case "new":
-					title = "New Wildcat News Story";
+					title = "New " + config.page.newsStructure;
 					break;
                 case "manage":
                     title = "Manage News Stories";
@@ -194,7 +193,8 @@ homeSchema.methods.setValues = function(path, action, subaction) {
 };
 
 homeSchema.methods.loadPageModel = function() {
-	this.page = page;
+    this.page = page;
+	this.page.loadPageModel();
 };
 
 homeSchema.methods.loadCustomModel = function() {

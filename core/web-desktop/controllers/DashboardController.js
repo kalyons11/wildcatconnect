@@ -116,37 +116,22 @@ exports.handlePost = function(req, res, path, action, subaction) {
 
 exports.home = function(req, res) {
     var model = utils.initializeHomeUserModel(req.session.user);
-    model.page.title = "WildcatConnect";
+    model.page.title = config.page.applicationName;
     return res.render("home", { model: model });
 };
 
 exports.homePost = function (req, res) {
     var action = req.params.action;
     if (action == "statistics") {
-        // Add Install
+        // Add Installation query... TO DO
         var sum = 0;
         var queryTwo = new Parse.Query("User");
         queryTwo.count().then(function(user) {
-            var queryThree = new Parse.Query("NewsArticleStructure"); // TO DO - Make archive to look for old ones (:
-            queryThree.count().then(function(a){
-                sum += a;
-                var queryFour = new Parse.Query("EventStructure");
-                queryFour.count().then(function(b) {
-                sum += b;
-                var queryFive = new Parse.Query("CommunityServiceStructure");
-                queryFive.count().then(function(c) {
-                sum += c;
-                var querySix = new Parse.Query("PollStructure");
-                querySix.count().then(function(d) {
-                sum += d;
-                    var querySeven = new Parse.Query("ScholarshipStructure");
-                querySeven.count().then(function(e) {
-                sum += e;
-                var queryEight = new Parse.Query("AlertStructure");
-                queryEight.count().then(function(f) {
-                    sum += f;
-                    res.send({install: 0, user: user, content: sum});
-                })})})})})})});
+            var queryThree = new Parse.Query("ContentStructure"); // TO DO - Make archive to look for old ones (:
+            queryThree.first().then(function(obj) {
+                var count = obj.get("value");
+                res.send({install: 0, user: user, content: count});
+            })});
     }
 };
 
@@ -399,8 +384,9 @@ exports.custom = function (req, res) {
         var email = req.body.email;
         var adminMailString = req.body.admin + "<" + req.body.adminMail + ">";
         // TODO - Configure these values.
-        utils.sendEmail(email, "WildcatConnect <team@wildcatconnect.com>", null, null, "Wildcat News Story Denial", html, true, res);
-        utils.sendEmail(adminMailString, "WildcatConnect <team@wildcatconnect.com>", null, null, "Wildcat News Story Denial", html, true, res);
+        var subject = config.page.newsStructure + " Denial";
+        utils.sendEmail(email, config.page.teamMailString, null, null, subject, html, true, res);
+        utils.sendEmail(adminMailString, config.page.teamMailString, null, null, subject, html, true, res);
         var query = new Parse.Query("NewsArticleStructure");
         query.equalTo("articleID", parseInt(req.body.ID));
         query.first({
@@ -480,16 +466,16 @@ exports.custom = function (req, res) {
         });
     }
     else if (path == "event" && action == "manage" && request == "deny") {
+        var filePath = pathModule.join(__dirname, "../mail", "denial.ejs");
+        var templateContent = fs.readFileSync(filePath, 'utf8');
+        var model = new Models.Denial();
+        model.renderModel(req.body, "event");
+        var html = ejs.render(templateContent, { model: model });
         var email = req.body.email;
-        var name = req.body.name;
-        var message = req.body.message;
-        var title = req.body.title;
-        var admin = req.body.admin;
-        var adminMail = req.body.adminMail;
-        var adminMailString = admin + "<" + adminMail + ">";
-        var text = name + ",\n\nUnfortunately, your recent event has been denied by a member of administration. Please see below for details.\n\nEvent Title - " + title + "\nDenial Message - " + message + "\nAdministrative User - " + admin + "\n\nIf you would like, you can recreate the event and resubmit for approval. Thank you for your understanding.\n\nBest,\n\nWildcatConnect App Team";
-        utils.sendEmail(email, "WildcatConnect <team@wildcatconnect.com>", null, null, "Event Denial", text, false, res);
-        utils.sendEmail(adminMailString, "WildcatConnect <team@wildcatconnect.com>", null, null, "Event Denial", text, false, res);
+        var adminMailString = req.body.admin + "<" + req.body.adminMail + ">";
+        // TODO - Configure these values.
+        utils.sendEmail(email, config.page.teamMailString, null, null, "Event Denial", html, true, res);
+        utils.sendEmail(adminMailString, config.page.teamMailString, null, null, "Event Denial", html, true, res);
         var query = new Parse.Query("EventStructure");
         query.equalTo("ID", parseInt(req.body.ID));
         query.first({
@@ -569,16 +555,16 @@ exports.custom = function (req, res) {
         });
     }
     else if (path == "community" && action == "manage" && request == "deny") {
+        var filePath = pathModule.join(__dirname, "../mail", "denial.ejs");
+        var templateContent = fs.readFileSync(filePath, 'utf8');
+        var model = new Models.Denial();
+        model.renderModel(req.body, "cs");
+        var html = ejs.render(templateContent, { model: model });
         var email = req.body.email;
-        var name = req.body.name;
-        var message = req.body.message;
-        var title = req.body.title;
-        var admin = req.body.admin;
-        var adminMail = req.body.adminMail;
-        var adminMailString = admin + "<" + adminMail + ">";
-        var text = name + ",\n\nUnfortunately, your recent community service opportunity has been denied by a member of administration. Please see below for details.\n\nOpportunity Title - " + title + "\nDenial Message - " + message + "\nAdministrative User - " + admin + "\n\nIf you would like, you can recreate the opportunity and resubmit for approval. Thank you for your understanding.\n\nBest,\n\nWildcatConnect App Team";
-        utils.sendEmail(email, "WildcatConnect <team@wildcatconnect.com>", null, null, "Community Service Denial", text, false, res);
-        utils.sendEmail(adminMailString, "WildcatConnect <team@wildcatconnect.com>", null, null, "Community Service Denial", text, false, res);
+        var adminMailString = req.body.admin + "<" + req.body.adminMail + ">";
+        // TODO - Configure these values.
+        utils.sendEmail(email, config.page.teamMailString, null, null, "Community Service Denial", html, true, res);
+        utils.sendEmail(adminMailString, config.page.teamMailString, null, null, "Community Service Denial", html, true, res);
         var query = new Parse.Query("CommunityServiceStructure");
         query.equalTo("communityServiceID", parseInt(req.body.ID));
         query.first({

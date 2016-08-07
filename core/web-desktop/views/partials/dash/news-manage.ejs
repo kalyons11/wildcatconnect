@@ -1,11 +1,11 @@
-<h4><p class="text-muted">Manage current Wildcat News Stories, and approve new requests.</p></h4>
+<h4><p class="text-muted">Manage current news stories, and approve new requests.</p></h4>
 <a href="/app/dashboard"><button class="btn btn-primary btn-back">Cancel</button></a>
-<h2 id="titleLabel">Pending Wildcat News Requests</h2>
+<h2 id="titleLabel">Pending News Requests</h2>
 <div id="newsRequests">
 
 </div>
 <hr style="border-color:#561838";></hr>
-<h2 id="existingLabel">Current Active Wildcat News Stories</h2>
+<h2 id="existingLabel">Current Active News Stories</h2>
 <h6><i><b>NOTE: If a story needs to be edited in any way, it should be deleted and a new story should be created with the correct information.</b></i></h6>
 <div id="currentNews">
 
@@ -36,13 +36,13 @@
                     if (requests.length > 0) {
                         loadNewTable();
                     } else {
-                        $("#titleLabel").html("Pending Wildcat News Requests");
+                        $("#titleLabel").html("Pending News Requests");
                         $("#newsRequests").html('<h4><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>There are currently no active news requests.</h4>');
                     }
                     if (current.length > 0) {
                         loadCurrentTable();
                     } else {
-                        $("#existingLabel").html("Current Active Wildcat News Stories");
+                        $("#existingLabel").html("Current Active News Stories");
                         $("#currentNews").html('<h4><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>There are currently no active news stories.</h4>');
                     }
                     if (message != null)
@@ -62,7 +62,7 @@
     }
 
     function loadNewTable() {
-        $("#titleLabel").html("Pending Wildcat News Requests (" + requests.length + ")");
+        $("#titleLabel").html("Pending News Requests (" + requests.length + ")");
 
         var tableDiv = document.getElementById("newsRequests");
         var table = document.createElement("TABLE");
@@ -147,7 +147,7 @@
     }
 
     function loadCurrentTable() {
-        $("#existingLabel").html("Current Active Wildcat News Stories (" + current.length + ")");
+        $("#existingLabel").html("Current Active News Stories (" + current.length + ")");
 
         var tableDiv = document.getElementById("currentNews");
         var table = document.createElement("TABLE");
@@ -320,7 +320,7 @@
         var ID = requests[index]["articleID"];
         BootstrapDialog.confirm({
             title: 'Confirmation',
-            message: 'Are you sure you want to approve this Wildcat News Story? It will be live to all app users.',
+            message: 'Are you sure you want to approve this <%= model.page.configurations.newsStructure %>? It will be live to all app users.',
             type: BootstrapDialog.TYPE_DANGER, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
             closable: true, // <-- Default value is false
             draggable: true, // <-- Default value is false
@@ -374,7 +374,7 @@
                 var $form = $('<form></form>');
                 var $message = $('<textarea class="form-control" maxlength="400" rows="4" style="overflow-y: scroll; resize: none; width:100%;"></textarea>');
                 dialogItself.setData('message', $message);
-                $form.append('Are you sure you want to deny this Wildcat News Story? Please enter a brief message explaining the reason for the denial. This will be sent in an e-mail to the story\'s creator, '+name+', as well as to your e-mail for reference.<br><br><label>Message</label><br>').append($message);
+                $form.append('Are you sure you want to deny this <% model.page.configurations.newsStructure %>? Please enter a brief message explaining the reason for the denial. This will be sent in an e-mail to the story\'s creator, '+name+', as well as to your e-mail for reference.<br><br><label>Message</label><br>').append($message);
                 return $form;
             },// <-- Default value is BootstrapDialog.TYPE_PRIMARY
             closable: false, // <-- Default value is false

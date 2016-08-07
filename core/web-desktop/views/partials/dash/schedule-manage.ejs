@@ -299,7 +299,7 @@
                             message: function(dialogItself) {
                                 var $form = $('<form></form>');
                                 var $title = $('<input type="text" style="width:100%;">');
-                                $form.append(string+'<br><br>Schedule Name (i.e. "Day D, Wildcat Way Period")').append($title);
+                                $form.append(string+'<br><br>Schedule Name (i.e. "<%= model.page.configurations.sampleSchedule %>")').append($title);
                                 var $schedule = $('<textarea rows="14" style="overflow-y: scroll; resize: none; width:100%;"></textarea>');
                                 if (structures[count].get("scheduleType") === "*") {
                                     $title.val(structures[count].get("customString"));

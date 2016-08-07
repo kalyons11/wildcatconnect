@@ -2,6 +2,8 @@ var utils = require("./utils/cloud-utils.js");
 var ejs = require("ejs");
 var pathModule = require("path");
 var fs = require("fs");
+var config = require("./config_enc");
+config = utils.decryptObject(config);
 
 Parse.Cloud.define('registerUser', function(request, response) {
     try {
@@ -43,9 +45,11 @@ Parse.Cloud.define('registerUser', function(request, response) {
                                 username: username,
                                 key: key
                             };
+                            model.page = {};
+                            model.page.configurations = config.page;
                             var html = ejs.render(templateContent, { model: model });
                             utils.log("info", html, null);
-                            utils.sendEmail(email, "WildcatConnect <team@wildcatconnect.com>", null, "team@wildcatconnect.com", "WildcatConnect Account Confirmation", html, true, null);
+                            utils.sendEmail(email, config.page.teamMailString, null, "team@wildcatconnect.com", config.page.applicationName + " Account Confirmation", html, true, null);
                             response.success("SUCCESS");
                         },
                         error: function(error) {

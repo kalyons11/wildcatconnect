@@ -32,6 +32,7 @@ signupSchema.methods.renderModel = function(data) {
 
 signupSchema.methods.loadPageModel = function() {
 	this.page = page;
+    this.page.loadPageModel();
 };
 
 signupSchema.methods.initializeErrors = function() {

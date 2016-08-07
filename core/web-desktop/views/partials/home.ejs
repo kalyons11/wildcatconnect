@@ -9,8 +9,8 @@
                         <img src="/images/logoTransparent.gif" width="80%">
                     </td>
                     <td width=65%" style="vertical-align: middle">
-                        <h1>WildcatConnect</h1>
-                        <p>Bringing together Weymouth students, families, faculty and administrators in a user-friendly mobile application.</p>
+                        <h1><%= model.page.configurations.applicationName %></h1>
+                        <p>Bringing together <%= model.page.configurations.townName %> students, families, faculty and administrators in a user-friendly mobile application.</p>
                     </td>
                     <td style="vertical-align: middle">
                         <p>
@@ -131,7 +131,7 @@
                                 member post on their behalf.
                             </p>
                             <p class="info">
-                                WildcatConnect uses password encryption, user verification and other industry standard techniques to keep your content safe.
+                                <%= model.page.configurations.applicationName %> uses password encryption, user verification and other industry standard techniques to keep your content safe.
                             </p>
                         </div>
                         <div id="stats">
@@ -189,7 +189,7 @@
                         <div>
                             <div>
                                 <p class="info">
-                                    Questions? Want to see the technology of WildcatConnect at your school? <a href="/contact">Contact our team</a> for more information.
+                                    Questions? Want to see the technology of <%= model.page.configurations.applicationName %> at your school? <a href="/contact">Contact our team</a> for more information.
                                 </p>
                                 <p class="info">
                                     Learn more <a href="/about">about us</a>.

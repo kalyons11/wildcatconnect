@@ -171,11 +171,11 @@
             <div class="content">
                 <div>
                     <div class="imageLeft">
-                        <img src="https://static.wildcatconnect.com/wey-logo.png" width="100%">
+                        <img src="<%= model.page.configurations.logoUrl %>" width="100%">
                     </div>
                     <div class="text-right">
-                        <h1>WildcatConnect</h1>
-                        <p>Bringing together Weymouth students, families, faculty and administrators in a user-friendly mobile application.</p>
+                        <h1><%= model.page.configurations.applicationName %></h1>
+                        <p>Bringing together <%= model.page.configurations.townName %> students, families, faculty and administrators in a user-friendly mobile application.</p>
                     </div>
                 </div>
                 <hr style="margin-bottom: 10px;">
@@ -194,7 +194,7 @@
                             <br>
                             <p>Best,</p>
                             <br>
-                            <p>WildcatConnect Development Team</p>
+                            <p><%= model.page.configurations.applicationName %> Development Team</p>
                         </td>
                     </tr>
                 </table>

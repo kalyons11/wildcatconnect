@@ -6,6 +6,8 @@ var ApplicationMessage = require('../models/message');
 var Classes = require('../utils/classes');
 var utils = require('../utils/utils');
 var Models = require("../models/models");
+var config = require("../config_enc");
+config = utils.decryptObject(config);
 
 exports.authenticate = function(req, res, next) {
 	if (req.session.user) {
@@ -104,7 +106,7 @@ exports.postSignup = function(req, res) {
 				model.renderModel(data);
 
 				var myError = new ApplicationMessage();
-				myError.message = "You have successfully registered your WildcatConnect account! A member of administration will approve your request and you will then receive a confirmation e-mail.";
+				myError.message = "You have successfully registered your " + config.page.applicationName + " account! A member of administration will approve your request and you will then receive a confirmation e-mail.";
 				myError.isError = false;
 				model.page.theErrors.push(myError);
 				req.session.theErrors = model.page.theErrors;
@@ -172,7 +174,7 @@ exports.postVerify = function(req, res) {
             model.renderModel(data);
 
             var myError = new ApplicationMessage();
-            myError.message = "You have successfully verified your WildcatConnect account! Please log in one more time to access your Dashboard.";
+            myError.message = "You have successfully verified your " + config.page.applicationName + " account! Please log in one more time to access your Dashboard.";
             myError.isError = false;
             model.page.theErrors.push(myError);
             req.session.theErrors = model.page.theErrors;

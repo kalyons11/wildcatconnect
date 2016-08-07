@@ -24,6 +24,7 @@ verifySchema.methods.renderModel = function(username) {
 
 verifySchema.methods.loadPageModel = function() {
     this.page = page;
+    this.page.loadPageModel();
 };
 
 verifySchema.methods.initializeErrors = function() {

@@ -24,6 +24,7 @@ loginSchema.methods.renderModel = function(data) {
 
 loginSchema.methods.loadPageModel = function() {
 	this.page = page;
+    this.page.loadPageModel();
 };
 
 loginSchema.methods.inititalizeUser = function(user) {
