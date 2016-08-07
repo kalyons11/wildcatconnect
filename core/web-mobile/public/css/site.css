@@ -356,3 +356,22 @@ body.slide-active {
     color: #9d9d9d;
     padding-left: 20px;
 }
+
+#slidemenu p {
+    color: #ffffff;
+    padding-left: 20px;
+}
+
+.navbar-nav {
+     margin: 0px;
+}
+
+.navbar-brand {
+    line-height: 0px;
+    font-size: 20px;
+    padding: 0px;
+}
+
+.navbar-nav>li>a {
+    line-height: 30px;
+}

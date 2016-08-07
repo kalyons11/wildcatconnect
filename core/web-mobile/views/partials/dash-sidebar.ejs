@@ -8,7 +8,7 @@
             <a href="/app/dashboard" id="dashboard.home"><img src="/images/home@2x.png" alt="Home" style="display: inline-block; vertical-align: middle; margin-right:10px; float:left;" width="22">Home</a>
         </li>
     </ul>
-    <h4 color="#000">Faculty Tools</h4>
+    <h4>Faculty Tools</h4>
     <ul class="nav">
         <% if (model.page.configurations.key == "news.new") { %>
         <li class="active">
@@ -133,4 +133,14 @@
         </ul>
     </div>
     <% } %>
+    <h4>My Account</h4>
+    <ul class="nav">
+        <li><p style="margin-bottom:10px;"><strong><%= model.object.user.firstName %> <%= model.object.user.lastName %></strong></p>
+        <p><i><%= model.object.user.userType %></i></p>
+        </li>
+        <hr style="margin:10px;">
+        <li><a href="/app/dashboard/settings"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Settings</a></li>
+        <li><a href="mailto:team@wildcatconnect.com"><span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span> Report an Issue</a></li>
+        <li><a href="/app/login"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Log Out</a></li>
+    </ul>
 </div>
