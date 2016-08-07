@@ -50,3 +50,5 @@ config.js*
 
 bundles/
 parse-dashboard-config.json*
+
+common/log

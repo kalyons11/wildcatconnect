@@ -18,7 +18,8 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="/images/user@2x.png" alt="User" style="display: inline-block; vertical-align: middle; margin-right:10px;" width="22">My Account <span class="caret"></span></a>
             <ul class="dropdown-menu">
               <li>
-                <p><%= model.object.user.firstName %> <%= model.object.user.lastName %></p>
+                <p style="margin-bottom: 0px;"><strong><%= model.object.user.firstName %> <%= model.object.user.lastName %></strong></p>
+                  <p style="color:#777;"><%= model.object.user.userType %></p>
               </li>
               <li role="separator" class="divider"></li>
               <li>
