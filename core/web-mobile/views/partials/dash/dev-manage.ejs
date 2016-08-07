@@ -1,0 +1,233 @@
+<h4><p class="text-muted">Manage application status and view installation count.</p></h4>
+<a href="/app/dashboard"><button class="btn btn-primary btn-back">Cancel</button></a>
+<h4 id="mainLabel">Current Installation Count</h4>
+<h2 id="countLabel" style="color:#561838;">LOADING...</h2>
+<h4 id="mainLabel">Current Application Status</h4>
+<h2 id="modeLabel" style="color:#561838;">LOADING...</h2>
+<select id='modeSelect' name="modeSelect">
+</select>
+<br><br>
+<div class="form-group">
+    <label for="title">General Application Message (default is "None.")</label>
+    <input type="text" name="title" class="form-control" id="message" placeholder="Message">
+</div>
+<button class="saveMessage btn btn-lg btn-primary">Save Message</button>
+<script>
+
+    loadPage();
+
+    var count = 0;
+    var active = "";
+    var message = "";
+
+    function loadPage(theMessage) {
+        $("#countLabel").html("");
+        $("#modeLabel").html("");
+        setLoadingMessage("Loading configurations...");
+        $("#loading").fadeIn();
+        $.ajax({
+            url: "manage/ajax/load",
+            type: "post",
+            data: {key: "value"}, // Encrypt all data...
+            datatype: 'json',
+            crossDomain: true,
+
+            success: function(response){
+                count = response["count"];
+                active = response["active"];
+                message = response["message"];
+                if (count != null && status != null && message != null) {
+                    loadContent();
+                    if (theMessage != null)
+                        setMessage(theMessage, false);
+                    $("#loading").fadeOut();
+                } else {
+                    setMessage("Unable to load configurations. Please try to reload the page.", true);
+                    $("#loading").fadeOut();
+                }
+            },
+
+            error: function(request, status, error) {
+                setMessage("Internal server error. If this problem continues, please contact support.", true);
+                $("#loading").fadeOut();
+            }
+        });
+    }
+
+    function loadContent() {
+
+        $("#countLabel").html(count);
+
+        var select = document.getElementById("modeSelect");
+
+        select.innerHTML = "";
+
+        var arrayList = ["INACTIVE", "ACTIVE"];
+
+        for (var i = 0; i < arrayList.length; i++) {
+            var option = document.createElement('option');
+            option.text = arrayList[i];
+            option.value = i;
+            select.appendChild(option);
+        };
+
+        $("#modeLabel").html(arrayList[parseInt(active)]);
+        $('#modeSelect option[value='+parseInt(active)+']').attr('selected', 'selected');
+
+        $("#message").val(message);
+    }
+
+    $(document).on('change', "#modeSelect", function() {
+        var active = this.selectedOptions[0].value;
+
+        if (active == 0) {
+            BootstrapDialog.show({
+                title: 'Deactivate Application',
+                message: function(dialogItself) {
+                    var $form = $('<form></form>');
+                    var $password = $('<input type="password" style="width:100%;">');
+                    $form.append('Application Password<br><br>').append($password);
+                    var $message = $('<textarea maxlength="200" rows="3" style="overflow-y: scroll; resize: none; width:100%;"></textarea>');
+                    dialogItself.setData('message', $message);
+                    dialogItself.setData('password', $password);
+                    $form.append('<br><br>Deactivation Message/Reason<br><br>').append($message);
+                    return $form;
+                },// <-- Default value is BootstrapDialog.TYPE_PRIMARY
+                closable: false, // <-- Default value is false
+                draggable: true, // <-- Default value is false
+                buttons: [{
+                    label: 'Cancel',
+                    action: function (dialogItself) {
+                        dialogItself.close();
+                    }
+                }, {
+                    label: 'Deactivate',
+                    cssClass: 'btn-primary',
+                    action: function (dialogItself) {
+
+                        BootstrapDialog.confirm({
+                            title: 'Confirmation',
+                            message: 'Are you sure you want to deactivate the application? This will go into effect immediately and disable both the iOS and web clients.',
+                            type: BootstrapDialog.TYPE_DANGER, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
+                            closable: true, // <-- Default value is false
+                            draggable: true, // <-- Default value is false
+                            btnCancelLabel: 'No', // <-- Default value is 'Cancel',
+                            btnOKLabel: 'Yes', // <-- Default value is 'OK',
+                            btnOKClass: 'btn-primary', // <-- If you didn't specify it, dialog type will be used,
+                            callback: function(result) {
+                                // result will be true if button was click, while it will be false if users close the dialog directly.
+                                if(result) {
+
+                                    var password = dialogItself.getData('password').val();
+                                    var message = dialogItself.getData('message').val();
+                                    if (message.length == 0) {
+                                        BootstrapDialog.show({
+                                            type: BootstrapDialog.TYPE_DEFAULT,
+                                            title: "Error",
+                                            message: "You must enter a valid deactivation message for users."
+                                        });
+                                    } else {
+                                        dialogItself.close();
+                                        $("#loading").fadeIn();
+                                        setLoadingMessage("Deactivating application..");
+                                        $.ajax({
+                                            url: "manage/ajax/active",
+                                            type: "post",
+                                            data: { active: active, password: password, message: message },
+                                            datatype: 'json',
+                                            crossDomain: true,
+
+                                            success: function(response) {
+                                                if (response["res"] == "SUCCESS") {
+                                                    loadPage("Successfully deactivated application."); // TODO
+                                                    $("#loading").fadeOut();
+                                                } else {
+                                                    setMessage("Unable to deactivate application. Please try to reload the page.", true);
+                                                    $("#loading").fadeOut();
+                                                }
+                                            },
+
+                                            error: function(request, status, error) {
+                                                setMessage("Internal server error. If this problem continues, please contact support.", true);
+                                                $("#loading").fadeOut();
+                                            }
+                                        });
+                                    }
+                                };
+                            }
+                        });
+                    }
+                }]
+            });
+        } else {
+            $("#loading").fadeIn();
+            setLoadingMessage("Activating application..");
+            $.ajax({
+                url: "manage/ajax/active",
+                type: "post",
+                data: { active: active, password: "None.", message: "None." },
+                datatype: 'json',
+                crossDomain: true,
+
+                success: function(response){
+                    if (response["res"] == "SUCCESS") {
+                        loadPage("Successfully activated application."); // TODO
+                        $("#loading").fadeOut();
+                    } else {
+                        setMessage("Unable to reactivate application. Please try to reload the page.", true);
+                        $("#loading").fadeOut();
+                    }
+                },
+
+                error: function(request, status, error) {
+                    setMessage("Internal server error. If this problem continues, please contact support.", true);
+                    $("#loading").fadeOut();
+                }
+            });
+        }
+    });
+
+    $(document).on('click', ".saveMessage", function() {
+        var message = $("#message").val();
+
+        BootstrapDialog.confirm({
+            title: 'Confirmation',
+            message: 'Are you sure you save this application message? It will be live to all app users.',
+            type: BootstrapDialog.TYPE_DANGER, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
+            closable: true, // <-- Default value is false
+            draggable: true, // <-- Default value is false
+            btnCancelLabel: 'No', // <-- Default value is 'Cancel',
+            btnOKLabel: 'Yes', // <-- Default value is 'OK',
+            btnOKClass: 'btn-primary', // <-- If you didn't specify it, dialog type will be used,
+            callback: function(result) {
+                // result will be true if button was click, while it will be false if users close the dialog directly.
+                if(result) {
+                    $("#loading").fadeIn();
+                    setLoadingMessage("Saving message...");
+                    $.ajax({
+                        url: "manage/ajax/message",
+                        type: "post",
+                        data: { message: message },
+                        datatype: 'json',
+                        crossDomain: true,
+
+                        success: function(response){
+                            if (response["res"] == "SUCCESS") {
+                                loadPage("Message successfully updated.");
+                            } else {
+                                setMessage("Unable to update application message. Please try to reload the page.", true);
+                                $("#loading").fadeOut();
+                            }
+                        },
+
+                        error: function(request, status, error) {
+                            setMessage("Internal server error. If this problem continues, please contact support.", true);
+                            $("#loading").fadeOut();
+                        }
+                    });
+                };
+            }
+        });
+    });
+
+</script>

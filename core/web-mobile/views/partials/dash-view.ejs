@@ -1,0 +1,73 @@
+<div class="main fixed">
+	<div id="loading">
+		<div class="loading-inner">
+			<img class="loading-image" src="/images/spinner.gif" alt="Loading" />
+	    	<b><h1 style="text-align:center;">Processing...</h1></b>
+		</div>
+	</div>
+	<% include ../partials/messages %>
+	<div class="dashContent">
+		<div class="centered-text">
+			<h1 id="pageTitle" class="page-header"><%= model.page.title %></h1>
+            <hr style="border-color:#561838;">
+		</div>
+        <div id="innerDash">
+            <% var key = model.page.configurations.key; %>
+            <% if (key == "home") { %>
+            <% include ./dash/home %>
+            <% } else if (key.indexOf("settings") > -1) { %>
+            <% include ./dash/settings %>
+            <% } else if (key == "news.new") { %>
+            <% include ./dash/news-new %>
+            <% } else if (key == "community.new") { %>
+            <% include ./dash/community-new %>
+            <% } else if (key == "event.new") { %>
+            <% include ./dash/event-new %>
+            <% } else if (key == "group.post") { %>
+            <% include ./dash/group-post %>
+            <% } else if (key == "group.manage") { %>
+            <% include ./dash/group-manage %>
+            <% } else if (key == "group.manage.create") { %>
+            <% include ./dash/group-create %>
+            <% } else if (key == "poll.new") { %>
+            <% include ./dash/poll-new %>
+            <% } else if (key == "poll.manage") { %>
+            <% include ./dash/poll-manage %>
+            <% } else if (key == "scholarship.manage") { %>
+            <% include ./dash/scholarship-manage %>
+            <% } else if (key == "scholarship.new") { %>
+            <% include ./dash/scholarship-new %>
+            <% } else if (key == "news.manage") { %>
+            <% include ./dash/news-manage %>
+            <% } else if (key == "event.manage") { %>
+            <% include ./dash/event-manage %>
+            <% } else if (key == "community.manage") { %>
+            <% include ./dash/community-manage %>
+            <% } else if (key == "alert.manage") { %>
+            <% include ./dash/alert-manage %>
+            <% } else if (key == "alert.new" || key == "alert.manage.edit") { %>
+            <% include ./dash/alert-new %>
+            <% } else if (key == "user.manage") { %>
+            <% include ./dash/user-manage %>
+            <% } else if (key == "schedule.manage") { %>
+            <% include ./dash/schedule-manage %>
+            <% } else if (key == "food.manage") { %>
+            <% include ./dash/food-manage %>
+            <% } else if (key == "dev.manage") { %>
+            <% include ./dash/dev-manage %>
+            <% } else if (key == "dev.links") { %>
+            <% include ./dash/dev-links %>
+            <% } else if (key == "dev.console") { %>
+            <% include ./dash/dev-console %>
+            <% } %>
+        </div>
+	</div>
+</div>
+<script type="text/javascript">
+	$('form').areYouSure(
+      {
+        message: 'It looks like you have been editing something. '
+               + 'If you leave before saving, your changes will be lost.'
+      }
+    );
+</script>

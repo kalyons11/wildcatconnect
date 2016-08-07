@@ -1,0 +1,67 @@
+<h4><p class="text-muted">Post a new alert to all application users.</p></h4>
+<a href="/app/dashboard"><button class="btn btn-primary btn-back">Cancel</button></a>
+<form class="form-add-alert" role="form" name="form" id="form" method="post" action="/app/dashboard/alert/new" enctype="multipart/form-data" style="padding-top: 20px;" onsubmit="submitFunction();">
+    <div class="form-group">
+        <label for="title">Title (50 characters max)</label>
+        <input type="text" name="title" class="form-control" id="title" placeholder="Title" maxlength="50">
+    </div>
+    <div class="form-group">
+        <label for="author">Author</label>
+        <input type="text" name="author" class="form-control" id="author" placeholder="Author">
+    </div>
+    <input type="hidden" name="theTime">
+    <label for="radio">Alert Timing</label>
+    <br>
+    <input checked type="radio" name="alertTiming" value="now" id="now"> Right now</input>
+    <br>
+    <input type="radio" name="alertTiming" value="time" id="time"> At certain time...</input>
+    <input type='text' id="alertDate" readOnly/><input type="text" class="time" id='alertTime'/>
+    <br>
+    <div class="form-group">
+        <label for="content">Alert Content</label>
+        <% include ../markdown %>
+    </div>
+    <button class="btn btn-lg btn-primary btn-block" id="submitButton" type="submit">Submit</button>
+</form>
+<script>
+    var authorLabel = document.getElementById('author');
+    authorLabel.value = "<%= model.object.user.firstName %> <%= model.object.user.lastName %>";
+    $("#author").attr("disabled", true);
+
+    $("#alertDate").datepicker();
+    $("#alertDate").datepicker( "option", "showAnim", "blind" );
+    if ("<%= model.customModel.theTime %>" != "") {
+        document.getElementById('time').checked = true;
+        $('#alertDate').datepicker("setDate", new Date("<%= model.customModel.theTime %>") );
+    }
+    else
+        $('#alertDate').datepicker("setDate", new Date() );
+
+    $("#alertDate").on('input change', function() {
+        document.getElementById('now').checked = false;
+        document.getElementById('time').checked = true;
+    });
+
+    $('#alertTime').timepicker({ 'step' : 15 , 'scrollDefault': 'now' , 'disableTextInput' : true });
+    $('#alertTime').timepicker('setTime', $("#alertDate").datepicker("getDate"));
+
+    $("#alertTime").on('input change', function() {
+        document.getElementById('now').checked = false;
+        document.getElementById('time').checked = true;
+    });
+
+    function submitFunction() {
+        var alertDate = $("#alertDate").datepicker("getDate");
+        var alertTime = $("#alertTime").timepicker("getTime", alertDate);
+        document.form.theTime.value = alertTime;
+    }
+
+    $('form').submit(function (e) {
+        setLoadingMessage("Submitting alert...");
+        $("#loading").fadeIn();
+    });
+
+    document.getElementById('title').value = "<%= model.customModel.title %>";
+    $('#pad').val(`<%- model.customModel.content %>`);
+
+</script>

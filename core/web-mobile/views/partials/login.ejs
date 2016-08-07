@@ -1,0 +1,23 @@
+<div class="main-container">
+	<div id="main-login">
+		<form id="form" class="form-signin" role="form" method="post" action="/app/login" enctype="multipart/form-data">
+	        <h2 class="form-signin-heading">Secure Login</h2>
+	        <label for="username" class="col-md-3 control-label">Username</label>
+	        <input type="text" name="username" class="form-control" placeholder="Username" required="" autofocus="" autocorrect="off" autocapitalize="off" value="kalyons">
+	        <label for="password" class="col-md-3 control-label" value="716397">Password</label>
+	        <input type="password" name="password" class="form-control" placeholder="Password" required="">
+	        <button class="btn btn-lg btn-primary btn-block loadingButton" type="submit" id="logIn" style="margin-bottom:10px;"><img src="/images/spinner.gif" width="40px" id="btnimg" style="display:none;" class="btnimg"/><div id="signText">Sign In</div></button>
+	        <a href="/app/forgot"><button class="btn btn-lg btn-block btn-primary" type="button">Forgot Username/Password</button></a>
+	        <hr style="border-color:#561838;">
+	    </form>
+	    <h4 style="text-align:center;">Don't have an account? <a href="/app/signup">Register here.</a></h4>
+  	</div>
+  	<br>
+</div>
+<script>
+    $('#form').submit(function (e) {
+        $('#logIn').attr("disabled", "true");
+        $('#signText').html("Signing in...");
+        $("#btnimg").fadeIn();
+    });
+</script>

@@ -1,0 +1,70 @@
+<div class="main-container">
+  <div id="signupbox" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+    <h2 class="form-signin-heading" style="text-align:center;">Register an Account (Faculty Only)</h2>
+    <div class="panel panel-info"> 
+     <div class="panel-body" >
+       <form id="form" class="form-horizontal" role="form" method="post" action="/app/signup" enctype="multipart/form-data">
+         <div class="form-group">
+           <label for="firstName" class="col-md-3 control-label">First Name</label>
+           <div class="col-md-9">
+             <input type="text" class="form-control" name="firstName" id="firstName" placeholder="First Name" autofocus="">
+           </div>
+         </div>
+         <div class="form-group">
+           <label for="lastName" class="col-md-3 control-label">Last Name</label>
+           <div class="col-md-9">
+             <input type="text" class="form-control" name="lastName" id="lastName" placeholder="Last Name">
+           </div>
+         </div>
+         <div class="form-group">
+           <label for="email" class="col-md-3 control-label">Faculty E-Mail</label>
+           <div class="col-md-9">
+             <input type="email" class="form-control" name="email"  id="email" placeholder="E-Mail">
+           </div>
+         </div>
+         <div class="form-group">
+           <label for="emailConfirm" class="col-md-3 control-label">Confirm Faculty E-Mail</label>
+           <div class="col-md-9">
+             <input type="email" class="form-control" name="emailConfirm" placeholder="Confirm E-Mail">
+           </div>
+         </div>
+         <div class="form-group">
+           <label for="username" class="col-md-3 control-label">Username</label>
+           <div class="col-md-9">
+             <input type="text" class="form-control" name="username" id="username" placeholder="Username" autocorrect="off" autocapitalize="off">
+           </div>
+         </div>
+         <div class="form-group">
+           <label for="password" class="col-md-3 control-label">Create Password</label>
+           <div class="col-md-9">
+             <input type="password" class="form-control" name="password" placeholder="Create Password">
+           </div>
+         </div>
+         <div class="form-group">
+           <label for="passwordConfirm" class="col-md-3 control-label">Confirm Password</label>
+           <div class="col-md-9">
+             <input type="password" class="form-control" name="passwordConfirm" placeholder="Confirm Password">
+           </div>
+         </div>
+         <div class="form-group">                                        
+           <div class="col-md-offset-3 col-md-9">
+              <button class="btn btn-lg btn-primary btn-block loadingButton" type="submit" id="signUp" style="margin-bottom:10px;"><img src="/images/spinner.gif" width="40px" id="btnimg" style="display:none;" class="btnimg"/><div id="signText">Register</div></button>
+              <a href="/app/login"><button class=" btn btn-lg btn-primary btn-block" type="button">Cancel</button></a>
+           </div>
+         </div>
+       </form>
+     </div>
+   </div>
+ </div>
+</div>
+<script>
+    document.getElementById('firstName').value = "<%= model.object.firstName %>";
+    document.getElementById('lastName').value = "<%= model.object.lastName %>";
+    document.getElementById('email').value = "<%= model.object.email %>";
+    document.getElementById('username').value = "<%= model.object.username %>";
+    $('#form').submit(function (e) {
+      $('#signUp').attr("disabled", "true");
+      $('#signText').html("Registering account...");
+      $("#btnimg").fadeIn();
+    });
+</script>

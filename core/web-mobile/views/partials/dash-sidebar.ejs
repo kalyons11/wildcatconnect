@@ -1,0 +1,136 @@
+<div style="padding-bottom: 20px;">
+    <ul class="nav">
+        <% if (model.page.configurations.key == "home") { %>
+        <li class="active">
+            <% } else { %>
+        <li>
+            <% } %>
+            <a href="/app/dashboard" id="dashboard.home"><img src="/images/home@2x.png" alt="Home" style="display: inline-block; vertical-align: middle; margin-right:10px; float:left;" width="22">Home</a>
+        </li>
+    </ul>
+    <h4 color="#000">Faculty Tools</h4>
+    <ul class="nav">
+        <% if (model.page.configurations.key == "news.new") { %>
+        <li class="active">
+            <% } else { %>
+        <li>
+            <% } %>
+            <a href="/app/dashboard/news/new"><img src="/images/news@2x.png" alt="Home" style="display: inline-block; vertical-align: middle; margin-right:10px; float:left;" width="22">New <%= model.page.configurations.newsStructure %></a></li>
+        <% if (model.page.configurations.key == "event.new") { %>
+        <li class="active">
+            <% } else { %>
+        <li>
+            <% } %>
+            <a href="/app/dashboard/event/new"><img src="/images/event@2x.png" alt="Event" style="display: inline-block; vertical-align: middle; margin-right:10px; float:left;" width="22">New Event</a>
+        </li>
+        <% if (model.page.configurations.key == "community.new") { %>
+        <li class="active">
+            <% } else { %>
+        <li>
+            <% } %>
+            <a href="/app/dashboard/community/new"><img src="/images/community@2x.png" alt="Community" style="display: inline-block; vertical-align: middle; margin-right:10px; float:left;" width="22">New Community Service</a></li>
+        <% if (model.page.configurations.key == "group.post") { %>
+        <li class="active">
+            <% } else { %>
+        <li>
+            <% } %>
+            <a href="/app/dashboard/group/post"><img src="/images/group@2x.png" alt="Group" style="display: inline-block; vertical-align: middle; margin-right:10px; float:left;" width="22">New Group Update</a></li>
+        <% if (model.page.configurations.key.indexOf("group.manage") > -1) { %>
+        <li class="active">
+            <% } else { %>
+        <li>
+            <% } %>
+            <a href="/app/dashboard/group/manage"><img src="/images/group@2x.png" alt="Group" style="display: inline-block; vertical-align: middle; margin-right:10px; float:left;" width="22">Manage Groups</a></li>
+    </ul>
+    <% if (model.object.user.isAdmin) { %>
+    <div>
+        <h4>Administrative Tools</h4>
+        <ul class="nav">
+            <% if (model.page.configurations.key == "poll.manage" || model.page.configurations.key == "poll.new") { %>
+            <li class="active">
+                <% } else { %>
+            <li>
+                <% } %>
+                <a href="/app/dashboard/poll/manage"><img src="/images/poll@2x.png" alt="Poll" style="display: inline-block; vertical-align: middle; margin-right:10px; float:left;" width="22">User Polls</a>
+            </li>
+            <% if (model.page.configurations.key == "scholarship.manage" || model.page.configurations.key == "scholarship.new") { %>
+            <li class="active">
+                <% } else { %>
+            <li>
+                <% } %>
+                <a href="/app/dashboard/scholarship/manage"><img src="/images/scholarship@2x.png" alt="Poll" style="display: inline-block; vertical-align: middle; margin-right:10px; float:left;" width="22">Scholarships</a>
+            </li>
+            <% if (model.page.configurations.key == "news.manage") { %>
+            <li class="active">
+                <% } else { %>
+            <li>
+                <% } %>
+                <a href="/app/dashboard/news/manage"><img src="/images/news@2x.png" alt="News" style="display: inline-block; vertical-align: middle; margin-right:10px; float:left;" width="22">News Stories</a>
+            </li>
+            <% if (model.page.configurations.key == "event.manage") { %>
+            <li class="active">
+                <% } else { %>
+            <li>
+                <% } %>
+                <a href="/app/dashboard/event/manage"><img src="/images/event@2x.png" alt="Event" style="display: inline-block; vertical-align: middle; margin-right:10px; float:left;" width="22">Events</a>
+            </li>
+            <% if (model.page.configurations.key == "community.manage") { %>
+            <li class="active">
+                <% } else { %>
+            <li>
+                <% } %>
+                <a href="/app/dashboard/community/manage"><img src="/images/community@2x.png" alt="Community" style="display: inline-block; vertical-align: middle; margin-right:10px; float:left;" width="22">Community Service</a>
+            </li>
+            <% if (model.page.configurations.key.indexOf("alert.manage") > -1) { %>
+            <li class="active">
+                <% } else { %>
+            <li>
+                <% } %>
+                <a href="/app/dashboard/alert/manage"><img src="/images/alert@2x.png" alt="Alert" style="display: inline-block; vertical-align: middle; margin-right:10px; float:left;" width="22">Alerts</a>
+            </li>
+            <% if (model.page.configurations.key == "user.manage") { %>
+            <li class="active">
+                <% } else { %>
+            <li>
+                <% } %>
+                <a href="/app/dashboard/user/manage"><img src="/images/user@2x.png" alt="User" style="display: inline-block; vertical-align: middle; margin-right:10px; float:left;" width="22">Users</a>
+            </li>
+            <% if (model.page.configurations.key == "schedule.manage") { %>
+            <li class="active">
+                <% } else { %>
+            <li>
+                <% } %>
+                <a href="/app/dashboard/schedule/manage"><img src="/images/schedule@2x.png" alt="Schedule" style="display: inline-block; vertical-align: middle; margin-right:10px; float:left;" width="22">Schedule</a>
+            </li>
+            <% if (model.page.configurations.key == "food.manage") { %>
+            <li class="active">
+                <% } else { %>
+            <li>
+                <% } %>
+                <a href="/app/dashboard/food/manage"><img src="/images/food@2x.png" alt="Food" style="display: inline-block; vertical-align: middle; margin-right:10px; float:left;" width="22">Food</a>
+            </li>
+        </ul>
+    </div>
+    <% } %>
+    <% if (model.object.user.isDeveloper) { %>
+    <h4>Developer Tools</h4>
+    <div>
+        <ul class="nav">
+            <% if (model.page.configurations.key == "dev.manage") { %>
+            <li class="active">
+                <% } else { %>
+            <li>
+                <% } %>
+                <a href="/app/dashboard/dev/manage"><img src="/images/error@2x.png" alt="Status" style="display: inline-block; vertical-align: middle; margin-right:10px; float:left;" width="22">Manage Application</a>
+            </li>
+            <% if (model.page.configurations.key == "dev.console") { %>
+            <li class="active">
+                <% } else { %>
+            <li>
+                <% } %>
+                <a href="/app/dashboard/dev/console"><img src="/images/console@2x.png" alt="Console" style="display: inline-block; vertical-align: middle; margin-right:10px; float:left;" width="22">Developer Console</a>
+            </li>
+        </ul>
+    </div>
+    <% } %>
+</div>

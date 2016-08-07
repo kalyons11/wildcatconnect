@@ -1,0 +1,463 @@
+<h4><p class="text-muted">Manage current community service opportunities, and approve new requests.</p></h4>
+<a href="/app/dashboard"><button class="btn btn-primary btn-back">Cancel</button></a>
+<h4 id="titleLabel">Pending Community Service Requests</h4>
+<div id="communityRequests">
+
+</div>
+<hr style="border-color:#561838";></hr>
+<h4 id="existingLabel">Current Active Community Service Opportunities</h4><input type="text" id="search" placeholder=" SEARCH">
+<h6><i><b>NOTE: If an opportunity needs to be edited in any way, it should be deleted and a new opportunity should be created with the correct information.</b></i></h6>
+<div id="currentCommunity">
+
+</div>
+<script>
+
+    loadPage();
+
+    var requests = new Array();
+    var current = new Array();
+
+    function loadPage(message) {
+        $("#communityRequests").html("");
+        $("#currentCommunity").html("");
+        setLoadingMessage("Loading opportunities...");
+        $("#loading").fadeIn();
+        $.ajax({
+            url: "manage/ajax/load",
+            type: "post",
+            data: {key: "value"}, // Encrypt all data...
+            datatype: 'json',
+            crossDomain: true,
+
+            success: function(response){
+                requests = response["requests"];
+                current = response["current"];
+                if (requests != null && current != null) {
+                    if (requests.length > 0) {
+                        loadNewTable();
+                    } else {
+                        $("#titleLabel").html("Pending Community Service Requests");
+                        $("#communityRequests").html('<h4><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>There are currently no active community service requests.</h4>');
+                    }
+                    if (current.length > 0) {
+                        loadCurrentTable();
+                    } else {
+                        $("#existingLabel").html("Current Active Community Service Opportunities");
+                        $("#currentCommunity").html('<h4><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>There are currently no active community service opportunities.</h4>');
+                    }
+                    if (message != null)
+                        setMessage(message, false);
+                    $("#loading").fadeOut();
+                } else {
+                    setMessage("Unable to load community service opportunities. Please try to reload the page.", true);
+                    $("#loading").fadeOut();
+                }
+            },
+
+            error: function(request, status, error) {
+                setMessage("Internal server error. If this problem continues, please contact support.", true);
+                $("#loading").fadeOut();
+            }
+        });
+    }
+
+    function loadNewTable() {
+        $("#titleLabel").html("Pending Community Service Requests (" + requests.length+")");
+
+        var tableDiv = document.getElementById("communityRequests");
+        var table = document.createElement("TABLE");
+        var tableBody = document.createElement("TBODY");
+
+        table.appendChild(tableBody);
+        table.className = "table table-striped";
+
+        var heading = new Array();
+        heading[0] = "Title";
+        heading[1] = "Start Date";
+        heading[2] = "End Date";
+        heading[3] = "Message";
+        heading[4] = "User";
+        heading[5] = "Action";
+
+        //TABLE COLUMNS
+
+        var tr = document.createElement("TR");
+        tableBody.appendChild(tr);
+
+        $("#communityRequests").html("");
+
+        for (var i = 0; i < heading.length; i++) {
+            var th = document.createElement("TH");
+            th.width = "17%";
+            th.appendChild(document.createTextNode(heading[i]));
+            tr.appendChild(th);
+        };
+
+        for (var i = 0; i < requests.length; i++) {
+            var tr = document.createElement("TR");
+
+            var tdOne = document.createElement("TD");
+            tdOne.appendChild(document.createTextNode(requests[i]["commTitleString"]));
+            tr.appendChild(tdOne);
+
+            var tdTwo = document.createElement("TD");
+            var date = requests[i]["startDate"];
+            var string = moment(date.iso).format("dddd, MMMM Do, YYYY @ h:mm A");
+            tdTwo.appendChild(document.createTextNode(string));
+            tr.appendChild(tdTwo);
+
+            var tdTwo = document.createElement("TD");
+            var date = requests[i]["endDate"];
+            var string = moment(date.iso).format("dddd, MMMM Do, YYYY @ h:mm A");
+            tdTwo.appendChild(document.createTextNode(string));
+            tr.appendChild(tdTwo);
+
+            var tdOne = document.createElement("TD");
+            var contentButton = document.createElement("INPUT");
+            contentButton.type = "button";
+            contentButton.className = "btn btn-lg btn-primary viewContent";
+            contentButton.value = "View Content";
+            contentButton.name = i;
+            contentButton.style.marginRight = "10px";
+            tdOne.appendChild(contentButton);
+            tr.appendChild(tdOne);
+
+            var tdOne = document.createElement("TD");
+            tdOne.appendChild(document.createTextNode(requests[i]["userString"]));
+            tr.appendChild(tdOne);
+
+            var tdFour = document.createElement("TD");
+            var button =document.createElement("INPUT");
+            button.type = "button";
+            button.className = "approveUser btn btn-lg btn-primary approve";
+            button.value = "Approve";
+            button.name = i;
+            button.style.marginBottom = "10px";
+            tdFour.appendChild(button);
+
+            var buttonTwo =document.createElement("INPUT");
+            buttonTwo.type = "button";
+            buttonTwo.className = "btn btn-lg btn-primary deny";
+            buttonTwo.value = "Deny";
+            buttonTwo.name = i;
+            buttonTwo.style.marginRight = "10px";
+            buttonTwo.style.backgroundColor = "red";
+            buttonTwo.style.borderColor = "red";
+            tdFour.appendChild(buttonTwo);
+            tr.appendChild(tdFour);
+
+            tableBody.appendChild(tr);
+
+            tableDiv.appendChild(table);
+        };
+    }
+
+    function loadCurrentTable() {
+        $("#existingLabel").html("Current Active Community Service Opportunities (" + current.length+")");
+
+        var tableDiv = document.getElementById("currentCommunity");
+        var table = document.createElement("TABLE");
+        var tableBody = document.createElement("TBODY");
+
+        table.appendChild(tableBody);
+        table.className = "table table-striped";
+        table.id = "communityTable";
+
+        var heading = new Array();
+        heading[0] = "Title";
+        heading[1] = "Start Date";
+        heading[2] = "End Date";
+        heading[3] = "Message";
+        heading[4] = "User";
+        heading[5] = "Action";
+
+        //TABLE COLUMNS
+
+        var tr = document.createElement("TR");
+        tableBody.appendChild(tr);
+
+        $("#currentCommunity").html("");
+
+        for (var i = 0; i < heading.length; i++) {
+            var th = document.createElement("TH");
+            th.width = "17%";
+            th.appendChild(document.createTextNode(heading[i]));
+            tr.appendChild(th);
+        };
+
+        for (var i = 0; i < current.length; i++) {
+            var tr = document.createElement("TR");
+
+            var tdOne = document.createElement("TD");
+            tdOne.appendChild(document.createTextNode(current[i]["commTitleString"]));
+            tr.appendChild(tdOne);
+
+            var tdTwo = document.createElement("TD");
+            var date = current[i]["startDate"];
+            var string = moment(date.iso).format("dddd, MMMM Do, YYYY @ h:mm A");
+            tdTwo.appendChild(document.createTextNode(string));
+            tr.appendChild(tdTwo);
+
+            var tdTwo = document.createElement("TD");
+            var date = current[i]["endDate"];
+            var string = moment(date.iso).format("dddd, MMMM Do, YYYY @ h:mm A");
+            tdTwo.appendChild(document.createTextNode(string));
+            tr.appendChild(tdTwo);
+
+            var tdOne = document.createElement("TD");
+            var contentButton = document.createElement("INPUT");
+            contentButton.type = "button";
+            contentButton.className = "btn btn-lg btn-primary viewContentNew";
+            contentButton.value = "View Content";
+            contentButton.name = i;
+            contentButton.style.marginRight = "10px";
+            tdOne.appendChild(contentButton);
+            tr.appendChild(tdOne);
+
+            var tdOne = document.createElement("TD");
+            tdOne.appendChild(document.createTextNode(current[i]["userString"]));
+            tr.appendChild(tdOne);
+
+            var tdFour = document.createElement("TD");
+
+            var buttonTwo =document.createElement("INPUT");
+            buttonTwo.type = "button";
+            buttonTwo.className = "btn btn-lg btn-primary delete";
+            buttonTwo.value = "Delete";
+            buttonTwo.name = i;
+            buttonTwo.style.marginRight = "10px";
+            buttonTwo.style.backgroundColor = "red";
+            buttonTwo.style.borderColor = "red";
+            tdFour.appendChild(buttonTwo);
+            tr.appendChild(tdFour);
+
+            tableBody.appendChild(tr);
+
+            tableDiv.appendChild(table);
+        };
+    }
+
+    $(document).on('click', ".viewContent", function() {
+        var index = this.name;
+        var titleString = requests[index]["commTitleString"];
+        var html = requests[index]["commSummaryString"];
+        var date = requests[index]["startDate"];
+        var dateTwo = requests[index]["endDate"];
+        var string = moment(date.iso).format("dddd, MMMM Do, YYYY @ h:mm A") + " TO " + moment(dateTwo.iso).format("dddd, MMMM Do, YYYY @ h:mm A");
+        var authorDate = requests[index]["userString"];
+
+        var converter = new showdown.Converter();
+        html = converter.makeHtml(html);
+        html = html.replace(/<a href/g, '<a target="_blank" href');
+        html = html.replace(/<hr/g, '<hr style="height: 5px; border-top-width: 5px; border-top-style: solid; border-top-color:#000000"');
+        html = linkifyHtml(html, {
+            target: '_blank'
+        });
+
+        BootstrapDialog.show({
+            title: 'Community Service Preview',
+            size: BootstrapDialog.SIZE_WIDE,
+            message: function(dialogItself) {
+                var $form = $('<form></form>');
+                $form.append('<h1 style="margin-top:0;">'+titleString+'</h1><h5>'+string+'</h5><h5>'+authorDate+'</h5>');
+                $form.append('<hr style="border-color:#561838">' + html);
+                return $form;
+            },// <-- Default value is BootstrapDialog.TYPE_PRIMARY
+            closable: true, // <-- Default value is false
+            draggable: true, // <-- Default value is false
+            buttons: [{
+                label: 'OK',
+                action: function (dialogItself) {
+                    dialogItself.close();
+                }
+            }]
+        });
+    });
+
+    $(document).on('click', ".viewContentNew", function() {
+        var index = this.name;
+        var titleString = current[index]["commTitleString"];
+        var html = current[index]["commSummaryString"];
+        var date = current[index]["startDate"];
+        var dateTwo = current[index]["endDate"];
+        var string = moment(date.iso).format("dddd, MMMM Do, YYYY @ h:mm A") + " TO " + moment(dateTwo.iso).format("dddd, MMMM Do, YYYY @ h:mm A");
+        var authorDate = current[index]["userString"];
+
+        var converter = new showdown.Converter();
+        html = converter.makeHtml(html);
+        html = html.replace(/<a href/g, '<a target="_blank" href');
+        html = html.replace(/<hr/g, '<hr style="height: 5px; border-top-width: 5px; border-top-style: solid; border-top-color:#000000"');
+        html = linkifyHtml(html, {
+            target: '_blank'
+        });
+
+        BootstrapDialog.show({
+            title: 'Community Service Preview',
+            size: BootstrapDialog.SIZE_WIDE,
+            message: function(dialogItself) {
+                var $form = $('<form></form>');
+                $form.append('<h1 style="margin-top:0;">'+titleString+'</h1><h5>'+string+'</h5><h5>'+authorDate+'</h5>');
+                $form.append('<hr style="border-color:#561838">' + html);
+                return $form;
+            },// <-- Default value is BootstrapDialog.TYPE_PRIMARY
+            closable: true, // <-- Default value is false
+            draggable: true, // <-- Default value is false
+            buttons: [{
+                label: 'OK',
+                action: function (dialogItself) {
+                    dialogItself.close();
+                }
+            }]
+        });
+    });
+
+    $(document).on('click', ".approve", function() {
+        var index = this.name;
+        var ID = requests[index]["communityServiceID"];
+        BootstrapDialog.confirm({
+            title: 'Confirmation',
+            message: 'Are you sure you want to approve this opportunity? It will be live to all app users.',
+            type: BootstrapDialog.TYPE_DANGER, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
+            closable: true, // <-- Default value is false
+            draggable: true, // <-- Default value is false
+            btnCancelLabel: 'No', // <-- Default value is 'Cancel',
+            btnOKLabel: 'Yes', // <-- Default value is 'OK',
+            btnOKClass: 'btn-primary', // <-- If you didn't specify it, dialog type will be used,
+            callback: function(result) {
+                // result will be true if button was click, while it will be false if users close the dialog directly.
+                if(result) {
+                    $("#loading").fadeIn();
+                    setLoadingMessage("Approving opportunity...");
+                    $.ajax({
+                        url: "manage/ajax/approve",
+                        type: "post",
+                        data: { ID: ID },
+                        datatype: 'json',
+                        crossDomain: true,
+
+                        success: function(response){
+                            setLoadingMessage("Reloading opportunities...");
+                            if (response["res"] == "SUCCESS") {
+                                loadPage("Community service opportunity successfully approved.");
+                            } else {
+                                setMessage("Unable to approve opportunity. Please try to reload the page.", true);
+                                $("#loading").fadeOut();
+                            }
+                        },
+
+                        error: function(request, status, error) {
+                            setMessage("Internal server error. If this problem continues, please contact support.", true);
+                            $("#loading").fadeOut();
+                        }
+                    });
+                };
+            }
+        });
+    });
+
+    $(document).on('click', ".deny", function () {
+        var count = this.name;
+        var ID = requests[count]["communityServiceID"];
+        var name = requests[count]["userString"];
+        var e = requests[count]["email"];
+        var title = requests[count]["commTitleString"];
+        var admin = "<%= model.object.user.firstName %> <%= model.object.user.lastName %>";
+        var adminMail = "<%= model.object.user.email %>";
+
+        BootstrapDialog.show({
+            title: 'Confirmation',
+            message: function(dialogItself) {
+                var $form = $('<form></form>');
+                var $message = $('<textarea class="form-control" maxlength="400" rows="4" style="overflow-y: scroll; resize: none; width:100%;"></textarea>');
+                dialogItself.setData('message', $message);
+                $form.append('Are you sure you want to deny this opportunity? Please enter a brief message explaining the reason for the denial. This will be sent in an e-mail to the opportunity\'s creator, '+name+', as well as to your e-mail for reference.<br><br><label>Message</label><br>').append($message);
+                return $form;
+            },// <-- Default value is BootstrapDialog.TYPE_PRIMARY
+            closable: false, // <-- Default value is false
+            draggable: true, // <-- Default value is false
+            buttons: [{
+                label: 'Cancel',
+                action: function (dialogItself) {
+                    dialogItself.close();
+                }
+            }, {
+                label: 'Deny',
+                cssClass: 'btn-primary',
+                action: function (dialogItself) {
+                    var text = dialogItself.getData('message').val();
+                    $("#loading").fadeIn();
+                    setLoadingMessage("Denying opportunity...");
+                    dialogItself.close();
+                    $.ajax({
+                        url: "manage/ajax/deny",
+                        type: "post",
+                        data: { "ID": ID, "name" : name , "email" : e , "message" : text , "title" : title , "admin" : admin , "adminMail" : adminMail }, // Encrypt all data...
+                        datatype: 'json',
+                        crossDomain: true,
+
+                        success: function(response){
+                            dialogItself.close();
+                            setLoadingMessage("Reloading opportunities...");
+                            if (response["res"] == "SUCCESS") {
+                                loadPage("Opportunity successfully denied. You will receive an e-mail with the denial message, for your reference.");
+                            } else {
+                                setMessage("Unable to deny opportunity. Please try to reload the page.", true);
+                                $("#loading").fadeOut();
+                            }
+                        },
+
+                        error: function(request, status, error) {
+                            setMessage("Internal server error. If this problem continues, please contact support.", true);
+                            $("#loading").fadeOut();
+                        }
+                    });
+                }
+            }]
+        });
+    });
+
+    $(document).on('click', ".delete", function() {
+        var index = this.name;
+        var ID = current[index]["communityServiceID"];
+        BootstrapDialog.confirm({
+            title: 'Confirmation',
+            message: 'Are you sure you want to delete this opportunity?',
+            type: BootstrapDialog.TYPE_DANGER, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
+            closable: true, // <-- Default value is false
+            draggable: true, // <-- Default value is false
+            btnCancelLabel: 'No', // <-- Default value is 'Cancel',
+            btnOKLabel: 'Yes', // <-- Default value is 'OK',
+            btnOKClass: 'btn-primary', // <-- If you didn't specify it, dialog type will be used,
+            callback: function(result) {
+                // result will be true if button was click, while it will be false if users close the dialog directly.
+                if(result) {
+                    $("#loading").fadeIn();
+                    setLoadingMessage("Deleting opportunity...");
+                    $.ajax({
+                        url: "manage/ajax/delete",
+                        type: "post",
+                        data: { ID: ID },
+                        datatype: 'json',
+                        crossDomain: true,
+
+                        success: function(response){
+                            setLoadingMessage("Reloading opportunities...");
+                            if (response["res"] == "SUCCESS") {
+                                loadPage("Opportunity successfully deleted.");
+                            } else {
+                                setMessage("Unable to delete opportunity. Please try to reload the page.", true);
+                                $("#loading").fadeOut();
+                            }
+                        },
+
+                        error: function(request, status, error) {
+                            setMessage("Internal server error. If this problem continues, please contact support.", true);
+                            $("#loading").fadeOut();
+                        }
+                    });
+                };
+            }
+        });
+    });
+
+</script>
