@@ -67,7 +67,7 @@
 }
 
 - (instancetype)init {
-     [super init];
+     self = [super init];
      self.navigationItem.title = @"About";
      return self;
 }

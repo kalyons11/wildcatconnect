@@ -8,6 +8,7 @@ target 'WildcatConnect' do
   # Pods for WildcatConnect
 
   pod 'CocoaLumberjack'
+  pod "LogglyLogger-CocoaLumberjack", "~> 2.0"
 
   target 'WildcatConnectTests' do
     inherit! :search_paths

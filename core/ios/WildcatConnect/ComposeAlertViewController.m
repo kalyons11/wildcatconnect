@@ -391,7 +391,7 @@
                [formatter setDateFormat:@"MMMM d"];
                NSString *firstString = [formatter stringFromDate:[NSDate date]];
                
-               NSDateFormatter *monthDayFormatter = [[[NSDateFormatter alloc] init] autorelease];
+               NSDateFormatter *monthDayFormatter = [[NSDateFormatter alloc] init];
                [monthDayFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
                [monthDayFormatter setDateFormat:@"d"];
                int date_day = [[monthDayFormatter stringFromDate:[NSDate date]] intValue];
@@ -412,7 +412,7 @@
                     [formatter setDateFormat:@"MMMM d"];
                     NSString *firstString = [formatter stringFromDate:[NSDate date]];
                     
-                    NSDateFormatter *monthDayFormatter = [[[NSDateFormatter alloc] init] autorelease];
+                    NSDateFormatter *monthDayFormatter = [[NSDateFormatter alloc] init];
                     [monthDayFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
                     [monthDayFormatter setDateFormat:@"d"];
                     int date_day = [[monthDayFormatter stringFromDate:[NSDate date]] intValue];
@@ -435,7 +435,7 @@
                     [formatter setDateFormat:@"MMMM d"];
                     NSString *firstString = [formatter stringFromDate:datePicker.date];
                     
-                    NSDateFormatter *monthDayFormatter = [[[NSDateFormatter alloc] init] autorelease];
+                    NSDateFormatter *monthDayFormatter = [[NSDateFormatter alloc] init];
                     [monthDayFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
                     [monthDayFormatter setDateFormat:@"d"];
                     int date_day = [[monthDayFormatter stringFromDate:datePicker.date] intValue];
@@ -458,7 +458,7 @@
           [formatter setDateFormat:@"MMMM d"];
           NSString *firstString = [formatter stringFromDate:[NSDate date]];
           
-          NSDateFormatter *monthDayFormatter = [[[NSDateFormatter alloc] init] autorelease];
+          NSDateFormatter *monthDayFormatter = [[NSDateFormatter alloc] init];
           [monthDayFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
           [monthDayFormatter setDateFormat:@"d"];
           int date_day = [[monthDayFormatter stringFromDate:[NSDate date]] intValue];

@@ -9,6 +9,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>LogglyLogger-CocoaLumberjack.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-WildcatConnect.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -26,6 +31,32 @@
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
-	<dict/>
+	<dict>
+		<key>0562FF52ED5E8774A26D837F39DA4056</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>12E2BC28C62976C425F4B71C2723F0B1</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>30448F4F284ABAF04CD26DD12F9AC105</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>85780DDA15B7D18E45C496F360581978</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>DAADC3636971B710A5E591C085EAFF2B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+	</dict>
 </dict>
 </plist>

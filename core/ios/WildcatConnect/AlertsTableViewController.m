@@ -54,7 +54,6 @@
           UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:activity];
           self.navigationItem.rightBarButtonItem = barButtonItem;
           [activity startAnimating];
-          [barButtonItem release];
           [self getOldDataWithCompletion:^(NSMutableArray *returnArray) {
                self.alerts = returnArray;
                dispatch_async(dispatch_get_main_queue(), ^ {
@@ -159,7 +158,6 @@
      UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:activity];
      self.navigationItem.rightBarButtonItem = barButtonItem;
      [activity startAnimating];
-     [barButtonItem release];
      [self testMethodWithCompletion:^(NSError *error, NSMutableArray *returnArrayA) {
           if (error) {
                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Network Error" message:@"Error fetching data from server. Please try again." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
@@ -206,7 +204,6 @@
                               [activity stopAnimating];
                               UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Read All" style:UIBarButtonItemStylePlain target:self action:@selector(readAllMethod)];
                               self.navigationItem.rightBarButtonItem = barButtonItem;
-                              [barButtonItem release];
                               NSMutableArray *alertsArray = [[NSUserDefaults standardUserDefaults] objectForKey:@"readAlerts"];
                               NSInteger read = alertsArray.count;
                               NSNumber *readNumber = [NSNumber numberWithInt:(count4 - read)];
@@ -287,7 +284,7 @@
 }
 
 - (instancetype)initWithLoadNumber:(NSNumber *)theLoadNumber {
-     [super init];
+     self = [super init];
      self.loadNumber = theLoadNumber;
      self.navigationItem.title = @"Alerts";
      return self;
@@ -312,8 +309,10 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
      UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"CellIdentifier"];
-     if (self.alerts.count == 0) {
+     if (self.alerts.count == 0 && isReloading == true) {
           cell.textLabel.text = @"Loading your data...";
+     } else if (self.alerts.count == 0 && isReloading == false) {
+          cell.textLabel.text = @"No alerts to display.";
      } else {
           AlertStructure *alertStructure = (AlertStructure *)[self.alerts objectAtIndex:indexPath.row];
           cell.textLabel.text = alertStructure.titleString;

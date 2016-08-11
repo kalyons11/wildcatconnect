@@ -29,7 +29,7 @@
 }
 
 -(instancetype)init {
-     [super init];
+     self = [super init];
      self.navigationItem.title = @"All Groups";
      return self;
 }

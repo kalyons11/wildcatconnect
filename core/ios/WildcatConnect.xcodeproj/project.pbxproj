@@ -43,9 +43,6 @@
 		0AA5C8FE1C33227200C42892 /* about@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AA5C8FD1C33227200C42892 /* about@2x.png */; };
 		0AA5C9041C3326BB00C42892 /* logoSmall.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AA5C9031C3326BB00C42892 /* logoSmall.png */; };
 		0AAA54A51C735BAC009A7ABF /* CommunityServiceDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAA54A41C735BAC009A7ABF /* CommunityServiceDetailViewController.m */; };
-		0ACE46B51D57C82000EF80F4 /* LogglyFields.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ACE46B01D57C82000EF80F4 /* LogglyFields.m */; };
-		0ACE46B61D57C82000EF80F4 /* LogglyFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ACE46B21D57C82000EF80F4 /* LogglyFormatter.m */; };
-		0ACE46B71D57C82000EF80F4 /* LogglyLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ACE46B41D57C82000EF80F4 /* LogglyLogger.m */; };
 		0AD53D5C1C208B4D007E5184 /* RegisterExtracurricularViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AD53D5B1C208B4D007E5184 /* RegisterExtracurricularViewController.m */; };
 		0AD6C0DB1C76243000A38F1F /* ECUDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AD6C0DA1C76243000A38F1F /* ECUDetailViewController.m */; };
 		0AD8B9C71C337D0B002A3ABB /* alerts@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AD8B9C61C337D0B002A3ABB /* alerts@2x.png */; };
@@ -218,12 +215,6 @@
 		0AA5C9031C3326BB00C42892 /* logoSmall.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logoSmall.png; path = ../logoSmall.png; sourceTree = "<group>"; };
 		0AAA54A31C735BAC009A7ABF /* CommunityServiceDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommunityServiceDetailViewController.h; sourceTree = "<group>"; };
 		0AAA54A41C735BAC009A7ABF /* CommunityServiceDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommunityServiceDetailViewController.m; sourceTree = "<group>"; };
-		0ACE46AF1D57C82000EF80F4 /* LogglyFields.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LogglyFields.h; path = "../LogglyLogger-CocoaLumberjack/LogglyLogger-CocoaLumberjack/LogglyFields.h"; sourceTree = "<group>"; };
-		0ACE46B01D57C82000EF80F4 /* LogglyFields.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LogglyFields.m; path = "../LogglyLogger-CocoaLumberjack/LogglyLogger-CocoaLumberjack/LogglyFields.m"; sourceTree = "<group>"; };
-		0ACE46B11D57C82000EF80F4 /* LogglyFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LogglyFormatter.h; path = "../LogglyLogger-CocoaLumberjack/LogglyLogger-CocoaLumberjack/LogglyFormatter.h"; sourceTree = "<group>"; };
-		0ACE46B21D57C82000EF80F4 /* LogglyFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LogglyFormatter.m; path = "../LogglyLogger-CocoaLumberjack/LogglyLogger-CocoaLumberjack/LogglyFormatter.m"; sourceTree = "<group>"; };
-		0ACE46B31D57C82000EF80F4 /* LogglyLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LogglyLogger.h; path = "../LogglyLogger-CocoaLumberjack/LogglyLogger-CocoaLumberjack/LogglyLogger.h"; sourceTree = "<group>"; };
-		0ACE46B41D57C82000EF80F4 /* LogglyLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LogglyLogger.m; path = "../LogglyLogger-CocoaLumberjack/LogglyLogger-CocoaLumberjack/LogglyLogger.m"; sourceTree = "<group>"; };
 		0AD53D5A1C208B4D007E5184 /* RegisterExtracurricularViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterExtracurricularViewController.h; sourceTree = "<group>"; };
 		0AD53D5B1C208B4D007E5184 /* RegisterExtracurricularViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterExtracurricularViewController.m; sourceTree = "<group>"; };
 		0AD6C0D91C76243000A38F1F /* ECUDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECUDetailViewController.h; sourceTree = "<group>"; };
@@ -567,12 +558,6 @@
 				0ADBEE391C0ABD5E00E946F6 /* LaunchScreen.storyboard */,
 				0ADBEE641C0ABD8400E946F6 /* LaunchScreen.xib */,
 				0AF2C58B1C97B01600E5D2E5 /* like@2x.png */,
-				0ACE46AF1D57C82000EF80F4 /* LogglyFields.h */,
-				0ACE46B01D57C82000EF80F4 /* LogglyFields.m */,
-				0ACE46B11D57C82000EF80F4 /* LogglyFormatter.h */,
-				0ACE46B21D57C82000EF80F4 /* LogglyFormatter.m */,
-				0ACE46B31D57C82000EF80F4 /* LogglyLogger.h */,
-				0ACE46B41D57C82000EF80F4 /* LogglyLogger.m */,
 				0A0AFC781C0B597B0094A2D2 /* logoLarge.jpeg */,
 				0AA5C9031C3326BB00C42892 /* logoSmall.png */,
 				0AA5C8F71C3321B300C42892 /* lunchMenus@2x.png */,
@@ -1031,7 +1016,6 @@
 				0ADBEE9C1C0ABD8400E946F6 /* SchoolDayStructure.m in Sources */,
 				0ADBEF4C1C0AC61F00E946F6 /* AlertsTableViewController.m in Sources */,
 				0A7AA7941C32260C0012671E /* SpecialKeyStructure.m in Sources */,
-				0ACE46B71D57C82000EF80F4 /* LogglyLogger.m in Sources */,
 				0ADBEEA01C0ABD8400E946F6 /* ExtracurricularsTableViewController.m in Sources */,
 				0A634C631C4AC1A300210D33 /* EventsTableViewController.m in Sources */,
 				0ADBEEE51C0ABDE100E946F6 /* PollStructure.m in Sources */,
@@ -1050,7 +1034,6 @@
 				0A2DDCDC1C28826700662F94 /* CustomScheduleViewController.m in Sources */,
 				0ADBEEF61C0ABDE100E946F6 /* TestStructure.m in Sources */,
 				0ADBEE9F1C0ABD8400E946F6 /* SectionsTableViewController.m in Sources */,
-				0ACE46B51D57C82000EF80F4 /* LogglyFields.m in Sources */,
 				0A634C6B1C4B4BA900210D33 /* ComposeEventViewController.m in Sources */,
 				0ADBEE881C0ABD8400E946F6 /* ComposeAlertViewController.m in Sources */,
 				0AAA54A51C735BAC009A7ABF /* CommunityServiceDetailViewController.m in Sources */,
@@ -1072,7 +1055,6 @@
 				0A2ED78C1C2F2C8600A34EDB /* UserRegisterStructure.m in Sources */,
 				0AD53D5C1C208B4D007E5184 /* RegisterExtracurricularViewController.m in Sources */,
 				0A2DDCD91C232EE700662F94 /* EditScheduleViewController.m in Sources */,
-				0ACE46B61D57C82000EF80F4 /* LogglyFormatter.m in Sources */,
 				0ADBEE921C0ABD8400E946F6 /* AlertStructure.m in Sources */,
 				0A634C771C515C7100210D33 /* GroupMainTableViewController.m in Sources */,
 				0ADBEEEA1C0ABDE100E946F6 /* StaffMemberStructure.m in Sources */,
@@ -1231,7 +1213,7 @@
 			baseConfigurationReference = 429413190A594246BDEACB7B /* Pods-WildcatConnect.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Distribution: WildcatConnect Apple (89REZXH8V7)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1254,7 +1236,7 @@
 			baseConfigurationReference = 96433FDC634C33D82A0964F5 /* Pods-WildcatConnect.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
@@ -1265,6 +1247,7 @@
 				INFOPLIST_FILE = WildcatConnect/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.app.WildcatConnect;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";

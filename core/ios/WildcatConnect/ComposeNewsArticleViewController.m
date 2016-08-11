@@ -51,7 +51,6 @@
                                                                  action:@selector(goBack:)];
      
      self.navigationItem.leftBarButtonItem = bbtnBack;
-     [bbtnBack release];
      
      self.navigationItem.title = @"News Story";
      
