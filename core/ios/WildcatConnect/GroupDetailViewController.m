@@ -208,7 +208,7 @@
 }
 
 - (instancetype)init {
-     [super init];
+     self = [super init];
      self.navigationItem.title = @"Group Details";
      return self;
 }

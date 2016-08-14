@@ -3,6 +3,10 @@
 <plist version="1.0">
 <dict>
 	<key>WorkspacePath</key>
+<<<<<<< HEAD
 	<string>/Users/Kevin/wildcatconnect/core/ios/WildcatConnect.xcworkspace</string>
+=======
+	<string>/Users/Kevin/wildcatconnect/core/ios/WildcatConnect.xcodeproj</string>
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 </dict>
 </plist>

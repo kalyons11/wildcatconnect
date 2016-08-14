@@ -132,7 +132,11 @@
         _sessionConfiguration.allowsCellularAccess = YES;
     }
 
+<<<<<<< HEAD
     if (!_hasLoggedFirstLogglyPost) {
+=======
+    if (!_hasLoggedFirstLogglyPost || true) {
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
         NSLog(@"Posting to Loggly: %@", messagesString);
     }
 
@@ -141,7 +145,11 @@
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:[messagesString dataUsingEncoding:NSUTF8StringEncoding]];
     NSURLSessionDataTask *postDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+<<<<<<< HEAD
         if (true) {
+=======
+        if (!_hasLoggedFirstLogglyPost) {
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
             _hasLoggedFirstLogglyPost = YES;
             if (error) {
                 NSLog(@"LOGGLY ERROR: Error object = %@. This was the last NSLog statement you will see from LogglyLogger. The rest of the posts to Loggly will be done silently",error);

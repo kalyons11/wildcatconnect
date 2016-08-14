@@ -102,7 +102,7 @@
 }
 
 - (instancetype)init {
-     [super init];
+     self = [super init];
      self.navigationItem.title = @"Push Notifications";
      return self;
 }
@@ -166,8 +166,6 @@
           }
           cell.accessoryView = switchView;
      }
-     
-     [switchView release];
     
      return cell;
 }

@@ -22,8 +22,13 @@
 #import <SystemConfiguration/SystemConfiguration.h>
 #import "Reachability.h"
 #import "ScholarshipStructure.h"
+<<<<<<< HEAD
 #import <LogglyLogger.h>
 #import <LogglyFormatter.h>
+=======
+#import "LogglyLogger.h"
+#import "LogglyFormatter.h"
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 
 static const int ddLogLevel = DDLogLevelVerbose;
 
@@ -34,8 +39,6 @@ static const int ddLogLevel = DDLogLevelVerbose;
 void uncaughtExceptionHandler(NSException *exception) {
      
      NSString *deviceToken = [[PFInstallation currentInstallation] objectForKey:@"deviceToken"];
-     NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
-     NSString *version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
      if (! deviceToken) {
           deviceToken = @"No device token available.";
      }
@@ -44,17 +47,28 @@ void uncaughtExceptionHandler(NSException *exception) {
           username = [[PFUser currentUser] username];
      } else
           username = @"No username available.";
-     NSMutableArray *errorsArray = [[[NSUserDefaults standardUserDefaults] objectForKey:@"errorsArray"] mutableCopy];
-     if (! errorsArray || [errorsArray class] != [NSMutableArray class]) {
-          errorsArray = [NSMutableArray array];
-     }
-     [errorsArray addObject:@{ @"nameString" : exception.name , @"infoString" : exception.reason , @"deviceToken" : deviceToken, @"username" : username , @"version" : version }];
-     [[NSUserDefaults standardUserDefaults] setObject:errorsArray forKey:@"errorsArray"];
+     NSArray *callStackArray = [exception callStackSymbols];
+     NSString *callStack = [[callStackArray valueForKey:@"description"] componentsJoinedByString:@""];
+     NSString *reason = [[exception.name stringByAppendingString:@" - "] stringByAppendingString:exception.reason];
+     NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
+     [dictionary setObject:deviceToken forKey:@"deviceToken"];
+     [dictionary setObject:username forKey:@"username"];
+     [dictionary setObject:callStack forKey:@"stack"];
+     [dictionary setObject:reason forKey:@"message"];
+     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary options:nil error:nil];
+     NSString* string = [NSString stringWithUTF8String:[jsonData bytes]].description;
+     NSArray *copyArray = [[NSArray alloc] initWithObjects:string, nil];
+     [[NSUserDefaults standardUserDefaults] setObject:copyArray forKey:@"errorsArray"];
      [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+     NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
+     
+     NSArray *array = [[NSArray alloc] init];
+     
+          //int x = array[1];
      
           //Config test
      
@@ -67,18 +81,17 @@ void uncaughtExceptionHandler(NSException *exception) {
      LogglyLogger *logglyLogger = [[LogglyLogger alloc] init];
      [logglyLogger setLogFormatter:[[LogglyFormatter alloc] init]];
      logglyLogger.logglyKey = @"4e51ee0a-d0a5-4d24-90d7-16c1f4efdc20";
+<<<<<<< HEAD
      
           // Set posting interval every 15 seconds, just for testing this out, but the default value of 600 seconds is better in apps
           // that normally don't access the network very often. When the user suspends the app, the logs will always be posted.
+=======
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
      
+     logglyLogger.saveInterval = 5;
      logglyLogger.logglyTags = @"ios";
      
      [DDLog addLogger:logglyLogger];
-     
-          // Do some logging
-     DDLogVerbose(@"{\"myJsonKey\":\"some verbose json value\"}");
-     
-     NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
      
           //TODO - Encrypt and configure all values!!!
      
@@ -103,15 +116,9 @@ void uncaughtExceptionHandler(NSException *exception) {
           errorsArray = [NSMutableArray array];
      } else if (errorsArray.count > 0 && connected == true) {
           NSMutableArray *copyArray = [errorsArray mutableCopy];
-          for (NSObject *object in errorsArray) {
+          for (NSString *object in errorsArray) {
                [copyArray removeObject:object];
-               ErrorStructure *error = [[ErrorStructure alloc] init];
-               error.nameString = [object valueForKey:@"nameString"];
-               error.infoString = [object valueForKey:@"infoString"];
-               error.deviceToken = [object valueForKey:@"deviceToken"];
-               error.username = [object valueForKey:@"username"];
-               error.version = [object valueForKey:@"version"];
-               [error saveInBackground];
+               DDLogVerbose(@"%@", object);
           }
           [[NSUserDefaults standardUserDefaults] setObject:copyArray forKey:@"errorsArray"];
           [[NSUserDefaults standardUserDefaults] synchronize];

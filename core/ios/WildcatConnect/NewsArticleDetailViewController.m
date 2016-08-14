@@ -154,7 +154,6 @@
                     if (self.showCloseButton == true) {
                          UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Close" style:UIBarButtonItemStyleDone target:self action:@selector(dismissModalViewControllerAnimated:)];
                          self.navigationItem.rightBarButtonItem = barButtonItem;
-                         [barButtonItem release];
                     }
                } forID:self.NA.objectId];
                
@@ -286,7 +285,6 @@
                     if (self.showCloseButton == true) {
                          UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Close" style:UIBarButtonItemStyleDone target:self action:@selector(dismissModalViewControllerAnimated:)];
                          self.navigationItem.rightBarButtonItem = barButtonItem;
-                         [barButtonItem release];
                     }
                } forID:self.NA.objectId];
                
@@ -410,7 +408,6 @@
           if (self.showCloseButton == true) {
                UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Close" style:UIBarButtonItemStyleDone target:self action:@selector(dismissModalViewControllerAnimated:)];
                self.navigationItem.rightBarButtonItem = barButtonItem;
-               [barButtonItem release];
           }
      } forID:self.NA.objectId];
 }

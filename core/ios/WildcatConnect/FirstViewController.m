@@ -123,7 +123,6 @@
           UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:activity];
           self.navigationItem.rightBarButtonItem = barButtonItem;
           [activity startAnimating];
-          [barButtonItem release];
           
           [self getStatusStringMethodWithCompletion:^(NSError *error, NSString *statusString, NSString *messageString) {
                if ([statusString isEqualToString:@"0"] && theInt == 0) {
@@ -170,7 +169,7 @@
                          }
                          
                          titleLabelB = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 0, 0)];
-                         NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+                         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
                          [dateFormatter setTimeZone:[NSTimeZone localTimeZone]];
                          [dateFormatter setDateFormat:@"EEEE"];
                          NSString *currentDate = [dateFormatter stringFromDate:[NSDate date]];
@@ -186,12 +185,12 @@
                          currentDate = [dateFormatter stringFromDate:[NSDate date]];
                          
                          NSDate *date = [NSDate date];
-                         NSDateFormatter *prefixDateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+                         NSDateFormatter *prefixDateFormatter = [[NSDateFormatter alloc] init];
                          [prefixDateFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
                          [prefixDateFormatter setDateFormat:@"MMMM d"];
                          NSString *prefixDateString = [prefixDateFormatter stringFromDate:date];
                          
-                         NSDateFormatter *monthDayFormatter = [[[NSDateFormatter alloc] init] autorelease];
+                         NSDateFormatter *monthDayFormatter = [[NSDateFormatter alloc] init];
                          [monthDayFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
                          [monthDayFormatter setDateFormat:@"d"];
                          int date_day = [[monthDayFormatter stringFromDate:[NSDate date]] intValue];
@@ -249,7 +248,6 @@
                                              UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(viewWillAppear:)];
                                              self.navigationItem.rightBarButtonItem = barButtonItem;
                                              [activity startAnimating];
-                                             [barButtonItem release];
                                              [self showBadImage];
                                         });
                                    } else {
@@ -285,8 +283,8 @@
                                              NSDateFormatter* day = [[NSDateFormatter alloc] init];
                                              [day setDateFormat: @"EEEE"];
                                              NSString *today = [day stringFromDate:[NSDate date]];
-                                             NSDateFormatter *prefixDateFormatter = [[[NSDateFormatter alloc] init] autorelease];
-                                             NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+                                             NSDateFormatter *prefixDateFormatter = [[NSDateFormatter alloc] init];
+                                             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
                                              dateFormatter = [[NSDateFormatter alloc] init];
                                                   // this is imporant - we set our input date format to match our input string
                                                   // if format doesn't match you'll get nil from your string, so be careful
@@ -378,7 +376,6 @@
                                                                  UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(viewWillAppear:)];
                                                                  self.navigationItem.rightBarButtonItem = barButtonItem;
                                                                  [activity startAnimating];
-                                                                 [barButtonItem release];
                                                                  [self showBadImage];
                                                             });
                                                        } else {
@@ -555,7 +552,6 @@
                                                             [[NSUserDefaults standardUserDefaults] synchronize];
                                                             UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(viewWillAppear:)];
                                                             self.navigationItem.rightBarButtonItem = barButtonItem;
-                                                            [barButtonItem release];
                                                             [self showBadImage];
                                                        });
                                                   } else {
@@ -564,7 +560,7 @@
                                                        scheduleType.fullScheduleString = [[returnSchedule objectAtIndex:0] objectForKey:@"fullScheduleString"];
                                                        
                                                        titleLabelB = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 0, 0)];
-                                                       NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+                                                       NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];;
                                                        [dateFormatter setTimeZone:[NSTimeZone localTimeZone]];
                                                        [dateFormatter setDateFormat:@"EEEE"];
                                                        NSString *currentDate = [dateFormatter stringFromDate:[NSDate date]];
@@ -580,12 +576,12 @@
                                                        currentDate = [dateFormatter stringFromDate:[NSDate date]];
                                                        
                                                        NSDate *date = [NSDate date];
-                                                       NSDateFormatter *prefixDateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+                                                       NSDateFormatter *prefixDateFormatter = [[NSDateFormatter alloc] init];
                                                        [prefixDateFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
                                                        [prefixDateFormatter setDateFormat:@"MMMM d"];
                                                        NSString *prefixDateString = [prefixDateFormatter stringFromDate:date];
                                                        
-                                                       NSDateFormatter *monthDayFormatter = [[[NSDateFormatter alloc] init] autorelease];
+                                                       NSDateFormatter *monthDayFormatter = [[NSDateFormatter alloc] init];
                                                        [monthDayFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
                                                        [monthDayFormatter setDateFormat:@"d"];
                                                        int date_day = [[monthDayFormatter stringFromDate:[NSDate date]] intValue];
@@ -704,7 +700,7 @@
                                                                            UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(viewWillAppear:)];
                                                                            self.navigationItem.rightBarButtonItem = barButtonItem;
                                                                            [activity startAnimating];
-                                                                           [barButtonItem release];
+                                                                           
                                                                            [self showBadImage];
                                                                       });
                                                                  } else {
@@ -901,7 +897,6 @@
           
           UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(viewWillAppear:)];
           self.navigationItem.rightBarButtonItem = barButtonItem;
-          [barButtonItem release];
           
           [self showBadImage];
      }

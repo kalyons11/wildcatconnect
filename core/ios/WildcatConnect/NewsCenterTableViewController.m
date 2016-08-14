@@ -23,7 +23,7 @@
      refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"PULL TO REFRESH"];
     self.refreshControl= refreshControl;
      
-     isReloading = false;
+     isReloading = true;
      
      self.navigationItem.title = @"Wildcat News";
     
@@ -43,12 +43,12 @@
                          self.newsArticleImages = returnArrayB;
                          self.dataArray = dataReturnArray;
                          dispatch_async(dispatch_get_main_queue(), ^ {
+                              isReloading = false;
                               [self.tableView reloadData];
                               [activity stopAnimating];
                               [self refreshControl];
                               UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Read All" style:UIBarButtonItemStylePlain target:self action:@selector(readAllMethod)];
                               self.navigationItem.rightBarButtonItem = barButtonItem;
-                              [barButtonItem release];
                          });
                     }];
                }];
@@ -259,11 +259,11 @@
                               [userDefaults synchronize];
                               dispatch_async(dispatch_get_main_queue(), ^ {
                                    [activity stopAnimating];
+                                   isReloading = false;
                                    [self.tableView reloadData];
                                    [self refreshControl];
                                    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Read All" style:UIBarButtonItemStylePlain target:self action:@selector(readAllMethod)];
                                    self.navigationItem.rightBarButtonItem = barButtonItem;
-                                   [barButtonItem release];
                               });
                          }
                     } withArray:returnArrayA];
@@ -448,10 +448,13 @@
 
  - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
  // Configure the cell...
-      if (self.newsArticles.count == 0) {
-           UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"CellIdentifier"];
+      UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"CellIdentifier"];
+      if (self.newsArticles.count == 0 && isReloading == true) {
            cell.textLabel.text = @"Loading your data...";
-           return  cell;
+           return cell;
+      } else if (self.newsArticles.count == 0 && isReloading == false) {
+           cell.textLabel.text = @"No news stories to display.";
+           return cell;
       } else {
            if ([self.newsArticles objectAtIndex:indexPath.row] && [self.newsArticleImages objectAtIndex:indexPath.row]) {
                 NewsArticleStructure *newsArticleStructure = ((NewsArticleStructure *)[self.newsArticles objectAtIndex:indexPath.row]);

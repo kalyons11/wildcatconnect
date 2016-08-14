@@ -4,8 +4,22 @@
 target 'WildcatConnect' do
 
   pod 'CocoaLumberjack'
+<<<<<<< HEAD
   pod ‘LogglyLogger-CocoaLumberjack’
   pod 'RNCryptor'
   pod 'CommonCrypto'
+=======
+  pod "LogglyLogger-CocoaLumberjack", "~> 2.0"
+
+  target 'WildcatConnectTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+  target 'WildcatConnectUITests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 
 end

@@ -7,7 +7,10 @@ PODS:
     - CocoaLumberjack/Core
   - CocoaLumberjack/Extensions (2.3.0):
     - CocoaLumberjack/Default
+<<<<<<< HEAD
   - CommonCrypto (1.1)
+=======
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
   - LogglyLogger-CocoaLumberjack (2.3.1):
     - CocoaLumberjack (~> 2.0)
     - LogglyLogger-CocoaLumberjack/Formatter (= 2.3.1)
@@ -16,6 +19,7 @@ PODS:
     - CocoaLumberjack (~> 2.0)
   - LogglyLogger-CocoaLumberjack/Logger (2.3.1):
     - CocoaLumberjack (~> 2.0)
+<<<<<<< HEAD
   - RNCryptor (3.0.1)
 
 DEPENDENCIES:
@@ -31,5 +35,17 @@ SPEC CHECKSUMS:
   RNCryptor: 761fc3ed94d1a0e409ba5b8e5dbef6a8f69352a7
 
 PODFILE CHECKSUM: cb4d9108db18f7b295f79eb0d35dc0e683edf019
+=======
+
+DEPENDENCIES:
+  - CocoaLumberjack
+  - LogglyLogger-CocoaLumberjack (~> 2.0)
+
+SPEC CHECKSUMS:
+  CocoaLumberjack: 97fab7ee5f507fe54445cca7ea80f926729cfd15
+  LogglyLogger-CocoaLumberjack: 9d84459e8377408e845ecef7a20ac0e15a4578e0
+
+PODFILE CHECKSUM: a3a2e387d8493084340e3e8c2c5947908d8303cc
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 
 COCOAPODS: 1.0.1
