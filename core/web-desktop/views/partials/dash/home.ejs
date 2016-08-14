@@ -1,6 +1,41 @@
 <h4><p class="text-muted">Welcome to the <%= model.page.configurations.applicationName %> Web Dashboard. You can select any of the actions in the left sidebar.</p></h4>
 <h3>Application Messages</h3>
 <div id="applicationMessages">
-	<% var now = moment().format("h:mm A"); %>
-	<p>No application messages at this time.</p><p class="text-muted">Last updated at <%= now %>.</p>
+
 </div>
+<% var now = moment().format("h:mm A"); %>
+<p class="text-muted">Last updated at <%= now %>.</p>
+<script>
+
+    var message = null;
+
+    loadPage();
+
+    function loadPage(message) {
+        $("#applicationMessages").html("");
+        setLoadingMessage("Loading dashboard...");
+        $("#loading").fadeIn();
+        $.ajax({
+            url: "/app/dashboard/load",
+            type: "post",
+            data: {key: "value"}, // Encrypt all data...
+            datatype: 'json',
+            crossDomain: true,
+
+            success: function(response){
+                message = response["message"];
+                if (message != null && message != "None.") {
+                    $("#applicationMessages").html('<ul><li style="color: red;"><h3 style="color: red;"><strong>' + message + '</strong></h3></li></ul>');
+                } else {
+                    $("#applicationMessages").html('<p>No application messages at this time.</p>');
+                }
+                $("#loading").fadeOut();
+            },
+
+            error: function(request, status, error) {
+                setMessage("Internal server error. If this problem continues, please contact support.", true);
+                $("#loading").fadeOut();
+            }
+        });
+    }
+</script>

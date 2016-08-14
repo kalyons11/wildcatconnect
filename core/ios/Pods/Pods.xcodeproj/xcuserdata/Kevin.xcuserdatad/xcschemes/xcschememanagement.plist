@@ -9,23 +9,54 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>CommonCrypto.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>LogglyLogger-CocoaLumberjack.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-WildcatConnect.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-WildcatConnectTests.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>Pods-WildcatConnectUITests.xcscheme</key>
+		<key>RNCryptor.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
-	<dict/>
+	<dict>
+		<key>0339639885D3F74DFCF0F68BBF55C91E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>12E2BC28C62976C425F4B71C2723F0B1</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>30448F4F284ABAF04CD26DD12F9AC105</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>90B0D7F54939C6D71096FA6249B805FE</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>C9D33F1ADA130719613C73F24E163234</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+	</dict>
 </dict>
 </plist>

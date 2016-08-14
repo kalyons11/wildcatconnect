@@ -22,9 +22,10 @@
 #import <SystemConfiguration/SystemConfiguration.h>
 #import "Reachability.h"
 #import "ScholarshipStructure.h"
-#import "LogglyLogger.h"
-#import "LogglyFormatter.h"
-     //static const int ddLogLevel = DDLogLevelVerbose;
+#import <LogglyLogger.h>
+#import <LogglyFormatter.h>
+
+static const int ddLogLevel = DDLogLevelVerbose;
 
 @implementation AppDelegate {
      BOOL connected;
@@ -55,9 +56,17 @@ void uncaughtExceptionHandler(NSException *exception) {
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
      
+          //Config test
+     
+     [Utils loadConfigurations];
+     
+     NSString *test = [Utils getConfigurationForKey:@"appId"];
+     
+     test = [Utils decrypt:test];
+     
      LogglyLogger *logglyLogger = [[LogglyLogger alloc] init];
      [logglyLogger setLogFormatter:[[LogglyFormatter alloc] init]];
-     logglyLogger.logglyKey = @"testKey";
+     logglyLogger.logglyKey = @"4e51ee0a-d0a5-4d24-90d7-16c1f4efdc20";
      
           // Set posting interval every 15 seconds, just for testing this out, but the default value of 600 seconds is better in apps
           // that normally don't access the network very often. When the user suspends the app, the logs will always be posted.

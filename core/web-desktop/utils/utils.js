@@ -3,34 +3,33 @@
 var JSON = require('./JSON.js').JSON;
 global.winston = require('winston');
 var config = require('../config_enc');
-var CryptoJS = require('crypto-js');
 var Promise = require('promise');
+var crypto = require('cryptlib');
 
-var hasher = "dc4862c8-6a8b-49b4-a0e4-fe2bda364281";
+var iv = "_sbSmKUxVQAQ-hvQ"; //16 bytes = 128 bit
+var key = "1bf6bf65e45b55825b1919cbadd028e6";
 
 module.exports.encrypt = function(string) {
-    var result = CryptoJS.AES.encrypt(string, hasher);
-    return result.toString();
+    var cypherText = crypto.encrypt(string, key, iv);
+    return cypherText;
 };
 
 module.exports.encryptObject = function (object) {
-    var result = CryptoJS.AES.encrypt(JSON.stringify(object), hasher);
-    return result.toString();
+    var cypherText = crypto.encrypt(JSON.stringify(object), key, iv);
+    return cypherText;
 };
 
 module.exports.decrypt = function(string) {
-    var bytes  = CryptoJS.AES.decrypt(string, hasher);
-    var result = bytes.toString(CryptoJS.enc.Utf8);
-    result =  module.exports.trimQuotes(result);
-    return result;
+    var dec = crypto.decrypt(string, key, iv);
+    return dec;
 };
 
 module.exports.decryptObject = function (string) {
-    var bytes = CryptoJS.AES.decrypt(string, hasher);
-    return JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+    var dec = crypto.decrypt(string, key, iv);
+    return JSON.parse(dec);
 };
 
-var Dashboard = require('../models/dashboard');
+//var Dashboard = require('../models/dashboard');
 
 module.exports.trimQuotes = function(string) {
     if (string.charAt(0) == '"')
@@ -40,9 +39,9 @@ module.exports.trimQuotes = function(string) {
 
 var config = module.exports.decryptObject(config);
 
-var Mailgun = require('mailgun-js')({ apiKey: module.exports.decrypt(config.mailgunKey), domain: 'wildcatconnect.com'} );
+//var Mailgun = require('mailgun-js')({ apiKey: module.exports.decrypt(config.mailgunKey), domain: 'wildcatconnect.com'} );
 
-var logglyToken = module.exports.decrypt(config.logglyToken);
+/*var logglyToken = module.exports.decrypt(config.logglyToken);
 var logglySubdomain = config.logglySubdomain;
 var nodeTag = config.nodeTag;
 
@@ -53,7 +52,7 @@ winston.add(winston.transports.Loggly, {
     subdomain: logglySubdomain,
     tags: [nodeTag],
     json: true
-});
+});*/
 
 //endregion
 

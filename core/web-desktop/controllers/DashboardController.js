@@ -123,15 +123,37 @@ exports.home = function(req, res) {
 exports.homePost = function (req, res) {
     var action = req.params.action;
     if (action == "statistics") {
-        // Add Installation query... TO DO
-        var sum = 0;
-        var queryTwo = new Parse.Query("User");
-        queryTwo.count().then(function(user) {
-            var queryThree = new Parse.Query("ContentStructure"); // TO DO - Make archive to look for old ones (:
-            queryThree.first().then(function(obj) {
-                var count = obj.get("value");
-                res.send({install: 0, user: user, content: count});
-            })});
+        Parse.Cloud.run("countInstallations", null, {
+            success: function (install) {
+                var queryTwo = new Parse.Query("User");
+                queryTwo.count().then(function (user) {
+                    var queryThree = new Parse.Query("ContentStructure"); // TO DO - Make archive to look for old ones (:
+                    queryThree.first().then(function (obj) {
+                        var count = obj.get("value");
+                        res.send({install: install, user: user, content: count});
+                    })
+                });
+            }, error: function (error) {
+                res.send({res: error});
+            }
+        });
+    }
+};
+
+exports.mainPost = function(req, res) {
+    var action = req.params.action;
+    if (action == "load") {
+        var query = new Parse.Query("SpecialKeyStructure");
+        query.equalTo("key", "webMessage");
+        query.first({
+            success: function (object) {
+                var value = object.get("value");
+                res.send({message: value});
+            },
+            error: function(error) {
+                res.send({res: error});
+            }
+        });
     }
 };
 

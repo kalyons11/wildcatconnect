@@ -1,4 +1,4 @@
-var input = process.argv[process.argv.length - 1];
+var input = process.argv[process.argv.length - 1] || "devPass123";
 
 console.log(input);
 

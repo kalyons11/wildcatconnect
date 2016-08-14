@@ -46,6 +46,7 @@ router.get('/app', function(req, res) {
 
 router.get('/app/login', AccountController.getLogin);
 router.post('/app/login', AccountController.postLogin);
+
 router.get('/app/signup', AccountController.getSignup);
 router.post('/app/signup', AccountController.postSignup);
 
@@ -55,13 +56,21 @@ router.post('/app/forgot', ForgotController.postForgot);
 router.get('/app/verify', AccountController.getVerify);
 router.post('/app/verify', AccountController.postVerify);
 
-router.post('/app/dashboard/:path/:action/ajax/:request', DashboardController.custom);
-
 router.all('/app/*', AccountController.authenticate, function(req, res, next) {
 	next();
 });
 
+router.post('/app/dashboard/:path/:action/ajax/:request', DashboardController.custom);
+
+router.post('/app/dashboard/:action', DashboardController.mainPost);
+
 router.get('/app/dashboard', DashboardController.authenticate);
+
 router.all(['/app/dashboard/:path', '/app/dashboard/:path/:action', '/app/dashboard/:path/:action/:subaction'], DashboardController.route);
+
+router.get('/download/ios', function(req, res) {
+    var link = config.page.iosUrl;
+    res.redirect(link);
+});
 
 module.exports = router;

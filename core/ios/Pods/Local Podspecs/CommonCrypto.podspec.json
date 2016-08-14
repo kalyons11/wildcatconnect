@@ -1,0 +1,43 @@
+{
+  "name": "CommonCrypto",
+  "version": "1.0",
+  "summary": "CommonCrypto CocoaPod",
+  "description": "CommonCrypto CocoaPod for iOS",
+  "module_map": "Headers/module.map",
+  "homepage": "https://developer.apple.com/cryptography/",
+  "license": {
+    "type": "Copyright",
+    "text": "Copyright Canecom 2016"
+  },
+  "authors": "Tibor Bodecs <bodecs@canecom.com>",
+  "platforms": {
+    "ios": "8.0"
+  },
+  "vendored_libraries": [
+
+  ],
+  "preserve_paths": [
+    "Headers/module.map"
+  ],
+  "public_header_files": [
+
+  ],
+  "source_files": [
+
+  ],
+  "resource_bundles": {
+  },
+  "user_target_xcconfig": {
+    "HEADER_SEARCH_PATHS": "$(inherited) ${PODS_ROOT}/CommonCrypto/Headers"
+  },
+  "frameworks": [
+
+  ],
+  "libraries": [
+
+  ],
+  "source": {
+    "git": "https://github.com/Canecom/CommonCrypto.git",
+    "tag": "v1.0"
+  }
+}
