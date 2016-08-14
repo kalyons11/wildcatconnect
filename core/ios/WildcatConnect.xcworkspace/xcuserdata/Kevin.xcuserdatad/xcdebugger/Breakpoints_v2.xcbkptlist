@@ -11,17 +11,23 @@
             continueAfterRunningActions = "No"
             filePath = "WildcatConnect/AppDelegate.m"
 <<<<<<< HEAD
+<<<<<<< HEAD
             timestampString = "492621287.542671"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "70"
             endingLineNumber = "70"
 =======
+=======
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
             timestampString = "492310223.577536"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "91"
             endingLineNumber = "91"
+<<<<<<< HEAD
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
+=======
 >>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
             landmarkName = "-application:didFinishLaunchingWithOptions:"
             landmarkType = "5">
@@ -29,7 +35,10 @@
       </BreakpointProxy>
       <BreakpointProxy
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
          BreakpointExtensionID = "Xcode.Breakpoint.AddressBreakpoint">
          <BreakpointContent
             shouldBeEnabled = "No"
@@ -56,12 +65,16 @@
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
+<<<<<<< HEAD
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
+=======
 >>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
+<<<<<<< HEAD
 <<<<<<< HEAD
             filePath = "WildcatConnect/AppDelegate.m"
             timestampString = "492621287.542671"
@@ -71,6 +84,8 @@
             endingLineNumber = "67"
             landmarkName = "-application:didFinishLaunchingWithOptions:"
 =======
+=======
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
             filePath = "WildcatConnect/AlertsTableViewController.m"
             timestampString = "492307181.55203"
             startingColumnNumber = "9223372036854775807"
@@ -78,6 +93,9 @@
             startingLineNumber = "313"
             endingLineNumber = "313"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
+<<<<<<< HEAD
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
+=======
 >>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
             landmarkType = "5">
          </BreakpointContent>
@@ -88,6 +106,7 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
+<<<<<<< HEAD
 <<<<<<< HEAD
             filePath = "WildcatConnect/Utils.m"
             timestampString = "492620787.222097"
@@ -97,6 +116,8 @@
             endingLineNumber = "18"
             landmarkName = "+loadConfigurations"
 =======
+=======
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
             filePath = "WildcatConnect/NewsCenterTableViewController.m"
             timestampString = "492307181.55203"
             startingColumnNumber = "9223372036854775807"
@@ -104,6 +125,9 @@
             startingLineNumber = "453"
             endingLineNumber = "453"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
+<<<<<<< HEAD
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
+=======
 >>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
             landmarkType = "5">
          </BreakpointContent>
@@ -115,6 +139,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
 <<<<<<< HEAD
+<<<<<<< HEAD
             filePath = "WildcatConnect/Utils.m"
             timestampString = "492621262.308141"
             startingColumnNumber = "9223372036854775807"
@@ -123,6 +148,8 @@
             endingLineNumber = "20"
             landmarkName = "+loadConfigurations"
 =======
+=======
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
             filePath = "WildcatConnect/NewsCenterTableViewController.m"
             timestampString = "492307181.55203"
             startingColumnNumber = "9223372036854775807"
@@ -130,6 +157,9 @@
             startingLineNumber = "456"
             endingLineNumber = "456"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
+<<<<<<< HEAD
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
+=======
 >>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
             landmarkType = "5">
          </BreakpointContent>
@@ -137,6 +167,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+<<<<<<< HEAD
 <<<<<<< HEAD
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -149,6 +180,8 @@
             endingLineNumber = "33"
             landmarkName = "+encrypt:"
 =======
+=======
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -159,6 +192,9 @@
             startingLineNumber = "26"
             endingLineNumber = "26"
             landmarkName = "-viewDidLoad"
+<<<<<<< HEAD
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
+=======
 >>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
             landmarkType = "5">
          </BreakpointContent>
@@ -166,6 +202,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+<<<<<<< HEAD
 <<<<<<< HEAD
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -178,6 +215,8 @@
             endingLineNumber = "38"
             landmarkName = "+decrypt:"
 =======
+=======
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -284,6 +323,9 @@
             startingLineNumber = "102"
             endingLineNumber = "102"
             landmarkName = "-application:didFinishLaunchingWithOptions:"
+<<<<<<< HEAD
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
+=======
 >>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
             landmarkType = "5">
          </BreakpointContent>
@@ -295,6 +337,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
 <<<<<<< HEAD
+<<<<<<< HEAD
             filePath = "WildcatConnect/Utils.m"
             timestampString = "492621262.308141"
             startingColumnNumber = "9223372036854775807"
@@ -303,6 +346,8 @@
             endingLineNumber = "46"
             landmarkName = "+encryptObject:"
 =======
+=======
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
             filePath = "Pods/LogglyLogger-CocoaLumberjack/LogglyLogger-CocoaLumberjack/LogglyLogger.m"
             timestampString = "492309228.832466"
             startingColumnNumber = "9223372036854775807"
@@ -310,6 +355,9 @@
             startingLineNumber = "115"
             endingLineNumber = "115"
             landmarkName = "-doPostToLoggly:"
+<<<<<<< HEAD
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
+=======
 >>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
             landmarkType = "5">
          </BreakpointContent>
@@ -317,6 +365,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+<<<<<<< HEAD
 <<<<<<< HEAD
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -328,6 +377,8 @@
             startingLineNumber = "65"
             endingLineNumber = "65"
 =======
+=======
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -337,6 +388,9 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "100"
             endingLineNumber = "100"
+<<<<<<< HEAD
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
+=======
 >>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
             landmarkName = "-application:didFinishLaunchingWithOptions:"
             landmarkType = "5">

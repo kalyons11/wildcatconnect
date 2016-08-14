@@ -28,6 +28,9 @@
 =======
 #import "LogglyLogger.h"
 #import "LogglyFormatter.h"
+<<<<<<< HEAD
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
+=======
 >>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 
 static const int ddLogLevel = DDLogLevelVerbose;
@@ -69,6 +72,7 @@ void uncaughtExceptionHandler(NSException *exception) {
      NSArray *array = [[NSArray alloc] init];
      
           //int x = array[1];
+<<<<<<< HEAD
      
           //Config test
      
@@ -77,14 +81,19 @@ void uncaughtExceptionHandler(NSException *exception) {
      NSString *test = [Utils getConfigurationForKey:@"appId"];
      
      test = [Utils decrypt:test];
+=======
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
      
      LogglyLogger *logglyLogger = [[LogglyLogger alloc] init];
      [logglyLogger setLogFormatter:[[LogglyFormatter alloc] init]];
      logglyLogger.logglyKey = @"4e51ee0a-d0a5-4d24-90d7-16c1f4efdc20";
 <<<<<<< HEAD
+<<<<<<< HEAD
      
           // Set posting interval every 15 seconds, just for testing this out, but the default value of 600 seconds is better in apps
           // that normally don't access the network very often. When the user suspends the app, the logs will always be posted.
+=======
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 =======
 >>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
      

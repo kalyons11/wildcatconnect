@@ -44,10 +44,13 @@
 		0AA5C9041C3326BB00C42892 /* logoSmall.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AA5C9031C3326BB00C42892 /* logoSmall.png */; };
 		0AAA54A51C735BAC009A7ABF /* CommunityServiceDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAA54A41C735BAC009A7ABF /* CommunityServiceDetailViewController.m */; };
 <<<<<<< HEAD
+<<<<<<< HEAD
 		0AAD91C41D5C34970049ABF8 /* Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0AAD91C31D5C34970049ABF8 /* Config.plist */; };
 		0AAD91CB1D5C36230049ABF8 /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAD91CA1D5C36230049ABF8 /* Utils.m */; };
 		0AAD91D71D5CCBBC0049ABF8 /* FBEncryptorAES.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAD91D41D5CCBBC0049ABF8 /* FBEncryptorAES.m */; };
 		0AAD91D81D5CCBBC0049ABF8 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAD91D61D5CCBBC0049ABF8 /* NSData+Base64.m */; };
+=======
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 =======
 >>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 		0AD53D5C1C208B4D007E5184 /* RegisterExtracurricularViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AD53D5B1C208B4D007E5184 /* RegisterExtracurricularViewController.m */; };
@@ -219,6 +222,7 @@
 		0AAA54A31C735BAC009A7ABF /* CommunityServiceDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommunityServiceDetailViewController.h; sourceTree = "<group>"; };
 		0AAA54A41C735BAC009A7ABF /* CommunityServiceDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommunityServiceDetailViewController.m; sourceTree = "<group>"; };
 <<<<<<< HEAD
+<<<<<<< HEAD
 		0AAD91C31D5C34970049ABF8 /* Config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Config.plist; path = ../Config.plist; sourceTree = "<group>"; };
 		0AAD91C91D5C36230049ABF8 /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
 		0AAD91CA1D5C36230049ABF8 /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
@@ -227,6 +231,8 @@
 		0AAD91D41D5CCBBC0049ABF8 /* FBEncryptorAES.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBEncryptorAES.m; sourceTree = "<group>"; };
 		0AAD91D51D5CCBBC0049ABF8 /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Base64.h"; sourceTree = "<group>"; };
 		0AAD91D61D5CCBBC0049ABF8 /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Base64.m"; sourceTree = "<group>"; };
+=======
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 =======
 >>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 		0AD53D5A1C208B4D007E5184 /* RegisterExtracurricularViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterExtracurricularViewController.h; sourceTree = "<group>"; };

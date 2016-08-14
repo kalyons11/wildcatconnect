@@ -1,8 +1,11 @@
 dependencies: \
   /Users/Kevin/wildcatconnect/core/ios/WildcatConnect/AppDelegate.m \
 <<<<<<< HEAD
+<<<<<<< HEAD
   /Users/Kevin/wildcatconnect/core/ios/./PrefixHeader.pch \
   /Users/Kevin/wildcatconnect/core/ios/WildcatConnect/Utils.h \
+=======
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 =======
 >>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
   /Users/Kevin/wildcatconnect/core/ios/WildcatConnect/AppDelegate.h \
@@ -76,7 +79,13 @@ dependencies: \
   /Users/Kevin/wildcatconnect/core/ios/WildcatConnect/ErrorStructure.h \
   /Users/Kevin/wildcatconnect/core/ios/Reachability.h \
 <<<<<<< HEAD
+<<<<<<< HEAD
   /Users/Kevin/wildcatconnect/core/ios/WildcatConnect/ScholarshipStructure.h
+=======
+  /Users/Kevin/wildcatconnect/core/ios/WildcatConnect/ScholarshipStructure.h \
+  /Users/Kevin/wildcatconnect/core/ios/LogglyLogger-CocoaLumberjack/LogglyLogger-CocoaLumberjack/LogglyLogger.h \
+  /Users/Kevin/wildcatconnect/core/ios/LogglyLogger-CocoaLumberjack/LogglyLogger-CocoaLumberjack/LogglyFormatter.h
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 =======
   /Users/Kevin/wildcatconnect/core/ios/WildcatConnect/ScholarshipStructure.h \
   /Users/Kevin/wildcatconnect/core/ios/LogglyLogger-CocoaLumberjack/LogglyLogger-CocoaLumberjack/LogglyLogger.h \

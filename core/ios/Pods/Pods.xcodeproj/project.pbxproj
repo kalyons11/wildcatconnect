@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 <<<<<<< HEAD
+<<<<<<< HEAD
 		015EABB74799B7E072A1B4905519522C /* NSData+CommonCrypto.h in Headers */ = {isa = PBXBuildFile; fileRef = 6B0A48ECDBA788609B481F2397939817 /* NSData+CommonCrypto.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1E6A591B3DEE6317BB014BD71A50B689 /* DDASLLogCapture.h in Headers */ = {isa = PBXBuildFile; fileRef = 9C023AABD853C57D4CAAE23E11CECB57 /* DDASLLogCapture.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2182E7EEE66D5E402EE2D78AA2BE66CF /* Pods-WildcatConnect-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 792C2B9C20D9C65B24389BA367B4AF83 /* Pods-WildcatConnect-dummy.m */; };
@@ -71,6 +72,8 @@
 		};
 		5BC5151E60C716537A2F673A38A20931 /* PBXContainerItemProxy */ = {
 =======
+=======
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 		1E6A591B3DEE6317BB014BD71A50B689 /* DDASLLogCapture.h in Headers */ = {isa = PBXBuildFile; fileRef = E42793454B805FC561972C20557E061C /* DDASLLogCapture.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3DDD0FB94D61AB71C8F5C727EC7A0BD9 /* DDLogMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C3BDFF9C6BB0077CAABB4658857D5A /* DDLogMacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		41F221F9E8FDE456D3E9EB34B4C5EBF1 /* DDFileLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 589D533B0D99DA35C66F3490AA097CD8 /* DDFileLogger.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
@@ -121,6 +124,16 @@
 			remoteInfo = "LogglyLogger-CocoaLumberjack";
 		};
 		A4755EE0B5510D01F0A35347FA304D8C /* PBXContainerItemProxy */ = {
+<<<<<<< HEAD
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
+=======
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 12E2BC28C62976C425F4B71C2723F0B1;
+			remoteInfo = CocoaLumberjack;
+		};
+		E8DBFFE15BD0AEAB7859CC9DF59857FC /* PBXContainerItemProxy */ = {
 >>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
@@ -155,6 +168,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+<<<<<<< HEAD
 <<<<<<< HEAD
 		0403DA440282A56BEE173640F6BB32D6 /* RNCryptor.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RNCryptor.m; path = RNCryptor/RNCryptor.m; sourceTree = "<group>"; };
 		07F82C4BC1D644101EB92920D59AEAC2 /* Pods-WildcatConnect-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-WildcatConnect-acknowledgements.markdown"; sourceTree = "<group>"; };
@@ -224,6 +238,8 @@
 		FD4C8669ACA8C1D9B00939ED18E2F931 /* Pods-WildcatConnect.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-WildcatConnect.debug.xcconfig"; sourceTree = "<group>"; };
 		FFC0F0CD882922955E35BE25F0A2F8FC /* CocoaLumberjack-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "CocoaLumberjack-prefix.pch"; sourceTree = "<group>"; };
 =======
+=======
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 		03A9B1083F5194D3C6F58F52A3173E49 /* LogglyFormatter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = LogglyFormatter.h; path = "LogglyLogger-CocoaLumberjack/LogglyFormatter.h"; sourceTree = "<group>"; };
 		04A33C9918C47A2337F21C3DF0E6AD8E /* Pods-WildcatConnect-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-WildcatConnect-acknowledgements.markdown"; sourceTree = "<group>"; };
 		067A5EF6D0B4A23B3CDBD7A4E279B076 /* CocoaLumberjack.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CocoaLumberjack.h; path = Classes/CocoaLumberjack.h; sourceTree = "<group>"; };
@@ -287,6 +303,9 @@
 		F503FA03705FCB82DE044776CC14C384 /* DDASLLogger.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DDASLLogger.h; path = Classes/DDASLLogger.h; sourceTree = "<group>"; };
 		F712C583AEE7FF303CD8EF983898C24A /* DDAbstractDatabaseLogger.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DDAbstractDatabaseLogger.h; path = Classes/DDAbstractDatabaseLogger.h; sourceTree = "<group>"; };
 		FEE546CD1A0D9F2165BB1AA8F530724A /* CocoaLumberjack.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = CocoaLumberjack.xcconfig; sourceTree = "<group>"; };
+<<<<<<< HEAD
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
+=======
 >>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 /* End PBXFileReference section */
 
@@ -300,6 +319,7 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 <<<<<<< HEAD
+<<<<<<< HEAD
 		52D160A86ED32A8190138F7FEADFB54D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -310,6 +330,8 @@
 		};
 		B18B850C805D792E03BD6450329E1580 /* Frameworks */ = {
 =======
+=======
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 		3E6CCD3752B1F8B738E94578F80D51D6 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -348,7 +370,10 @@
 
 /* Begin PBXGroup section */
 <<<<<<< HEAD
+<<<<<<< HEAD
 		214ADB1A9910E90142444E58C5BF991F /* LogglyLogger-CocoaLumberjack */ = {
+=======
+		00FE18A76C25C42EC736C78DA44DC979 /* Extensions */ = {
 =======
 		00FE18A76C25C42EC736C78DA44DC979 /* Extensions */ = {
 			isa = PBXGroup;
@@ -364,6 +389,32 @@
 			sourceTree = "<group>";
 		};
 		04A1BC6B57D06D89B3549E419C9FEE2B /* Targets Support Files */ = {
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
+			isa = PBXGroup;
+			children = (
+				5D071417E5C11133C68B13C133769AD4 /* DDContextFilterLogFormatter.h */,
+				F40DB56E81759AFFC46EB7913B00ECEF /* DDContextFilterLogFormatter.m */,
+				88D1E0A1C28BBFFD3B43415EDA2908F3 /* DDDispatchQueueLogFormatter.h */,
+				974CBB988E49829FF0B32393403B3D13 /* DDDispatchQueueLogFormatter.m */,
+				EFAEA718DE8C3700BF700441D428A3A2 /* DDMultiFormatter.h */,
+				12611B12EF39F98960C9880D59DBF3CD /* DDMultiFormatter.m */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
+<<<<<<< HEAD
+		04A1BC6B57D06D89B3549E419C9FEE2B /* Targets Support Files */ = {
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
+=======
+		0EDA26C9AF61002BAF7C4A98DDF1498B /* Default */ = {
+			isa = PBXGroup;
+			children = (
+				067A5EF6D0B4A23B3CDBD7A4E279B076 /* CocoaLumberjack.h */,
+			);
+			name = Default;
+			sourceTree = "<group>";
+		};
+		262952C7664EB855DDD34B1DDC27647A /* Pods-WildcatConnectUITests */ = {
 >>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 			isa = PBXGroup;
 			children = (
@@ -385,6 +436,7 @@
 			name = Default;
 			sourceTree = "<group>";
 		};
+<<<<<<< HEAD
 		262952C7664EB855DDD34B1DDC27647A /* Pods-WildcatConnectUITests */ = {
 >>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 			isa = PBXGroup;
@@ -410,9 +462,49 @@
 				686642C7C251F29316B40668FDE5D3EF /* CocoaLumberjack.xcconfig */,
 				22192C5C68FE650D6A7BC2F43A493DC5 /* CocoaLumberjack-dummy.m */,
 				FFC0F0CD882922955E35BE25F0A2F8FC /* CocoaLumberjack-prefix.pch */,
+=======
+		4139141295E224B40C1CE49F22A4B42C /* CocoaLumberjack */ = {
+			isa = PBXGroup;
+			children = (
+				F95FA768CA329E401ECF109B29FD752B /* Core */,
+				0EDA26C9AF61002BAF7C4A98DDF1498B /* Default */,
+				00FE18A76C25C42EC736C78DA44DC979 /* Extensions */,
+				84872DBBBDC060F64172EA2CBE60F556 /* Support Files */,
+			);
+			path = CocoaLumberjack;
+			sourceTree = "<group>";
+		};
+		49251911E8221E51ADE5768671DE5908 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				4139141295E224B40C1CE49F22A4B42C /* CocoaLumberjack */,
+				A33410306635379E9D8BE049296942D5 /* LogglyLogger-CocoaLumberjack */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		615F24B59579CC50892DDD2B5C0A43AA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				109312148160B48E6263B6DC2C48AFEE /* libCocoaLumberjack.a */,
+				9AF292EFA35A9591DE90A738C372100A /* libLogglyLogger-CocoaLumberjack.a */,
+				F488A214AF6850D28C5FF102F720ADED /* libPods-WildcatConnect.a */,
+				54A219AA1301ED18E3276D2DBE901BFF /* libPods-WildcatConnectTests.a */,
+				E3F380AA66B03CFDDEEEDB6DCF98C48F /* libPods-WildcatConnectUITests.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		69FF108AB681E1743E7626C9B68416EB /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				D9CAA52E4AE721A72A9A76512D807F9B /* LogglyLogger-CocoaLumberjack.xcconfig */,
+				4F08323C8506E94664EF703791FB5D70 /* LogglyLogger-CocoaLumberjack-dummy.m */,
+				D177A8B3CA9338F33357A2ABC75B39FA /* LogglyLogger-CocoaLumberjack-prefix.pch */,
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 			);
 			name = "Support Files";
-			path = "../Target Support Files/CocoaLumberjack";
+			path = "../Target Support Files/LogglyLogger-CocoaLumberjack";
 			sourceTree = "<group>";
 		};
 		433CD3331B6C3787F473C941B61FC68F /* Frameworks */ = {
@@ -572,6 +664,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+<<<<<<< HEAD
 		966C9AF5F077C26FF6AAFCA6792622C0 /* Formatter */ = {
 			isa = PBXGroup;
 			children = (
@@ -701,6 +794,54 @@
 				03A9B1083F5194D3C6F58F52A3173E49 /* LogglyFormatter.h */,
 				409114ED185673A19CC00243E376F789 /* LogglyFormatter.m */,
 			);
+=======
+		84872DBBBDC060F64172EA2CBE60F556 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				FEE546CD1A0D9F2165BB1AA8F530724A /* CocoaLumberjack.xcconfig */,
+				809A6CAE605DB48193EC980530AE747F /* CocoaLumberjack-dummy.m */,
+				10C8BB948F0DDDAF0B9BD754B1DCC94C /* CocoaLumberjack-prefix.pch */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/CocoaLumberjack";
+			sourceTree = "<group>";
+		};
+		A33410306635379E9D8BE049296942D5 /* LogglyLogger-CocoaLumberjack */ = {
+			isa = PBXGroup;
+			children = (
+				CABECD99F6ABE6E2E51C37349D3B4D2E /* Formatter */,
+				B1FAA978779C1BF88D9FA273AE477DEC /* Logger */,
+				69FF108AB681E1743E7626C9B68416EB /* Support Files */,
+			);
+			path = "LogglyLogger-CocoaLumberjack";
+			sourceTree = "<group>";
+		};
+		B1FAA978779C1BF88D9FA273AE477DEC /* Logger */ = {
+			isa = PBXGroup;
+			children = (
+				67B0823B7DB2B5C0FE4202A606D5C01A /* LogglyLogger.h */,
+				8139467DE4A22D2F38631046344195EA /* LogglyLogger.m */,
+			);
+			name = Logger;
+			sourceTree = "<group>";
+		};
+		BC3CA7F9E30CC8F7E2DD044DD34432FC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3DCAB2B7CDE207B3958B6CB957FCC758 /* iOS */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CABECD99F6ABE6E2E51C37349D3B4D2E /* Formatter */ = {
+			isa = PBXGroup;
+			children = (
+				9D91FA3459869EEC63C21E5C9FCBD97C /* LogglyFields.h */,
+				AB2E84EB7AB7D5E1450D31F5F873B92D /* LogglyFields.m */,
+				03A9B1083F5194D3C6F58F52A3173E49 /* LogglyFormatter.h */,
+				409114ED185673A19CC00243E376F789 /* LogglyFormatter.m */,
+			);
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 			name = Formatter;
 			sourceTree = "<group>";
 		};
@@ -725,6 +866,9 @@
 				362A67F6B1D56624625F761D2A4F7154 /* DDTTYLogger.m */,
 			);
 			name = Core;
+<<<<<<< HEAD
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
+=======
 >>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 			sourceTree = "<group>";
 		};
@@ -775,6 +919,7 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 <<<<<<< HEAD
+<<<<<<< HEAD
 		89CCCD30B6F86FB421090E799F01EF94 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -783,6 +928,8 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+=======
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 =======
 >>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 /* End PBXHeadersBuildPhase section */
@@ -808,6 +955,9 @@
 			name = "Pods-WildcatConnectTests";
 			productName = "Pods-WildcatConnectTests";
 			productReference = 54A219AA1301ED18E3276D2DBE901BFF /* libPods-WildcatConnectTests.a */;
+<<<<<<< HEAD
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
+=======
 >>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 			productType = "com.apple.product-type.library.static";
 		};
@@ -826,7 +976,11 @@
 			name = CocoaLumberjack;
 			productName = CocoaLumberjack;
 <<<<<<< HEAD
+<<<<<<< HEAD
 			productReference = 48E79F55A376969BE616222A9866BA9C /* libCocoaLumberjack.a */;
+=======
+			productReference = 109312148160B48E6263B6DC2C48AFEE /* libCocoaLumberjack.a */;
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 =======
 			productReference = 109312148160B48E6263B6DC2C48AFEE /* libCocoaLumberjack.a */;
 >>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
@@ -848,7 +1002,11 @@
 			name = "LogglyLogger-CocoaLumberjack";
 			productName = "LogglyLogger-CocoaLumberjack";
 <<<<<<< HEAD
+<<<<<<< HEAD
 			productReference = A90FD6B4F814ED3394566BB71014FC6B /* libLogglyLogger-CocoaLumberjack.a */;
+=======
+			productReference = 9AF292EFA35A9591DE90A738C372100A /* libLogglyLogger-CocoaLumberjack.a */;
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 =======
 			productReference = 9AF292EFA35A9591DE90A738C372100A /* libLogglyLogger-CocoaLumberjack.a */;
 >>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
@@ -890,11 +1048,15 @@
 			buildPhases = (
 				E6D58D060113BAACE814903BED97194E /* Sources */,
 				3E6CCD3752B1F8B738E94578F80D51D6 /* Frameworks */,
+<<<<<<< HEAD
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
+=======
 >>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 			);
 			buildRules = (
 			);
 			dependencies = (
+<<<<<<< HEAD
 <<<<<<< HEAD
 				707F78A95D7A67471C9FE26D6A9E9C48 /* PBXTargetDependency */,
 				F18BD2B0E290B11C426F01035A68E2E2 /* PBXTargetDependency */,
@@ -905,12 +1067,17 @@
 			productName = "Pods-WildcatConnect";
 			productReference = 9438CE162258E16563031BB9849FE2F0 /* libPods-WildcatConnect.a */;
 =======
+=======
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 				D939893B07290EF3EAECF30CD3443041 /* PBXTargetDependency */,
 				67726BB3A99A216951E4F3CB851BBA32 /* PBXTargetDependency */,
 			);
 			name = "Pods-WildcatConnect";
 			productName = "Pods-WildcatConnect";
 			productReference = F488A214AF6850D28C5FF102F720ADED /* libPods-WildcatConnect.a */;
+<<<<<<< HEAD
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
+=======
 >>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 			productType = "com.apple.product-type.library.static";
 		};
@@ -932,7 +1099,11 @@
 			);
 			mainGroup = 7DB346D0F39D3F0E887471402A8071AB;
 <<<<<<< HEAD
+<<<<<<< HEAD
 			productRefGroup = 86094CD3C86A17F2DF6A2A4CC3189161 /* Products */;
+=======
+			productRefGroup = 615F24B59579CC50892DDD2B5C0A43AA /* Products */;
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 =======
 			productRefGroup = 615F24B59579CC50892DDD2B5C0A43AA /* Products */;
 >>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
@@ -941,11 +1112,14 @@
 			targets = (
 				12E2BC28C62976C425F4B71C2723F0B1 /* CocoaLumberjack */,
 <<<<<<< HEAD
+<<<<<<< HEAD
 				0339639885D3F74DFCF0F68BBF55C91E /* CommonCrypto */,
 				30448F4F284ABAF04CD26DD12F9AC105 /* LogglyLogger-CocoaLumberjack */,
 				C9D33F1ADA130719613C73F24E163234 /* Pods-WildcatConnect */,
 				90B0D7F54939C6D71096FA6249B805FE /* RNCryptor */,
 =======
+=======
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 				30448F4F284ABAF04CD26DD12F9AC105 /* LogglyLogger-CocoaLumberjack */,
 				DAADC3636971B710A5E591C085EAFF2B /* Pods-WildcatConnect */,
 				0562FF52ED5E8774A26D837F39DA4056 /* Pods-WildcatConnectTests */,
@@ -964,6 +1138,9 @@
 				2182E7EEE66D5E402EE2D78AA2BE66CF /* Pods-WildcatConnect-dummy.m in Sources */,
 =======
 				47B9D795415297BFCA90639C9B4C2940 /* Pods-WildcatConnectUITests-dummy.m in Sources */,
+<<<<<<< HEAD
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
+=======
 >>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -997,6 +1174,7 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 <<<<<<< HEAD
+<<<<<<< HEAD
 		D283723639A3359CC0567C3899D20B86 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1011,6 +1189,8 @@
 		};
 		EC66928DEBC4C930C7EB4B109EE88EFF /* Sources */ = {
 =======
+=======
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 		D0482B62CFDF605A780FB0801592CFE9 /* Sources */ = {
 >>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 			isa = PBXSourcesBuildPhase;
@@ -1029,15 +1209,31 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E6D58D060113BAACE814903BED97194E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FBBB9E433751B3595D003BBB4284EDBF /* Pods-WildcatConnect-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+<<<<<<< HEAD
 <<<<<<< HEAD
 		63F510B4C4C1CC505AA71452C87E2F3E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "LogglyLogger-CocoaLumberjack";
 			target = 30448F4F284ABAF04CD26DD12F9AC105 /* LogglyLogger-CocoaLumberjack */;
 			targetProxy = FD855F5713721CE86FBC3F4FCFEEF828 /* PBXContainerItemProxy */;
+=======
+		67726BB3A99A216951E4F3CB851BBA32 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "LogglyLogger-CocoaLumberjack";
+			target = 30448F4F284ABAF04CD26DD12F9AC105 /* LogglyLogger-CocoaLumberjack */;
+			targetProxy = 006E6B601B99D00005767077BF2DE40F /* PBXContainerItemProxy */;
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 		};
 		6E0319FABE67CC81AEBD8E87A064DE94 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1045,6 +1241,7 @@
 			target = 12E2BC28C62976C425F4B71C2723F0B1 /* CocoaLumberjack */;
 			targetProxy = E8DBFFE15BD0AEAB7859CC9DF59857FC /* PBXContainerItemProxy */;
 		};
+<<<<<<< HEAD
 		707F78A95D7A67471C9FE26D6A9E9C48 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = CocoaLumberjack;
@@ -1075,11 +1272,16 @@
 			target = 12E2BC28C62976C425F4B71C2723F0B1 /* CocoaLumberjack */;
 			targetProxy = E8DBFFE15BD0AEAB7859CC9DF59857FC /* PBXContainerItemProxy */;
 		};
+=======
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 		D939893B07290EF3EAECF30CD3443041 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = CocoaLumberjack;
 			target = 12E2BC28C62976C425F4B71C2723F0B1 /* CocoaLumberjack */;
 			targetProxy = A4755EE0B5510D01F0A35347FA304D8C /* PBXContainerItemProxy */;
+<<<<<<< HEAD
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
+=======
 >>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 		};
 /* End PBXTargetDependency section */
@@ -1109,7 +1311,11 @@
 		39BA1F59FA9B1B0218F6019E5AE67F55 /* Release */ = {
 			isa = XCBuildConfiguration;
 <<<<<<< HEAD
+<<<<<<< HEAD
 			baseConfigurationReference = 6F1405330DE0C751F283CE911C93F696 /* LogglyLogger-CocoaLumberjack.xcconfig */;
+=======
+			baseConfigurationReference = D9CAA52E4AE721A72A9A76512D807F9B /* LogglyLogger-CocoaLumberjack.xcconfig */;
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 =======
 			baseConfigurationReference = D9CAA52E4AE721A72A9A76512D807F9B /* LogglyLogger-CocoaLumberjack.xcconfig */;
 >>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
@@ -1176,7 +1382,11 @@
 		4D0A2A50D3C8AB164C03870D03F5227C /* Debug */ = {
 			isa = XCBuildConfiguration;
 <<<<<<< HEAD
+<<<<<<< HEAD
 			baseConfigurationReference = 686642C7C251F29316B40668FDE5D3EF /* CocoaLumberjack.xcconfig */;
+=======
+			baseConfigurationReference = FEE546CD1A0D9F2165BB1AA8F530724A /* CocoaLumberjack.xcconfig */;
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 =======
 			baseConfigurationReference = FEE546CD1A0D9F2165BB1AA8F530724A /* CocoaLumberjack.xcconfig */;
 >>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
@@ -1199,16 +1409,27 @@
 			name = Debug;
 		};
 <<<<<<< HEAD
+<<<<<<< HEAD
 		55154389BCDCBF64B4F28B799C15DE79 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 59E50480B1D06D8924DEB16C8CF81EED /* CommonCrypto.xcconfig */;
+=======
+		952D210626FD787D14F745B32C7BFD03 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = AE61859DE8324E08CE025CC28AB31CCA /* Pods-WildcatConnect.release.xcconfig */;
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
+<<<<<<< HEAD
 				GCC_PREFIX_HEADER = "Target Support Files/CommonCrypto/CommonCrypto-prefix.pch";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+=======
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MACH_O_TYPE = staticlib;
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
@@ -1248,7 +1469,11 @@
 		};
 		982114E300C476748CB3C31484E29E70 /* Release */ = {
 			isa = XCBuildConfiguration;
+<<<<<<< HEAD
 			baseConfigurationReference = E79EAE1B923EA9F675635F089D29094C /* RNCryptor.xcconfig */;
+=======
+			baseConfigurationReference = FEE546CD1A0D9F2165BB1AA8F530724A /* CocoaLumberjack.xcconfig */;
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -1267,6 +1492,7 @@
 			};
 			name = Release;
 		};
+<<<<<<< HEAD
 		A703BA777E65B33804D384CBAD129096 /* Debug */ = {
 			isa = XCBuildConfiguration;
 <<<<<<< HEAD
@@ -1295,6 +1521,8 @@
 <<<<<<< HEAD
 		CDADB525FA663B294E9384352DBDABFF /* Release */ = {
 =======
+=======
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 		DC4EEAE7212C4194A8BEEB7D44ECDBCB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D9CAA52E4AE721A72A9A76512D807F9B /* LogglyLogger-CocoaLumberjack.xcconfig */;
@@ -1360,9 +1588,15 @@
 			name = Debug;
 		};
 <<<<<<< HEAD
+<<<<<<< HEAD
 		E99EB8E6D1134F38807B94F25A3765FB /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = AB44C56589539957F4A8793AB4BA4261 /* Pods-WildcatConnect.release.xcconfig */;
+=======
+		EF8F3151665DBED7A9DE776742EF08C1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 590A6DE5EA1CCB83744D800CCAD42D7B /* Pods-WildcatConnect.debug.xcconfig */;
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 =======
 		EF8F3151665DBED7A9DE776742EF08C1 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -1438,6 +1672,7 @@
 		};
 		2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */ = {
 <<<<<<< HEAD
+<<<<<<< HEAD
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3FA2475660FFC880302AD18E29B2E5FC /* Debug */,
@@ -1447,6 +1682,8 @@
 			defaultConfigurationName = Release;
 		};
 		4CF84076E0CE720D23FD4734C71B1877 /* Build configuration list for PBXNativeTarget "CommonCrypto" */ = {
+=======
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 =======
 >>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 			isa = XCConfigurationList;
@@ -1462,6 +1699,24 @@
 			buildConfigurations = (
 				A703BA777E65B33804D384CBAD129096 /* Debug */,
 				982114E300C476748CB3C31484E29E70 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B1B72D14558F82289AC6A6D522076930 /* Build configuration list for PBXNativeTarget "LogglyLogger-CocoaLumberjack" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DC4EEAE7212C4194A8BEEB7D44ECDBCB /* Debug */,
+				39BA1F59FA9B1B0218F6019E5AE67F55 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		75D9FB9EC8E2228C66AFE77E1CB32AC9 /* Build configuration list for PBXNativeTarget "Pods-WildcatConnect" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EF8F3151665DBED7A9DE776742EF08C1 /* Debug */,
+				952D210626FD787D14F745B32C7BFD03 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

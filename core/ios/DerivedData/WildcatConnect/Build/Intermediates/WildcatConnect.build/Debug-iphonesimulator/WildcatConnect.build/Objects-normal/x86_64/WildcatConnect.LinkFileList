@@ -3,7 +3,10 @@
 /Users/Kevin/wildcatconnect/core/ios/DerivedData/WildcatConnect/Build/Intermediates/WildcatConnect.build/Debug-iphonesimulator/WildcatConnect.build/Objects-normal/x86_64/NewsArticleDetailViewController.o
 /Users/Kevin/wildcatconnect/core/ios/DerivedData/WildcatConnect/Build/Intermediates/WildcatConnect.build/Debug-iphonesimulator/WildcatConnect.build/Objects-normal/x86_64/LunchMenusStructure.o
 <<<<<<< HEAD
+<<<<<<< HEAD
 /Users/Kevin/wildcatconnect/core/ios/DerivedData/WildcatConnect/Build/Intermediates/WildcatConnect.build/Debug-iphonesimulator/WildcatConnect.build/Objects-normal/x86_64/FBEncryptorAES.o
+=======
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 =======
 >>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 /Users/Kevin/wildcatconnect/core/ios/DerivedData/WildcatConnect/Build/Intermediates/WildcatConnect.build/Debug-iphonesimulator/WildcatConnect.build/Objects-normal/x86_64/PollDetailViewController.o
@@ -17,6 +20,10 @@
 /Users/Kevin/wildcatconnect/core/ios/DerivedData/WildcatConnect/Build/Intermediates/WildcatConnect.build/Debug-iphonesimulator/WildcatConnect.build/Objects-normal/x86_64/AlertsTableViewController.o
 /Users/Kevin/wildcatconnect/core/ios/DerivedData/WildcatConnect/Build/Intermediates/WildcatConnect.build/Debug-iphonesimulator/WildcatConnect.build/Objects-normal/x86_64/SpecialKeyStructure.o
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+/Users/Kevin/wildcatconnect/core/ios/DerivedData/WildcatConnect/Build/Intermediates/WildcatConnect.build/Debug-iphonesimulator/WildcatConnect.build/Objects-normal/x86_64/LogglyLogger.o
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 =======
 /Users/Kevin/wildcatconnect/core/ios/DerivedData/WildcatConnect/Build/Intermediates/WildcatConnect.build/Debug-iphonesimulator/WildcatConnect.build/Objects-normal/x86_64/LogglyLogger.o
 >>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
@@ -39,8 +46,13 @@
 /Users/Kevin/wildcatconnect/core/ios/DerivedData/WildcatConnect/Build/Intermediates/WildcatConnect.build/Debug-iphonesimulator/WildcatConnect.build/Objects-normal/x86_64/TestStructure.o
 /Users/Kevin/wildcatconnect/core/ios/DerivedData/WildcatConnect/Build/Intermediates/WildcatConnect.build/Debug-iphonesimulator/WildcatConnect.build/Objects-normal/x86_64/SectionsTableViewController.o
 <<<<<<< HEAD
+<<<<<<< HEAD
 /Users/Kevin/wildcatconnect/core/ios/DerivedData/WildcatConnect/Build/Intermediates/WildcatConnect.build/Debug-iphonesimulator/WildcatConnect.build/Objects-normal/x86_64/ComposeEventViewController.o
 /Users/Kevin/wildcatconnect/core/ios/DerivedData/WildcatConnect/Build/Intermediates/WildcatConnect.build/Debug-iphonesimulator/WildcatConnect.build/Objects-normal/x86_64/Utils.o
+=======
+/Users/Kevin/wildcatconnect/core/ios/DerivedData/WildcatConnect/Build/Intermediates/WildcatConnect.build/Debug-iphonesimulator/WildcatConnect.build/Objects-normal/x86_64/LogglyFields.o
+/Users/Kevin/wildcatconnect/core/ios/DerivedData/WildcatConnect/Build/Intermediates/WildcatConnect.build/Debug-iphonesimulator/WildcatConnect.build/Objects-normal/x86_64/ComposeEventViewController.o
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 =======
 /Users/Kevin/wildcatconnect/core/ios/DerivedData/WildcatConnect/Build/Intermediates/WildcatConnect.build/Debug-iphonesimulator/WildcatConnect.build/Objects-normal/x86_64/LogglyFields.o
 /Users/Kevin/wildcatconnect/core/ios/DerivedData/WildcatConnect/Build/Intermediates/WildcatConnect.build/Debug-iphonesimulator/WildcatConnect.build/Objects-normal/x86_64/ComposeEventViewController.o
@@ -66,6 +78,10 @@
 /Users/Kevin/wildcatconnect/core/ios/DerivedData/WildcatConnect/Build/Intermediates/WildcatConnect.build/Debug-iphonesimulator/WildcatConnect.build/Objects-normal/x86_64/RegisterExtracurricularViewController.o
 /Users/Kevin/wildcatconnect/core/ios/DerivedData/WildcatConnect/Build/Intermediates/WildcatConnect.build/Debug-iphonesimulator/WildcatConnect.build/Objects-normal/x86_64/EditScheduleViewController.o
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+/Users/Kevin/wildcatconnect/core/ios/DerivedData/WildcatConnect/Build/Intermediates/WildcatConnect.build/Debug-iphonesimulator/WildcatConnect.build/Objects-normal/x86_64/LogglyFormatter.o
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 =======
 /Users/Kevin/wildcatconnect/core/ios/DerivedData/WildcatConnect/Build/Intermediates/WildcatConnect.build/Debug-iphonesimulator/WildcatConnect.build/Objects-normal/x86_64/LogglyFormatter.o
 >>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
@@ -77,7 +93,10 @@
 /Users/Kevin/wildcatconnect/core/ios/DerivedData/WildcatConnect/Build/Intermediates/WildcatConnect.build/Debug-iphonesimulator/WildcatConnect.build/Objects-normal/x86_64/ScholarshipDetailViewController.o
 /Users/Kevin/wildcatconnect/core/ios/DerivedData/WildcatConnect/Build/Intermediates/WildcatConnect.build/Debug-iphonesimulator/WildcatConnect.build/Objects-normal/x86_64/ApplicationManager.o
 <<<<<<< HEAD
+<<<<<<< HEAD
 /Users/Kevin/wildcatconnect/core/ios/DerivedData/WildcatConnect/Build/Intermediates/WildcatConnect.build/Debug-iphonesimulator/WildcatConnect.build/Objects-normal/x86_64/NSData+Base64.o
+=======
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 =======
 >>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 /Users/Kevin/wildcatconnect/core/ios/DerivedData/WildcatConnect/Build/Intermediates/WildcatConnect.build/Debug-iphonesimulator/WildcatConnect.build/Objects-normal/x86_64/ComposeCommunityServiceViewController.o

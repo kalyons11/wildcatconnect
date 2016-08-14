@@ -1,7 +1,11 @@
 CONFIGURATION_BUILD_DIR = $PODS_CONFIGURATION_BUILD_DIR/LogglyLogger-CocoaLumberjack
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
 <<<<<<< HEAD
+<<<<<<< HEAD
 HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers/Private" "${PODS_ROOT}/Headers/Private/LogglyLogger-CocoaLumberjack" "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/CocoaLumberjack" "${PODS_ROOT}/Headers/Public/CommonCrypto" "${PODS_ROOT}/Headers/Public/LogglyLogger-CocoaLumberjack" "${PODS_ROOT}/Headers/Public/RNCryptor"
+=======
+HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers/Private" "${PODS_ROOT}/Headers/Private/LogglyLogger-CocoaLumberjack" "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/CocoaLumberjack" "${PODS_ROOT}/Headers/Public/LogglyLogger-CocoaLumberjack"
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 =======
 HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers/Private" "${PODS_ROOT}/Headers/Private/LogglyLogger-CocoaLumberjack" "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/CocoaLumberjack" "${PODS_ROOT}/Headers/Public/LogglyLogger-CocoaLumberjack"
 >>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45

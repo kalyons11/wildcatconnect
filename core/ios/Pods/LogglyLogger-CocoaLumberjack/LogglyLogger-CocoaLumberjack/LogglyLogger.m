@@ -133,7 +133,11 @@
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     if (!_hasLoggedFirstLogglyPost) {
+=======
+    if (!_hasLoggedFirstLogglyPost || true) {
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 =======
     if (!_hasLoggedFirstLogglyPost || true) {
 >>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
@@ -146,7 +150,11 @@
     [request setHTTPBody:[messagesString dataUsingEncoding:NSUTF8StringEncoding]];
     NSURLSessionDataTask *postDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
 <<<<<<< HEAD
+<<<<<<< HEAD
         if (true) {
+=======
+        if (!_hasLoggedFirstLogglyPost) {
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 =======
         if (!_hasLoggedFirstLogglyPost) {
 >>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45

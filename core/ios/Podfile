@@ -5,10 +5,13 @@ target 'WildcatConnect' do
 
   pod 'CocoaLumberjack'
 <<<<<<< HEAD
+<<<<<<< HEAD
   pod ‘LogglyLogger-CocoaLumberjack’
   pod 'RNCryptor'
   pod 'CommonCrypto'
 =======
+=======
+>>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
   pod "LogglyLogger-CocoaLumberjack", "~> 2.0"
 
   target 'WildcatConnectTests' do
