@@ -52,3 +52,5 @@ bundles/
 parse-dashboard-config.json*
 
 common/log
+
+core/ios/DerivedData
