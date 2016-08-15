@@ -3,8 +3,6 @@ var Schema = mongoose.Schema;
 var PageModel = require('./page.js');
 var CustomModel = require('./custom.js');
 var utils = require("../utils/utils");
-var config = require("../config_enc");
-config = utils.decryptObject(config);
 
 var page = new PageModel({
 	title: "Home",

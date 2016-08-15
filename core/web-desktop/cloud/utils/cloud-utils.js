@@ -1,32 +1,31 @@
 //region Module Imports...
 
 var JSON = require('./JSON.js').JSON;
-var config = require('./config_enc');
-var CryptoJS = require('crypto-js');
+global.winston = require('winston');
 var Promise = require('promise');
+var crypto = require('cryptlib');
 
-var hasher = "dc4862c8-6a8b-49b4-a0e4-fe2bda364281";
+var iv = "_sbSmKUxVQAQ-hvQ"; //16 bytes = 128 bit
+var key = "1bf6bf65e45b55825b1919cbadd028e6";
 
 module.exports.encrypt = function(string) {
-    var result = CryptoJS.AES.encrypt(string, hasher);
-    return result.toString();
+    var cypherText = crypto.encrypt(string, key, iv);
+    return cypherText;
 };
 
 module.exports.encryptObject = function (object) {
-    var result = CryptoJS.AES.encrypt(JSON.stringify(object), hasher);
-    return result.toString();
+    var cypherText = crypto.encrypt(JSON.stringify(object), key, iv);
+    return cypherText;
 };
 
 module.exports.decrypt = function(string) {
-    var bytes  = CryptoJS.AES.decrypt(string, hasher);
-    var result = bytes.toString(CryptoJS.enc.Utf8);
-    result =  module.exports.trimQuotes(result);
-    return result;
+    var dec = crypto.decrypt(string, key, iv);
+    return dec;
 };
 
 module.exports.decryptObject = function (string) {
-    var bytes = CryptoJS.AES.decrypt(string, hasher);
-    return JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+    var dec = crypto.decrypt(string, key, iv);
+    return JSON.parse(dec);
 };
 
 module.exports.trimQuotes = function(string) {
@@ -35,25 +34,23 @@ module.exports.trimQuotes = function(string) {
     return string;
 };
 
-var config = module.exports.decryptObject(config);
+var config = global.config;
 
 var Mailgun = require('mailgun-js')({ apiKey: module.exports.decrypt(config.mailgunKey), domain: 'wildcatconnect.com'} );
 
 var logglyToken = module.exports.decrypt(config.logglyToken);
 var logglySubdomain = config.logglySubdomain;
 var nodeTag = config.nodeTag;
-
 require('winston-loggly');
 
-//endregion
+winston.add(winston.transports.Loggly, {
+    token: logglyToken,
+    subdomain: logglySubdomain,
+    tags: [nodeTag],
+    json: true
+});
 
-module.exports.containsObject = function(objectId, parseData) {
-    for (var p in parseData) {
-        if (p["objectId"] == objectId)
-            return true;
-    }
-    return false;
-}
+//endregion
 
 module.exports.processError = function(realError, fakeError, objects) {
     /*
@@ -87,10 +84,14 @@ module.exports.parseError = function(error) {
     var errorType = module.exports.getObjectType(error);
     switch (errorType) {
         case "ParseError":
-            return module.exports.removeLineBreaks(error.message);
+            var message = module.exports.removeLineBreaks(error.message);
+            if (message.indexOf("Unable to connect to the Parse API") > -1)
+                return "Network error. Please ensure you are connected to the Internet.";
+            else return message;
         case "model":
             return error.message;
         default:
+            module.exports.log('error', "Unable to extract error message for error." + error.toString(), null);
             return "Unable to extract error message for error." + error.toString();
     }
 };
@@ -110,7 +111,8 @@ module.exports.generateObjects = function(objects) {
         for (var i = 0; i < objects.length; i++) {
             var obj = objects[i];
             var type = module.exports.getObjectType(obj);
-            theJSON[type] = JSON.stringify(obj);
+            var test = typeof(obj);
+            theJSON[type] = test == "string" ? obj : JSON.stringify(obj);
         }
         return theJSON;
     } else
@@ -185,24 +187,6 @@ module.exports.removeParams = function(object) {
     if (object.confirmNew != null)
         delete object.confirmNew;
     return object;
-};
-
-module.exports.initializeHomeUserModel = function(user) {
-    var model = new Dashboard();
-    if (user) {
-        model.renderModel("Home", null);
-        model.object.user.username = user["username"];
-        model.object.user.firstName = user["firstName"];
-        model.object.user.lastName = user["lastName"];
-        model.object.user.email = user["email"];
-        model.object.user.userType = user["userType"];
-        module.exports.determineHomeUserType(model);
-        model.page.user.auth = true;
-    } else {
-        model.renderModel("error", null);
-        model.page.user.auth = false;
-    }
-    return model;
 };
 
 module.exports.determineHomeUserType = function(model) {
@@ -344,12 +328,13 @@ module.exports.customSaveOperation = function(model, req) {
                 });
                 break;
             case "SettingsStructure.ChangeEmail":
-                Parse.Cloud.run("updateEmail", { email: model.customModel.data.email }, {
+                Parse.Cloud.run("updateEmail", { username: req.session.user["username"], email: model.customModel.data.email }, {
                     success: function(response) {
-                        var y = 5;
+                        req.session.user.email = model.customModel.data.email;
+                        fulfill({ auth: true, save: false});
                     },
                     error: function (error) {
-                        var x = 5;
+                        fulfill({ auth: false, save: false, error: error});
                     }
                 });
                 break;
@@ -417,4 +402,20 @@ module.exports.sendEmail = function(to, from, cc, bcc, subject, body, isHtml, re
             res.send({res: err});
         }
     });
+};
+
+module.exports.verifyPage = function(model) {
+    if (model.object.user.isDeveloper)
+        return true;
+    else if (model.object.user.isAdmin) {
+        var key = model.page.configurations.key;
+        return key.indexOf("dev") == -1;
+    } else {
+        // Faculty
+        var key = model.page.configurations.key;
+        var test = key.indexOf("poll") == -1 && key.indexOf("scholarship") == -1 && key.indexOf("alert") == -1 && key.indexOf("dev") == -1;
+        test = test && key != "news.manage" && key != "event.manage" && key != "news.manage";
+        test = test && key != "user.manage" && key != "schedule.manage" && key != "food.manage";
+        return test;
+    }
 };

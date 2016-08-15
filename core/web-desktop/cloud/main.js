@@ -2,8 +2,6 @@ var utils = require("./utils/cloud-utils.js");
 var ejs = require("ejs");
 var pathModule = require("path");
 var fs = require("fs");
-var config = require("./config_enc");
-config = utils.decryptObject(config);
 
 Parse.Cloud.define('registerUser', function(request, response) {
     try {

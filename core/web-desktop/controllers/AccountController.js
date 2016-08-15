@@ -6,8 +6,6 @@ var ApplicationMessage = require('../models/message');
 var Classes = require('../utils/classes');
 var utils = require('../utils/utils');
 var Models = require("../models/models");
-var config = require("../config_enc");
-config = utils.decryptObject(config);
 
 exports.authenticate = function(req, res, next) {
 	if (req.session.user) {
@@ -51,7 +49,7 @@ exports.postLogin = function(req, res) {
 			model.renderModel(data);
 
 			var error = new Error();
-	        var x = utils.processError(response.error, error, null);
+	        var x = utils.processError(response.error, error, [ req.body.username ]);
 	        utils.log('error', x.message, { "stack" : x.stack , "objects" : x.objects });
 
 			var myError = new ApplicationMessage();

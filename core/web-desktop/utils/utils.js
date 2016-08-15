@@ -2,9 +2,9 @@
 
 var JSON = require('./JSON.js').JSON;
 global.winston = require('winston');
-var config = require('../config_enc');
 var Promise = require('promise');
 var crypto = require('cryptlib');
+var Models = require('../models/models');
 
 var iv = "_sbSmKUxVQAQ-hvQ"; //16 bytes = 128 bit
 var key = "1bf6bf65e45b55825b1919cbadd028e6";
@@ -29,7 +29,7 @@ module.exports.decryptObject = function (string) {
     return JSON.parse(dec);
 };
 
-//var Dashboard = require('../models/dashboard');
+var Dashboard = require('../models/dashboard');
 
 module.exports.trimQuotes = function(string) {
     if (string.charAt(0) == '"')
@@ -37,14 +37,15 @@ module.exports.trimQuotes = function(string) {
     return string;
 };
 
-var config = module.exports.decryptObject(config);
+global.config = module.exports.decryptObject(global.config);
 
-//var Mailgun = require('mailgun-js')({ apiKey: module.exports.decrypt(config.mailgunKey), domain: 'wildcatconnect.com'} );
+var config = global.config;
 
-/*var logglyToken = module.exports.decrypt(config.logglyToken);
+var Mailgun = require('mailgun-js')({ apiKey: module.exports.decrypt(config.mailgunKey), domain: 'wildcatconnect.com'} );
+
+var logglyToken = module.exports.decrypt(config.logglyToken);
 var logglySubdomain = config.logglySubdomain;
 var nodeTag = config.nodeTag;
-
 require('winston-loggly');
 
 winston.add(winston.transports.Loggly, {
@@ -52,7 +53,7 @@ winston.add(winston.transports.Loggly, {
     subdomain: logglySubdomain,
     tags: [nodeTag],
     json: true
-});*/
+});
 
 //endregion
 
@@ -95,6 +96,7 @@ module.exports.parseError = function(error) {
 		case "model":
 			return error.message;
 		default:
+		    module.exports.log('error', "Unable to extract error message for error." + error.toString(), null);
 			return "Unable to extract error message for error." + error.toString();
 	}
 };
@@ -114,7 +116,8 @@ module.exports.generateObjects = function(objects) {
 		for (var i = 0; i < objects.length; i++) {
 			var obj = objects[i];
 			var type = module.exports.getObjectType(obj);
-			theJSON[type] = JSON.stringify(obj);
+            var test = typeof(obj);
+			theJSON[type] = test == "string" ? obj : JSON.stringify(obj);
 		}
 		return theJSON;
 	} else

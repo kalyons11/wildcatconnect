@@ -3,9 +3,8 @@
 var express = require('express');
 var router = express.Router();
 var utils = require('../utils/utils');
-var config = require('../config_enc');
-config = utils.decryptObject(config);
 var Models = require('../models/models');
+var config = global.config;
 
 // Controller configuration.
 
@@ -13,9 +12,9 @@ var AccountController = require('./AccountController');
 var ForgotController = require('./ForgotController');
 var DashboardController = require('./DashboardController');
 
-var pages = utils.decryptObject(config.pages);
+var pages = config.pages;
 
-pages = pages.substring(1, pages.length - 1);
+/*pages = pages.substring(1, pages.length - 1);
 
 pages = utils.replaceAll(pages, " ", "");
 
@@ -23,7 +22,7 @@ pages = pages.split(", ");
 
 for (var i = 0; i < pages.length; i++) {
     pages[i] = pages[i].substring(1, pages[i].length - 1);
-}
+}*/
 
 router.get(pages, function(req, res) {
     utils.log('error', "Unauthorized request.", { url: req.url });

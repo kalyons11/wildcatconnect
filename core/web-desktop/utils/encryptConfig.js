@@ -1,4 +1,5 @@
-var config = require("../config");
+global.config = require("../config");
+var config = global.config;
 var utils = require("./utils");
 
 var enc = utils.encryptObject(config);

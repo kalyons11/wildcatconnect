@@ -5,8 +5,6 @@ var utils = require('../utils/utils');
 var moment = require('moment');
 var CustomSchema = require('./custom').customSchema;
 var utils = require("../utils/utils");
-var config = require("../config_enc");
-config = utils.decryptObject(config);
 
 var newsSchema = CustomSchema.extend({
 	title: String,
