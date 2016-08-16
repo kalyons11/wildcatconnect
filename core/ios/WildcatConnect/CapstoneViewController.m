@@ -18,15 +18,10 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
      
-     self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:248.0f/255.0f
-                                                                            green:183.0f/255.0f
-                                                                             blue:23.0f/255.0f
-                                                                            alpha:0.5f];
-     
      UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
      
      UITextView *textView = [[UITextView alloc] initWithFrame:CGRectMake(10, 0, self.view.frame.size.width - 20, 100)];
-     textView.text = @"WildcatConnect is a product of the Weymouth High School Capstone requirement. It seeks to answer the essential question, \"How can a mobile application for key announcements and information foster a more active school community?\" With over 75,000 lines of code spanning 5 languages, the system itself is as functional and user-friendly as possible.\n\nWildcatConnect is a non-profit application, with no revenue generated from any sort of advertising. A small amount of funding was generously provided by Weymouth High School to get the development process moving.\n\nAs always, if you have any questions, comments or concerns about the application, please let us know. You can reach us at team@wildcatconnect.org.\n\nBest,\n\nRohith and Kevin\n\nLead Developers\nWildcatConnect";
+     textView.text = @"WildcatConnect is a product of the Weymouth High School Capstone requirement. It seeks to answer the essential question, \"How can a mobile application for key announcements and information foster a more active school community?\" With over 75,000 lines of code spanning 5 languages, the system itself is as functional and user-friendly as possible.\n\nWildcatConnect is a non-profit application, with no revenue generated from any sort of advertising. A small amount of funding was generously provided by Weymouth High School to get the development process moving.\n\nAs always, if you have any questions, comments or concerns about the application, please let us know. You can reach us at team@wildcatconnect.com.\n\nBest,\n\nRohith and Kevin\n\nLead Developers\nWildcatConnect";
      textView.font = [UIFont systemFontOfSize:18];
      textView.editable = false;
      textView.scrollEnabled = true;

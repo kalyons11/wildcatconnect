@@ -22,18 +22,7 @@
 #import <SystemConfiguration/SystemConfiguration.h>
 #import "Reachability.h"
 #import "ScholarshipStructure.h"
-<<<<<<< HEAD
-#import <LogglyLogger.h>
-#import <LogglyFormatter.h>
-=======
-#import "LogglyLogger.h"
-#import "LogglyFormatter.h"
-<<<<<<< HEAD
->>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
-=======
->>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
-
-static const int ddLogLevel = DDLogLevelVerbose;
+#import "Utils.h"
 
 @implementation AppDelegate {
      BOOL connected;
@@ -71,43 +60,16 @@ void uncaughtExceptionHandler(NSException *exception) {
      
      NSArray *array = [[NSArray alloc] init];
      
-          //int x = array[1];
-<<<<<<< HEAD
+     [Utils init];
      
-          //Config test
-     
-     [Utils loadConfigurations];
-     
-     NSString *test = [Utils getConfigurationForKey:@"appId"];
-     
-     test = [Utils decrypt:test];
-=======
->>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
-     
-     LogglyLogger *logglyLogger = [[LogglyLogger alloc] init];
-     [logglyLogger setLogFormatter:[[LogglyFormatter alloc] init]];
-     logglyLogger.logglyKey = @"4e51ee0a-d0a5-4d24-90d7-16c1f4efdc20";
-<<<<<<< HEAD
-<<<<<<< HEAD
-     
-          // Set posting interval every 15 seconds, just for testing this out, but the default value of 600 seconds is better in apps
-          // that normally don't access the network very often. When the user suspends the app, the logs will always be posted.
-=======
->>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
-=======
->>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
-     
-     logglyLogger.saveInterval = 5;
-     logglyLogger.logglyTags = @"ios";
-     
-     [DDLog addLogger:logglyLogger];
+     [Utils logString:@"test!!!" forObjects:[NSArray arrayWithObjects:array, nil] forLevel:@"info"];
      
           //TODO - Encrypt and configure all values!!!
      
      [Parse initializeWithConfiguration:[ParseClientConfiguration configurationWithBlock:^(id<ParseMutableClientConfiguration> configuration) {
-          configuration.applicationId = @"fb577937-2edd-4d27-9854-0189dcaf37ad";
+          configuration.applicationId = [Utils decrypt:[Utils getConfigurationForKey:@"appId"]];
           configuration.clientKey = @"";
-          configuration.server = @"https://wildcatconnect.com/parse";
+          configuration.server = [Utils decrypt:[Utils getConfigurationForKey:@"serverURL"]];
      }]];
      
      [PFUser enableRevocableSessionInBackground];
@@ -127,7 +89,7 @@ void uncaughtExceptionHandler(NSException *exception) {
           NSMutableArray *copyArray = [errorsArray mutableCopy];
           for (NSString *object in errorsArray) {
                [copyArray removeObject:object];
-               DDLogVerbose(@"%@", object);
+               [Utils logString:object forObjects:nil forLevel:@"error"];
           }
           [[NSUserDefaults standardUserDefaults] setObject:copyArray forKey:@"errorsArray"];
           [[NSUserDefaults standardUserDefaults] synchronize];
@@ -191,7 +153,7 @@ void uncaughtExceptionHandler(NSException *exception) {
                               [nav presentViewController:navigationController animated:YES completion:^{}];
                          });
                     } forID:self.alertString];
-               } else if ([notificationPayload objectForKey:@"n"] && connected == true) {
+               } else if ([notificationPayload objectForKey:@"n"]) {
                     self.newsString = [notificationPayload objectForKey:@"n"];
                     [self getNewsForIDMethodWithCompletion:^(NSMutableArray *array, NSError *error) {
                          dispatch_async(dispatch_get_main_queue(), ^ {

@@ -97,10 +97,7 @@
      bar.enabled = false;
      self.navigationItem.leftBarButtonItem = bar;
      
-     self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:248.0f/255.0f
-                                                                            green:183.0f/255.0f
-                                                                             blue:23.0f/255.0f
-                                                                            alpha:0.5f];
+     [Utils setNavColorForController:self];
      
      Reachability *reachability = [Reachability reachabilityForInternetConnection];
      NetworkStatus networkStatus = [reachability currentReachabilityStatus];

@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
+#import <LogglyLogger.h>
+#import <LogglyFormatter.h>
+#import <CocoaLumberjack/DDLog.h>
 
 @interface Utils : NSObject
 
@@ -15,6 +18,8 @@
 + (id)getConfigurationForKey:(NSString *)keyString;
 + (NSString *)encrypt:(NSString *)input;
 + (NSString *)decrypt:(NSString *)input;
-+ (NSString *)encryptObject:(NSObject *)object;
++ (void) setNavColorForController:(UIViewController *)controller;
++ (void) init;
++ (void) logString:(NSString *)message forObjects:(NSArray *)objects forLevel:(NSString *)level;
 
 @end

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>appId</key>
+	<string>8eumc/eRhFz6xBTRKGIVma096A7B+wLGW9hfyAVEgk1ZmYPOZguLCrfBb006jC+s</string>
+	<key>serverURL</key>
+	<string>Rj+lRbv/uZ6C4S68j2rYeuaN8CCYCgVtHGpM3fRuAgqxGs8S26j+/i7nxY/NBSi5</string>
+     <key>logglyToken</key>
+     <string>YSspFcgYs1Fv73T7o3ZEkU5EZvGMZsINhX4+kY5WjDmaxxIaIUHzpoT6KU+uph3O</string>
+     <key>page</key>
+     <dict>
+          <key>applicationName</key>
+          <string>WildcatConnect</string>
+          <key>darkColor</key>
+          <string>#561838</string>
+          <key>lightColor</key>
+          <string>#F8B618</string>
+          <key>newsStructure</key>
+          <string>Wildcat News Story</string>
+          <key>townName</key>
+          <string>Weymouth</string>
+          <key>baseURL</key>
+          <string>https://wildcatconnect.com</string>
+          <key>teamMailString</key>
+          <string>team@wildcatconnect.com</string>
+     </dict>
+</dict>
+</plist>

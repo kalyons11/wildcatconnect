@@ -9,19 +9,7 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-<<<<<<< HEAD
-<<<<<<< HEAD
 		<key>CommonCrypto.xcscheme</key>
-=======
-=======
->>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
-		<key>LogglyLogger-CocoaLumberjack.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>Pods-WildcatConnect.xcscheme</key>
->>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -32,6 +20,16 @@
 			<false/>
 		</dict>
 		<key>Pods-WildcatConnect.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-WildcatConnectTests.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-WildcatConnectUITests.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -44,15 +42,12 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-<<<<<<< HEAD
-<<<<<<< HEAD
 		<key>0339639885D3F74DFCF0F68BBF55C91E</key>
-=======
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>0562FF52ED5E8774A26D837F39DA4056</key>
->>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
-=======
-		<key>0562FF52ED5E8774A26D837F39DA4056</key>
->>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -67,28 +62,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-<<<<<<< HEAD
-<<<<<<< HEAD
-		<key>90B0D7F54939C6D71096FA6249B805FE</key>
-=======
 		<key>85780DDA15B7D18E45C496F360581978</key>
->>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
-=======
-		<key>85780DDA15B7D18E45C496F360581978</key>
->>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-<<<<<<< HEAD
-<<<<<<< HEAD
+		<key>90B0D7F54939C6D71096FA6249B805FE</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>C9D33F1ADA130719613C73F24E163234</key>
-=======
-		<key>DAADC3636971B710A5E591C085EAFF2B</key>
->>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
-=======
-		<key>DAADC3636971B710A5E591C085EAFF2B</key>
->>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 		<dict>
 			<key>primary</key>
 			<true/>

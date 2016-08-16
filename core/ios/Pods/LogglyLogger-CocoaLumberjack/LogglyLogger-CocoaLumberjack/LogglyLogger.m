@@ -21,7 +21,7 @@
         self.deleteInterval = 0;
         self.maxAge = 0;
         self.deleteOnEverySave = NO;
-        self.saveInterval = 5;
+        self.saveInterval = 600;
         self.saveThreshold = 1000;
 
         // Make sure we POST the logs when the application is suspended
@@ -132,15 +132,7 @@
         _sessionConfiguration.allowsCellularAccess = YES;
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
     if (!_hasLoggedFirstLogglyPost) {
-=======
-    if (!_hasLoggedFirstLogglyPost || true) {
->>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
-=======
-    if (!_hasLoggedFirstLogglyPost || true) {
->>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
         NSLog(@"Posting to Loggly: %@", messagesString);
     }
 
@@ -149,19 +141,11 @@
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:[messagesString dataUsingEncoding:NSUTF8StringEncoding]];
     NSURLSessionDataTask *postDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        if (true) {
-=======
         if (!_hasLoggedFirstLogglyPost) {
->>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
-=======
-        if (!_hasLoggedFirstLogglyPost) {
->>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
             _hasLoggedFirstLogglyPost = YES;
             if (error) {
                 NSLog(@"LOGGLY ERROR: Error object = %@. This was the last NSLog statement you will see from LogglyLogger. The rest of the posts to Loggly will be done silently",error);
-            } else if (data) {
+            } else if (data && _outputFirstResponse) {
                 NSString *responseString = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
                 NSLog(@"LOGGLY: Response = %@  This was the last NSLog statement you will see from LogglyLogger. The rest of the posts to Loggly will be done silently.",responseString);
             }

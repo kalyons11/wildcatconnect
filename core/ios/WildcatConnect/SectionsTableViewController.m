@@ -47,16 +47,13 @@
     //self.navigationItem.rightBarButtonItem = self.editButtonItem;
     //self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 60, 0);
      
+     [Utils setNavColorForController:self];
+     
      self.navigationController.navigationItem.title = @"Sections";
      
      UIBarButtonItem *bar = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"logoSmall.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:nil action:nil];
      bar.enabled = false;
      self.navigationItem.leftBarButtonItem = bar;
-     
-     self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:248.0f/255.0f
-                                                                            green:183.0f/255.0f
-                                                                             blue:23.0f/255.0f
-                                                                            alpha:0.5f];
      
      self.sectionsArray = [[NSMutableArray alloc] initWithArray:[NSArray arrayWithObjects:@"Wildcat News", @"Groups", @"Community Service", @"Events", @"Scholarships", @"Student Center", @"Useful Links", @"Staff Directory", @"Secure Login/Register", @"Submit a Picture", nil]];
      self.sectionsImagesArray = [[NSMutableArray alloc] init];

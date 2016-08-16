@@ -20,6 +20,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
      
+     [Utils setNavColorForController:self];
+     
      self.navigationController.navigationItem.title = @"Settings";
      
      UIBarButtonItem *bar = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"logoSmall.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:nil action:nil];
@@ -27,11 +29,6 @@
      self.navigationItem.leftBarButtonItem = bar;
      
      self.tableView = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStyleGrouped];
-     
-     self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:248.0f/255.0f
-                                                                            green:183.0f/255.0f
-                                                                             blue:23.0f/255.0f
-                                                                            alpha:0.5f];
 }
 
 - (void)didReceiveMemoryWarning {

@@ -68,11 +68,6 @@
      self.navigationItem.rightBarButtonItem = barButtonItem;
      [activity startAnimating];
      
-     self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:248.0f/255.0f
-                                                                            green:183.0f/255.0f
-                                                                             blue:23.0f/255.0f
-                                                                            alpha:0.5f];
-     
      titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, self.view.frame.size.width - 20, 50)];
      titleLabel.text = @"Loading today's messages...";
      [titleLabel setFont:[UIFont systemFontOfSize:16]];

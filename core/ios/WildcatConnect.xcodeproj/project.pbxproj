@@ -32,6 +32,10 @@
 		0A7028DC1C1BE2E30053E56D /* SettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A7028DB1C1BE2E30053E56D /* SettingsTableViewController.m */; };
 		0A7AA7941C32260C0012671E /* SpecialKeyStructure.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A7AA7931C32260C0012671E /* SpecialKeyStructure.m */; };
 		0A8261641C1D32A300574208 /* PushSettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A8261631C1D32A300574208 /* PushSettingsTableViewController.m */; };
+		0A976EB91D616374009D8E9C /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A976EB81D616374009D8E9C /* Utils.m */; };
+		0A976EBC1D61654A009D8E9C /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A976EBB1D61654A009D8E9C /* NSData+Base64.m */; };
+		0A976EBF1D623974009D8E9C /* CryptLib.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A976EBE1D623974009D8E9C /* CryptLib.m */; };
+		0A976EC11D623B53009D8E9C /* Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0A976EC01D623B53009D8E9C /* Config.plist */; };
 		0AA5C8EC1C331E7B00C42892 /* CapstoneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AA5C8EB1C331E7B00C42892 /* CapstoneViewController.m */; };
 		0AA5C8F01C331FF700C42892 /* push@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AA5C8EF1C331FF700C42892 /* push@2x.png */; };
 		0AA5C8F21C33209400C42892 /* news@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AA5C8F11C33209400C42892 /* news@2x.png */; };
@@ -43,16 +47,6 @@
 		0AA5C8FE1C33227200C42892 /* about@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AA5C8FD1C33227200C42892 /* about@2x.png */; };
 		0AA5C9041C3326BB00C42892 /* logoSmall.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AA5C9031C3326BB00C42892 /* logoSmall.png */; };
 		0AAA54A51C735BAC009A7ABF /* CommunityServiceDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAA54A41C735BAC009A7ABF /* CommunityServiceDetailViewController.m */; };
-<<<<<<< HEAD
-<<<<<<< HEAD
-		0AAD91C41D5C34970049ABF8 /* Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0AAD91C31D5C34970049ABF8 /* Config.plist */; };
-		0AAD91CB1D5C36230049ABF8 /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAD91CA1D5C36230049ABF8 /* Utils.m */; };
-		0AAD91D71D5CCBBC0049ABF8 /* FBEncryptorAES.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAD91D41D5CCBBC0049ABF8 /* FBEncryptorAES.m */; };
-		0AAD91D81D5CCBBC0049ABF8 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAD91D61D5CCBBC0049ABF8 /* NSData+Base64.m */; };
-=======
->>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
-=======
->>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 		0AD53D5C1C208B4D007E5184 /* RegisterExtracurricularViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AD53D5B1C208B4D007E5184 /* RegisterExtracurricularViewController.m */; };
 		0AD6C0DB1C76243000A38F1F /* ECUDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AD6C0DA1C76243000A38F1F /* ECUDetailViewController.m */; };
 		0AD8B9C71C337D0B002A3ABB /* alerts@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AD8B9C61C337D0B002A3ABB /* alerts@2x.png */; };
@@ -60,6 +54,8 @@
 		0ADBEE361C0ABD5E00E946F6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0ADBEE341C0ABD5E00E946F6 /* Main.storyboard */; };
 		0ADBEE381C0ABD5E00E946F6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0ADBEE371C0ABD5E00E946F6 /* Assets.xcassets */; };
 		0ADBEE3B1C0ABD5E00E946F6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0ADBEE391C0ABD5E00E946F6 /* LaunchScreen.storyboard */; };
+		0ADBEE461C0ABD5E00E946F6 /* WildcatConnectTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ADBEE451C0ABD5E00E946F6 /* WildcatConnectTests.m */; };
+		0ADBEE511C0ABD5E00E946F6 /* WildcatConnectUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ADBEE501C0ABD5E00E946F6 /* WildcatConnectUITests.m */; };
 		0ADBEE861C0ABD8400E946F6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ADBEE5E1C0ABD8400E946F6 /* AppDelegate.m */; };
 		0ADBEE881C0ABD8400E946F6 /* ComposeAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ADBEE601C0ABD8400E946F6 /* ComposeAlertViewController.m */; };
 		0ADBEE891C0ABD8400E946F6 /* UsefulLinksTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ADBEE611C0ABD8400E946F6 /* UsefulLinksTableViewController.m */; };
@@ -143,7 +139,6 @@
 		0AF2C58E1C97B3E400E5D2E5 /* done@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AF2C58D1C97B3E400E5D2E5 /* done@2x.png */; };
 		0AF9D3351C43E9C400618042 /* minus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AF9D3341C43E9C400618042 /* minus@2x.png */; };
 		0AFCD9A71C8921A20079D91E /* ScholarshipStructure.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AFCD9A61C8921A20079D91E /* ScholarshipStructure.m */; };
-		4B0766FA8E2B5685F3AEFF4E /* libPods-WildcatConnect.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F1296DEC78DC084ECF514C52 /* libPods-WildcatConnect.a */; };
 		F750A8391C5EE00900A2E235 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F750A8381C5EE00900A2E235 /* Default-568h@2x.png */; };
 /* End PBXBuildFile section */
 
@@ -208,6 +203,14 @@
 		0A7AA7931C32260C0012671E /* SpecialKeyStructure.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SpecialKeyStructure.m; path = ../SpecialKeyStructure.m; sourceTree = "<group>"; };
 		0A8261621C1D32A300574208 /* PushSettingsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PushSettingsTableViewController.h; sourceTree = "<group>"; };
 		0A8261631C1D32A300574208 /* PushSettingsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PushSettingsTableViewController.m; sourceTree = "<group>"; };
+		0A976EB71D616374009D8E9C /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
+		0A976EB81D616374009D8E9C /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
+		0A976EBA1D61654A009D8E9C /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Base64.h"; sourceTree = "<group>"; };
+		0A976EBB1D61654A009D8E9C /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Base64.m"; sourceTree = "<group>"; };
+		0A976EBD1D623974009D8E9C /* CryptLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CryptLib.h; sourceTree = "<group>"; };
+		0A976EBE1D623974009D8E9C /* CryptLib.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CryptLib.m; sourceTree = "<group>"; };
+		0A976EC01D623B53009D8E9C /* Config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Config.plist; sourceTree = "<group>"; };
+		0A976EC21D62982F009D8E9C /* Project.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Project.pch; sourceTree = "<group>"; };
 		0AA5C8EA1C331E7B00C42892 /* CapstoneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CapstoneViewController.h; sourceTree = "<group>"; };
 		0AA5C8EB1C331E7B00C42892 /* CapstoneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CapstoneViewController.m; sourceTree = "<group>"; };
 		0AA5C8EF1C331FF700C42892 /* push@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "push@2x.png"; path = "../push@2x.png"; sourceTree = "<group>"; };
@@ -221,20 +224,6 @@
 		0AA5C9031C3326BB00C42892 /* logoSmall.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logoSmall.png; path = ../logoSmall.png; sourceTree = "<group>"; };
 		0AAA54A31C735BAC009A7ABF /* CommunityServiceDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommunityServiceDetailViewController.h; sourceTree = "<group>"; };
 		0AAA54A41C735BAC009A7ABF /* CommunityServiceDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommunityServiceDetailViewController.m; sourceTree = "<group>"; };
-<<<<<<< HEAD
-<<<<<<< HEAD
-		0AAD91C31D5C34970049ABF8 /* Config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Config.plist; path = ../Config.plist; sourceTree = "<group>"; };
-		0AAD91C91D5C36230049ABF8 /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
-		0AAD91CA1D5C36230049ABF8 /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
-		0AAD91CC1D5C36810049ABF8 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PrefixHeader.pch; path = ../PrefixHeader.pch; sourceTree = "<group>"; };
-		0AAD91D31D5CCBBC0049ABF8 /* FBEncryptorAES.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBEncryptorAES.h; sourceTree = "<group>"; };
-		0AAD91D41D5CCBBC0049ABF8 /* FBEncryptorAES.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBEncryptorAES.m; sourceTree = "<group>"; };
-		0AAD91D51D5CCBBC0049ABF8 /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Base64.h"; sourceTree = "<group>"; };
-		0AAD91D61D5CCBBC0049ABF8 /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Base64.m"; sourceTree = "<group>"; };
-=======
->>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
-=======
->>>>>>> f49d9a435c8fb8cb5f1adaf558a28077cbdc2c45
 		0AD53D5A1C208B4D007E5184 /* RegisterExtracurricularViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterExtracurricularViewController.h; sourceTree = "<group>"; };
 		0AD53D5B1C208B4D007E5184 /* RegisterExtracurricularViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterExtracurricularViewController.m; sourceTree = "<group>"; };
 		0AD6C0D91C76243000A38F1F /* ECUDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECUDetailViewController.h; sourceTree = "<group>"; };
@@ -247,7 +236,11 @@
 		0ADBEE3A1C0ABD5E00E946F6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0ADBEE3C1C0ABD5E00E946F6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0ADBEE411C0ABD5E00E946F6 /* WildcatConnectTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WildcatConnectTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		0ADBEE451C0ABD5E00E946F6 /* WildcatConnectTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WildcatConnectTests.m; sourceTree = "<group>"; };
+		0ADBEE471C0ABD5E00E946F6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0ADBEE4C1C0ABD5E00E946F6 /* WildcatConnectUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WildcatConnectUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		0ADBEE501C0ABD5E00E946F6 /* WildcatConnectUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WildcatConnectUITests.m; sourceTree = "<group>"; };
+		0ADBEE521C0ABD5E00E946F6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0ADBEE5E1C0ABD8400E946F6 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		0ADBEE601C0ABD8400E946F6 /* ComposeAlertViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComposeAlertViewController.m; sourceTree = "<group>"; };
 		0ADBEE611C0ABD8400E946F6 /* UsefulLinksTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UsefulLinksTableViewController.m; sourceTree = "<group>"; };
@@ -380,11 +373,12 @@
 		0AF9D3341C43E9C400618042 /* minus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "minus@2x.png"; path = "../minus@2x.png"; sourceTree = "<group>"; };
 		0AFCD9A51C8921A20079D91E /* ScholarshipStructure.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScholarshipStructure.h; sourceTree = "<group>"; };
 		0AFCD9A61C8921A20079D91E /* ScholarshipStructure.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScholarshipStructure.m; sourceTree = "<group>"; };
+		2C8086CAE13641EA1A18CBA4 /* Pods-WildcatConnectUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WildcatConnectUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-WildcatConnectUITests/Pods-WildcatConnectUITests.release.xcconfig"; sourceTree = "<group>"; };
 		429413190A594246BDEACB7B /* Pods-WildcatConnect.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WildcatConnect.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WildcatConnect/Pods-WildcatConnect.debug.xcconfig"; sourceTree = "<group>"; };
-		4942A99076A36D4FFEF67BFD /* libPods-WildcatConnectUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WildcatConnectUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		5D78D9A2C45B40EDE90360E1 /* libPods-WildcatConnectTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WildcatConnectTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		44500645673F6BD1D9C7BC4D /* Pods-WildcatConnectTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WildcatConnectTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-WildcatConnectTests/Pods-WildcatConnectTests.release.xcconfig"; sourceTree = "<group>"; };
+		4D9B962255154889A98A1AA6 /* Pods-WildcatConnectTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WildcatConnectTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WildcatConnectTests/Pods-WildcatConnectTests.debug.xcconfig"; sourceTree = "<group>"; };
 		96433FDC634C33D82A0964F5 /* Pods-WildcatConnect.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WildcatConnect.release.xcconfig"; path = "Pods/Target Support Files/Pods-WildcatConnect/Pods-WildcatConnect.release.xcconfig"; sourceTree = "<group>"; };
-		F1296DEC78DC084ECF514C52 /* libPods-WildcatConnect.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WildcatConnect.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9C5C7481E161EDE5E0A0E67E /* Pods-WildcatConnectUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WildcatConnectUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WildcatConnectUITests/Pods-WildcatConnectUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		F750A8381C5EE00900A2E235 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -409,7 +403,6 @@
 				0ADBEF011C0AC0F800E946F6 /* libstdc++.6.0.9.tbd in Frameworks */,
 				0ADBEEFE1C0ABE5200E946F6 /* Parse.framework in Frameworks */,
 				0ADBEEFD1C0ABE5200E946F6 /* Bolts.framework in Frameworks */,
-				4B0766FA8E2B5685F3AEFF4E /* libPods-WildcatConnect.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -449,6 +442,8 @@
 				0ADBEF0A1C0AC14D00E946F6 /* StoreKit.framework */,
 				0ADBEF081C0AC14200E946F6 /* SystemConfiguration.framework */,
 				0ADBEE271C0ABD5E00E946F6 /* WildcatConnect */,
+				0ADBEE441C0ABD5E00E946F6 /* WildcatConnectTests */,
+				0ADBEE4F1C0ABD5E00E946F6 /* WildcatConnectUITests */,
 				F13104654AE041B10683AF36 /* Pods */,
 				A0D9FDEEDCF8DA0140BE8034 /* Frameworks */,
 			);
@@ -467,15 +462,13 @@
 		0ADBEE271C0ABD5E00E946F6 /* WildcatConnect */ = {
 			isa = PBXGroup;
 			children = (
-				0AAD91D31D5CCBBC0049ABF8 /* FBEncryptorAES.h */,
-				0AAD91D41D5CCBBC0049ABF8 /* FBEncryptorAES.m */,
-				0AAD91D51D5CCBBC0049ABF8 /* NSData+Base64.h */,
-				0AAD91D61D5CCBBC0049ABF8 /* NSData+Base64.m */,
-				0AAD91CC1D5C36810049ABF8 /* PrefixHeader.pch */,
-				0AAD91C31D5C34970049ABF8 /* Config.plist */,
-				0ADBEE5E1C0ABD8400E946F6 /* AppDelegate.m */,
-				0AAD91C91D5C36230049ABF8 /* Utils.h */,
-				0AAD91CA1D5C36230049ABF8 /* Utils.m */,
+				0A976EB71D616374009D8E9C /* Utils.h */,
+				0A976EB81D616374009D8E9C /* Utils.m */,
+				0A976EC21D62982F009D8E9C /* Project.pch */,
+				0A976EBD1D623974009D8E9C /* CryptLib.h */,
+				0A976EBE1D623974009D8E9C /* CryptLib.m */,
+				0A976EBA1D61654A009D8E9C /* NSData+Base64.h */,
+				0A976EBB1D61654A009D8E9C /* NSData+Base64.m */,
 				0AA5C8FD1C33227200C42892 /* about@2x.png */,
 				0ADBEE841C0ABD8400E946F6 /* AboutTableViewController.h */,
 				0ADBEE831C0ABD8400E946F6 /* AboutTableViewController.m */,
@@ -494,6 +487,8 @@
 				0ADBEE6D1C0ABD8400E946F6 /* AlertStructure.h */,
 				0ADBEE6C1C0ABD8400E946F6 /* AlertStructure.m */,
 				0ADBEECD1C0ABDE100E946F6 /* AppDelegate.h */,
+				0ADBEE5E1C0ABD8400E946F6 /* AppDelegate.m */,
+				0A976EC01D623B53009D8E9C /* Config.plist */,
 				0ADBEECE1C0ABDE100E946F6 /* ApplicationManager.h */,
 				0ADBEEC61C0ABDE100E946F6 /* ApplicationManager.m */,
 				0ADBEECF1C0ABDE100E946F6 /* AppManager.h */,
@@ -672,12 +667,27 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		0ADBEE441C0ABD5E00E946F6 /* WildcatConnectTests */ = {
+			isa = PBXGroup;
+			children = (
+				0ADBEE451C0ABD5E00E946F6 /* WildcatConnectTests.m */,
+				0ADBEE471C0ABD5E00E946F6 /* Info.plist */,
+			);
+			path = WildcatConnectTests;
+			sourceTree = "<group>";
+		};
+		0ADBEE4F1C0ABD5E00E946F6 /* WildcatConnectUITests */ = {
+			isa = PBXGroup;
+			children = (
+				0ADBEE501C0ABD5E00E946F6 /* WildcatConnectUITests.m */,
+				0ADBEE521C0ABD5E00E946F6 /* Info.plist */,
+			);
+			path = WildcatConnectUITests;
+			sourceTree = "<group>";
+		};
 		A0D9FDEEDCF8DA0140BE8034 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				F1296DEC78DC084ECF514C52 /* libPods-WildcatConnect.a */,
-				5D78D9A2C45B40EDE90360E1 /* libPods-WildcatConnectTests.a */,
-				4942A99076A36D4FFEF67BFD /* libPods-WildcatConnectUITests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -687,6 +697,10 @@
 			children = (
 				429413190A594246BDEACB7B /* Pods-WildcatConnect.debug.xcconfig */,
 				96433FDC634C33D82A0964F5 /* Pods-WildcatConnect.release.xcconfig */,
+				4D9B962255154889A98A1AA6 /* Pods-WildcatConnectTests.debug.xcconfig */,
+				44500645673F6BD1D9C7BC4D /* Pods-WildcatConnectTests.release.xcconfig */,
+				9C5C7481E161EDE5E0A0E67E /* Pods-WildcatConnectUITests.debug.xcconfig */,
+				2C8086CAE13641EA1A18CBA4 /* Pods-WildcatConnectUITests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -842,7 +856,7 @@
 				0ADBEF461C0AC57200E946F6 /* unread@2x.png in Resources */,
 				0ADBEF3A1C0AC57200E946F6 /* home.png in Resources */,
 				F750A8391C5EE00900A2E235 /* Default-568h@2x.png in Resources */,
-				0AAD91C41D5C34970049ABF8 /* Config.plist in Resources */,
+				0A976EC11D623B53009D8E9C /* Config.plist in Resources */,
 				0ADBEEE01C0ABDE100E946F6 /* wildcat.jpeg in Resources */,
 				0ADBEEDF1C0ABDE100E946F6 /* wildcatLogo.png in Resources */,
 				0A0AFC791C0B597B0094A2D2 /* logoLarge.jpeg in Resources */,
@@ -1001,7 +1015,6 @@
 				0ADBEEA21C0ABD8400E946F6 /* StudentCenterTableViewController.m in Sources */,
 				0ADBEE8F1C0ABD8400E946F6 /* NewsArticleDetailViewController.m in Sources */,
 				0ADBEEEF1C0ABDE100E946F6 /* LunchMenusStructure.m in Sources */,
-				0AAD91D71D5CCBBC0049ABF8 /* FBEncryptorAES.m in Sources */,
 				0ADBEEE41C0ABDE100E946F6 /* PollDetailViewController.m in Sources */,
 				0AA5C8EC1C331E7B00C42892 /* CapstoneViewController.m in Sources */,
 				0A634C711C5159C300210D33 /* GroupBaseTableViewController.m in Sources */,
@@ -1011,6 +1024,7 @@
 				0ADBEEF01C0ABDE100E946F6 /* ExtracurricularUpdateStructure.m in Sources */,
 				0ADBEE9C1C0ABD8400E946F6 /* SchoolDayStructure.m in Sources */,
 				0ADBEF4C1C0AC61F00E946F6 /* AlertsTableViewController.m in Sources */,
+				0A976EBF1D623974009D8E9C /* CryptLib.m in Sources */,
 				0A7AA7941C32260C0012671E /* SpecialKeyStructure.m in Sources */,
 				0ADBEEA01C0ABD8400E946F6 /* ExtracurricularsTableViewController.m in Sources */,
 				0A634C631C4AC1A300210D33 /* EventsTableViewController.m in Sources */,
@@ -1031,7 +1045,7 @@
 				0ADBEEF61C0ABDE100E946F6 /* TestStructure.m in Sources */,
 				0ADBEE9F1C0ABD8400E946F6 /* SectionsTableViewController.m in Sources */,
 				0A634C6B1C4B4BA900210D33 /* ComposeEventViewController.m in Sources */,
-				0AAD91CB1D5C36230049ABF8 /* Utils.m in Sources */,
+				0A976EB91D616374009D8E9C /* Utils.m in Sources */,
 				0ADBEE881C0ABD8400E946F6 /* ComposeAlertViewController.m in Sources */,
 				0AAA54A51C735BAC009A7ABF /* CommunityServiceDetailViewController.m in Sources */,
 				0AFCD9A71C8921A20079D91E /* ScholarshipStructure.m in Sources */,
@@ -1051,6 +1065,7 @@
 				0ADBEE901C0ABD8400E946F6 /* StaffDirectoryBaseTableViewController.m in Sources */,
 				0A2ED78C1C2F2C8600A34EDB /* UserRegisterStructure.m in Sources */,
 				0AD53D5C1C208B4D007E5184 /* RegisterExtracurricularViewController.m in Sources */,
+				0A976EBC1D61654A009D8E9C /* NSData+Base64.m in Sources */,
 				0A2DDCD91C232EE700662F94 /* EditScheduleViewController.m in Sources */,
 				0ADBEE921C0ABD8400E946F6 /* AlertStructure.m in Sources */,
 				0A634C771C515C7100210D33 /* GroupMainTableViewController.m in Sources */,
@@ -1059,7 +1074,6 @@
 				0ADBEEF41C0ABDE100E946F6 /* MainTabBarController.m in Sources */,
 				0A48F73C1C8E6AD000CD8467 /* ScholarshipDetailViewController.m in Sources */,
 				0ADBEEEE1C0ABDE100E946F6 /* ApplicationManager.m in Sources */,
-				0AAD91D81D5CCBBC0049ABF8 /* NSData+Base64.m in Sources */,
 				0ADBEE951C0ABD8400E946F6 /* ComposeCommunityServiceViewController.m in Sources */,
 				0ADBEEE71C0ABDE100E946F6 /* CustomLoginSegue.m in Sources */,
 				0ADBEEE31C0ABDE100E946F6 /* AdministrationLogInViewController.m in Sources */,
@@ -1077,6 +1091,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0ADBEE461C0ABD5E00E946F6 /* WildcatConnectTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1084,6 +1099,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0ADBEE511C0ABD5E00E946F6 /* WildcatConnectUITests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1218,7 +1234,8 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/WildcatConnect",
 				);
-				GCC_PREFIX_HEADER = ./PrefixHeader.pch;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = WildcatConnect/Project.pch;
 				INFOPLIST_FILE = WildcatConnect/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1241,7 +1258,8 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/WildcatConnect",
 				);
-				GCC_PREFIX_HEADER = ./PrefixHeader.pch;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = WildcatConnect/Project.pch;
 				INFOPLIST_FILE = WildcatConnect/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1254,6 +1272,7 @@
 		};
 		0ADBEE591C0ABD5E00E946F6 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4D9B962255154889A98A1AA6 /* Pods-WildcatConnectTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				INFOPLIST_FILE = WildcatConnectTests/Info.plist;
@@ -1266,6 +1285,7 @@
 		};
 		0ADBEE5A1C0ABD5E00E946F6 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 44500645673F6BD1D9C7BC4D /* Pods-WildcatConnectTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				INFOPLIST_FILE = WildcatConnectTests/Info.plist;
@@ -1278,6 +1298,7 @@
 		};
 		0ADBEE5C1C0ABD5E00E946F6 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9C5C7481E161EDE5E0A0E67E /* Pods-WildcatConnectUITests.debug.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = WildcatConnectUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -1290,6 +1311,7 @@
 		};
 		0ADBEE5D1C0ABD5E00E946F6 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2C8086CAE13641EA1A18CBA4 /* Pods-WildcatConnectUITests.release.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = WildcatConnectUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";

@@ -33,10 +33,7 @@
      
      isActive = false;
      
-     self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:248.0f/255.0f
-                                                                            green:183.0f/255.0f
-                                                                             blue:23.0f/255.0f
-                                                                            alpha:0.5f];
+     
      _resultsTableController = [[StaffDirectoryResultsTableViewController alloc] init];
      _searchController = [[UISearchController alloc] initWithSearchResultsController:self.resultsTableController];
      self.searchController.searchResultsUpdater = self;
@@ -151,8 +148,8 @@
      dispatch_group_enter(serviceGroup);
      NSMutableArray *returnArray = [[NSMutableArray alloc] init];
      PFQuery *query = [StaffMemberStructure query];
-     [query orderByAscending:@"staffMemberLastName"];
-     query.limit = 500;
+          //[query orderByAscending:@"staffMemberLastName"];
+          //query.limit = 500;
      [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
           [returnArray addObjectsFromArray:objects];
           theError = error;
