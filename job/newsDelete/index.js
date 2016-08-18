@@ -36,3 +36,5 @@ exports.handler = function(event, context, callback) {
         }).write(postData);
     }
 };
+
+exports.handler();
