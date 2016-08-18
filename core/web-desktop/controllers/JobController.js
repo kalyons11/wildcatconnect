@@ -35,19 +35,27 @@ exports.newsDelete = function(req, res) {
                             console.log("Just deleted an object!!!");
                         },
                         error: function(error) {
+                            var rawError = new Error();
+                            var x = utils.processError(e, rawError, null);
+                            utils.log('error', x.message, {"stack": x.stack, "objects": x.objects});
                             res.send(error.toString());
                         }
                     });
                 };
                 if (i == structures.length - 1) {
+                    utils.log('info', 'News articles successfully deleted.', null);
                     res.send("SUCCESS");
                 };
             }
             if (structures.length == 0) {
+                utils.log('info', 'No news articles to delete.', null);
                 res.send("No objects to delete!");
             };
         },
         error: function() {
+            var rawError = new Error();
+            var x = utils.processError(e, rawError, null);
+            utils.log('error', x.message, {"stack": x.stack, "objects": x.objects});
             res.send(error.toString());
         }
     });
