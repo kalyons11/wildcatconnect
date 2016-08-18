@@ -143,7 +143,7 @@ try {
     });
 
 } catch(e) {
-    console.log(e);
+    console.log(e.stack);
     var rawError = new Error();
     var x = utils.processError(e, rawError, null);
     utils.log('error', x.message, {"stack": x.stack, "objects": x.objects});

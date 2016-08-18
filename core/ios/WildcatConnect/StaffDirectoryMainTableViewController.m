@@ -148,8 +148,8 @@
      dispatch_group_enter(serviceGroup);
      NSMutableArray *returnArray = [[NSMutableArray alloc] init];
      PFQuery *query = [StaffMemberStructure query];
-          //[query orderByAscending:@"staffMemberLastName"];
-          //query.limit = 500;
+     [query orderByAscending:@"staffMemberLastName"];
+     query.limit = 500;
      [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
           [returnArray addObjectsFromArray:objects];
           theError = error;

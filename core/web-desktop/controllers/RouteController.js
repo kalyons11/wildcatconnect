@@ -11,6 +11,7 @@ var config = global.config;
 var AccountController = require('./AccountController');
 var ForgotController = require('./ForgotController');
 var DashboardController = require('./DashboardController');
+var JobController = require('./JobController');
 
 var pages = config.pages;
 
@@ -71,5 +72,7 @@ router.get('/download/ios', function(req, res) {
     var link = config.page.iosUrl;
     res.redirect(link);
 });
+
+router.post('/job/:name', JobController.handleJob);
 
 module.exports = router;

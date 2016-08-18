@@ -122,7 +122,7 @@
           [activity startAnimating];
           
           [self getStatusStringMethodWithCompletion:^(NSError *error, NSString *statusString, NSString *messageString) {
-               if ([statusString isEqualToString:@"0"] && theInt == 0) {
+               if ([statusString isEqualToString:@"0"] && theInt == 0 && false) { // TODO
                     [activity stopAnimating];
                     [[[[self.tabBarController tabBar]items]objectAtIndex:0]setEnabled:FALSE];
                     [[[[self.tabBarController tabBar]items]objectAtIndex:1]setEnabled:FALSE];

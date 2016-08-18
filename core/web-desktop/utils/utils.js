@@ -5,6 +5,7 @@ global.winston = require('winston');
 var Promise = require('promise');
 var crypto = require('cryptlib');
 var Models = require('../models/models');
+var LINQ = require('node-linq').LINQ;
 
 var iv = "_sbSmKUxVQAQ-hvQ"; //16 bytes = 128 bit
 var key = "1bf6bf65e45b55825b1919cbadd028e6";
@@ -35,6 +36,14 @@ module.exports.trimQuotes = function(string) {
     if (string.charAt(0) == '"')
         string = string.substring(1, string.length - 1);
     return string;
+};
+
+module.exports.linqForKeyValuePair = function(objects, key, value, isParse) {
+    var result = new LINQ(objects).Where(function(k) {
+        if (isParse) return k.get(key) == value;
+        else return k[key] == value;
+    }).First();
+    return result;
 };
 
 global.config = module.exports.decryptObject(global.config);
@@ -71,7 +80,7 @@ module.exports.processError = function(realError, fakeError, objects) {
 	 */
 	 var JSON = {};
 	 JSON.message = module.exports.parseError(realError);
-	 JSON.stack = fakeError.stack;
+	 JSON.stack = realError.stack != null ? realError.stack : fakeError.stack;
 	 JSON.objects = module.exports.generateObjects(objects);
 	 return JSON;
 };
@@ -96,8 +105,7 @@ module.exports.parseError = function(error) {
 		case "model":
 			return error.message;
 		default:
-		    module.exports.log('error', "Unable to extract error message for error." + error.toString(), null);
-			return "Unable to extract error message for error." + error.toString();
+			return error.toString();
 	}
 };
 

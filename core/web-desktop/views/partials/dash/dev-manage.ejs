@@ -11,7 +11,12 @@
     <label for="title">General Application Message (default is "None.")</label>
     <input type="text" name="title" class="form-control" id="message" placeholder="Message">
 </div>
-<button class="saveMessage btn btn-lg btn-primary">Save Message</button>
+<button class="saveMessage btn btn-lg btn-primary" style="margin-bottom: 20px;">Save Message</button>
+<div class="form-group">
+    <label for="title">Web Message for Faculty (default is "None.")</label>
+    <input type="text" name="title" class="form-control" id="webMessage" placeholder="Message">
+</div>
+<button class="saveMessage2 btn btn-lg btn-primary">Save Message</button>
 <script>
 
     loadPage();
@@ -19,6 +24,7 @@
     var count = 0;
     var active = "";
     var message = "";
+    var webMessage = "";
 
     function loadPage(theMessage) {
         $("#countLabel").html("");
@@ -36,6 +42,7 @@
                 count = response["count"];
                 active = response["active"];
                 message = response["message"];
+                webMessage = response["webMessage"];
                 if (count != null && status != null && message != null) {
                     loadContent();
                     if (theMessage != null)
@@ -75,6 +82,8 @@
         $('#modeSelect option[value='+parseInt(active)+']').attr('selected', 'selected');
 
         $("#message").val(message);
+
+        $("#webMessage").val(webMessage);
     }
 
     $(document).on('change', "#modeSelect", function() {
@@ -207,7 +216,7 @@
                     $.ajax({
                         url: "manage/ajax/message",
                         type: "post",
-                        data: { message: message },
+                        data: { message: message, type: "app" },
                         datatype: 'json',
                         crossDomain: true,
 
@@ -216,6 +225,49 @@
                                 loadPage("Message successfully updated.");
                             } else {
                                 setMessage("Unable to update application message. Please try to reload the page.", true);
+                                $("#loading").fadeOut();
+                            }
+                        },
+
+                        error: function(request, status, error) {
+                            setMessage("Internal server error. If this problem continues, please contact support.", true);
+                            $("#loading").fadeOut();
+                        }
+                    });
+                };
+            }
+        });
+    });
+
+    $(document).on('click', ".saveMessage2", function() {
+        var message = $("#webMessage").val();
+
+        BootstrapDialog.confirm({
+            title: 'Confirmation',
+            message: 'Are you sure you save this application message? It will be live to all faculty users online.',
+            type: BootstrapDialog.TYPE_DANGER, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
+            closable: true, // <-- Default value is false
+            draggable: true, // <-- Default value is false
+            btnCancelLabel: 'No', // <-- Default value is 'Cancel',
+            btnOKLabel: 'Yes', // <-- Default value is 'OK',
+            btnOKClass: 'btn-primary', // <-- If you didn't specify it, dialog type will be used,
+            callback: function(result) {
+                // result will be true if button was click, while it will be false if users close the dialog directly.
+                if(result) {
+                    $("#loading").fadeIn();
+                    setLoadingMessage("Saving message...");
+                    $.ajax({
+                        url: "manage/ajax/message",
+                        type: "post",
+                        data: { message: message, type: "web" },
+                        datatype: 'json',
+                        crossDomain: true,
+
+                        success: function(response){
+                            if (response["res"] == "SUCCESS") {
+                                loadPage("Message successfully updated.");
+                            } else {
+                                setMessage("Unable to update web application message. Please try to reload the page.", true);
                                 $("#loading").fadeOut();
                             }
                         },

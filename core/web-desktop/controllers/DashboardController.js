@@ -765,14 +765,17 @@ exports.custom = function (req, res) {
                                 queryLast.first({
                                     success: function(object) {
                                         var theString = object.get("value");
-                                        res.send({ mode: theString, structures: structures, dictionary: dictionary });
+                                        var obj = {
+                                            structures: structures,
+                                            dictionary: dictionary,
+                                            mode: theString.toString()
+                                        };
+                                        res.send(obj);
                                     },
                                     error: function(error) {
-                                        response.error(error);
+                                        res.send({res: error});
                                     }
                                 });
-
-                                res.send({structures: structures, dictionary: dictionary});
                             }, error: function (error) {
                                 res.send({res: error});
                             }
@@ -786,6 +789,48 @@ exports.custom = function (req, res) {
             }
         });
     }
+    else if (path == "schedule" && action == "manage" && request == "edit") {
+        var query = new Parse.Query("SchoolDayStructure");
+        query.equalTo("schoolDayID", parseInt(req.body.ID));
+        query.first({
+            success: function(object) {
+                object.set("customString",  req.body.title);
+                object.set("customSchedule",  req.body.schedule);
+                object.set("scheduleType", "*");
+                object.save(null, {
+                    success: function() {
+                        res.send({res: "SUCCESS"});
+                    },
+                    error: function(error) {
+                        res.send({ res: error });
+                    }
+                });
+            },
+            error: function(error) {
+                res.send({ res: error });
+            }
+        });
+    }
+    else if (path == "schedule" && action == "manage" && request == "mode") {
+        var query = new Parse.Query("SpecialKeyStructure");
+        query.equalTo("key", "scheduleMode");
+        query.first({
+            success: function(object) {
+                object.set("value", req.body.mode);
+                object.save({
+                    success: function() {
+                        res.send({res: "SUCCESS"});
+                    },
+                    error: function(error) {
+                        res.send({ res: error });
+                    }
+                });
+            },
+            error: function(error) {
+                res.send({res: error});
+            }
+        });
+    }
     else if (path == "dev" && action == "manage" && request == "load") {
         Parse.Cloud.run("countInstallations", null, {
             success: function(count) {
@@ -795,11 +840,11 @@ exports.custom = function (req, res) {
                     success: function(active) {
                         active = active.get("value");
                         var query = new Parse.Query("SpecialKeyStructure");
-                        query.equalTo("key", "appMessage");
-                        query.first({
-                            success: function(message) {
-                                message = message.get("value");
-                                res.send({ count: count, active: active, message: message });
+                        query.find({
+                            success: function(objects) {
+                                var message = utils.linqForKeyValuePair(objects, "key", "appMessage", true).get("value");
+                                var webMessage = utils.linqForKeyValuePair(objects, "key", "webMessage", true).get("value");
+                                res.send({ count: count, active: active, message: message, webMessage: webMessage });
                             },
                             error: function(error) {
                                 res.send({res: error});
@@ -867,8 +912,12 @@ exports.custom = function (req, res) {
     }
     else if (path == "dev" && action == "manage" && request == "message") {
         var message = req.body.message;
+        var type = req.body.type;
         var query = new Parse.Query("SpecialKeyStructure");
-        query.equalTo("key", "appMessage");
+        if (type == "app")
+            query.equalTo("key", "appMessage");
+        else if (type == "web")
+            query.equalTo("key", "webMessage");
         query.first({
             success: function(active) {
                 active.set("value", message);
