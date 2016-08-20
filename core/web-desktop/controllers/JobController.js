@@ -14,6 +14,8 @@ exports.handleJob = function(req, res) {
                 return exports.commDelete(req, res);
             case "pollDelete":
                 return exports.pollDelete(req, res);
+            case "alertDelete":
+                return exports.alertDelete(req, res);
         }
     } else {
         utils.log("error", "Forbidden access detected from IP address: " + req.connection.remoteAddress, null);
@@ -201,6 +203,53 @@ exports.pollDelete = function(req, res) {
             var x = utils.processError(e, rawError, null);
             utils.log('error', x.message, {"stack": x.stack, "objects": x.objects});
             res.send(error.toString());
+        }
+    });
+};
+
+exports.alertDelete = function(req, res) {
+    var query = new Parse.Query("AlertStructure");
+    query.ascending("alertID");
+    query.find({
+        success: function(structures) {
+            for (var i = 0; i < structures.length; i++) {
+                var currentStructure = structures[i];
+                var thisDate = currentStructure.createdAt;
+                var now = new Date();
+                var one_day=1000*60*60*24;
+                var date1_ms = thisDate.getTime();
+                var date2_ms = now.getTime();
+                var difference_ms = date2_ms - date1_ms;
+                difference_ms = Math.round(difference_ms/one_day);
+                console.log(difference_ms);
+                if (difference_ms > 21) {
+                    currentStructure.destroy({
+                        success: function() {
+                            console.log("Just deleted an object!!!");
+                        },
+                        error: function(error) {
+                            var rawError = new Error();
+                            var x = utils.processError(e, rawError, null);
+                            utils.log('error', x.message, {"stack": x.stack, "objects": x.objects});
+                            res.send(error.toString());s
+                        }
+                    });
+                };
+                if (i == structures.length - 1) {
+                    utils.log('info', 'Alerts successfully deleted.', null);
+                    res.send("SUCCESS");
+                };
+            }
+            if (structures.length == 0) {
+                utils.log('info', 'No alerts to delete.', null);
+                res.send("No objects to delete!");
+            };
+        },
+        error: function() {
+            var rawError = new Error();
+            var x = utils.processError(e, rawError, null);
+            utils.log('error', x.message, {"stack": x.stack, "objects": x.objects});
+            res.send(error.toString());s
         }
     });
 };
