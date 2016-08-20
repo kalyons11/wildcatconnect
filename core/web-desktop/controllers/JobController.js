@@ -16,6 +16,8 @@ exports.handleJob = function(req, res) {
                 return exports.pollDelete(req, res);
             case "alertDelete":
                 return exports.alertDelete(req, res);
+            case "scholarshipDelete":
+                return exports.scholarshipDelete(req, res);
         }
     } else {
         utils.log("error", "Forbidden access detected from IP address: " + req.connection.remoteAddress, null);
@@ -249,7 +251,38 @@ exports.alertDelete = function(req, res) {
             var rawError = new Error();
             var x = utils.processError(e, rawError, null);
             utils.log('error', x.message, {"stack": x.stack, "objects": x.objects});
-            res.send(error.toString());s
+            res.send(error.toString());
         }
     });
+};
+
+exports.scholarshipDelete = function (req, res) {
+    var query = new Parse.Query("ScholarshipStructure");
+    query.ascending("dueDate");
+    var array = new Array();
+    query.find().then(function(objects) {
+        var now = new Date();
+        for (var i = 0; i < objects.length; i++) {
+            var currentStructure = objects[i];
+            var thisDate = currentStructure.get("dueDate");
+            var now = new Date();
+            var one_day=1000*60*60*24;
+            var date1_ms = thisDate.getTime();
+            var date2_ms = now.getTime();
+            var difference_ms = date2_ms - date1_ms;
+            difference_ms = Math.round(difference_ms/one_day);
+            if (difference_ms >= 2) {
+                array.push(currentStructure);
+            };
+        };
+        return Parse.Object.destroyAll(array);
+    }).then(function(objectsGone){
+        utils.log('info', 'Scholarships successfully deleted.', null);
+        res.send("SUCCESS");
+    }), function(error) {
+        var rawError = new Error();
+        var x = utils.processError(e, rawError, null);
+        utils.log('error', x.message, {"stack": x.stack, "objects": x.objects});
+        res.send(error.toString());
+    };
 };
