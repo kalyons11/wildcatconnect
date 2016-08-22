@@ -18,6 +18,8 @@ exports.handleJob = function(req, res) {
                 return exports.alertDelete(req, res);
             case "scholarshipDelete":
                 return exports.scholarshipDelete(req, res);
+            case "alertPush":
+                return exports.alertPush(req, res);
         }
     } else {
         utils.log("error", "Forbidden access detected from IP address: " + req.connection.remoteAddress, null);
@@ -46,7 +48,7 @@ exports.newsDelete = function(req, res) {
                         },
                         error: function(error) {
                             var rawError = new Error();
-                            var x = utils.processError(e, rawError, null);
+                            var x = utils.processError(error, rawError, null);
                             utils.log('error', x.message, {"stack": x.stack, "objects": x.objects});
                             res.send(error.toString());
                         }
@@ -62,9 +64,9 @@ exports.newsDelete = function(req, res) {
                 res.send("No objects to delete!");
             };
         },
-        error: function() {
+        error: function(error) {
             var rawError = new Error();
-            var x = utils.processError(e, rawError, null);
+            var x = utils.processError(error, rawError, null);
             utils.log('error', x.message, {"stack": x.stack, "objects": x.objects});
             res.send(error.toString());
         }
@@ -90,7 +92,7 @@ exports.eventDelete = function(req, res) {
                         },
                         error: function(error) {
                             var rawError = new Error();
-                            var x = utils.processError(e, rawError, null);
+                            var x = utils.processError(error, rawError, null);
                             utils.log('error', x.message, {"stack": x.stack, "objects": x.objects});
                             res.send(error.toString());
                         }
@@ -108,7 +110,7 @@ exports.eventDelete = function(req, res) {
         },
         error: function() {
             var rawError = new Error();
-            var x = utils.processError(e, rawError, null);
+            var x = utils.processError(error, rawError, null);
             utils.log('error', x.message, {"stack": x.stack, "objects": x.objects});
             res.send(error.toString());
         }
@@ -136,7 +138,7 @@ exports.commDelete = function(req, res) {
                         },
                         error: function(error) {
                             var rawError = new Error();
-                            var x = utils.processError(e, rawError, null);
+                            var x = utils.processError(error, rawError, null);
                             utils.log('error', x.message, {"stack": x.stack, "objects": x.objects});
                             res.send(error.toString());
                         }
@@ -152,9 +154,9 @@ exports.commDelete = function(req, res) {
                 res.send("No objects to delete!");
             };
         },
-        error: function() {
+        error: function(error) {
             var rawError = new Error();
-            var x = utils.processError(e, rawError, null);
+            var x = utils.processError(error, rawError, null);
             utils.log('error', x.message, {"stack": x.stack, "objects": x.objects});
             res.send(error.toString());
         }
@@ -184,7 +186,7 @@ exports.pollDelete = function(req, res) {
                         },
                         error: function(error) {
                             var rawError = new Error();
-                            var x = utils.processError(e, rawError, null);
+                            var x = utils.processError(error, rawError, null);
                             utils.log('error', x.message, {"stack": x.stack, "objects": x.objects});
                             res.send(error.toString());
                         }
@@ -200,9 +202,9 @@ exports.pollDelete = function(req, res) {
                 res.send("No objects to delete!");
             };
         },
-        error: function() {
+        error: function(error) {
             var rawError = new Error();
-            var x = utils.processError(e, rawError, null);
+            var x = utils.processError(error, rawError, null);
             utils.log('error', x.message, {"stack": x.stack, "objects": x.objects});
             res.send(error.toString());
         }
@@ -231,7 +233,7 @@ exports.alertDelete = function(req, res) {
                         },
                         error: function(error) {
                             var rawError = new Error();
-                            var x = utils.processError(e, rawError, null);
+                            var x = utils.processError(error, rawError, null);
                             utils.log('error', x.message, {"stack": x.stack, "objects": x.objects});
                             res.send(error.toString());s
                         }
@@ -247,9 +249,9 @@ exports.alertDelete = function(req, res) {
                 res.send("No objects to delete!");
             };
         },
-        error: function() {
+        error: function(error) {
             var rawError = new Error();
-            var x = utils.processError(e, rawError, null);
+            var x = utils.processError(error, rawError, null);
             utils.log('error', x.message, {"stack": x.stack, "objects": x.objects});
             res.send(error.toString());
         }
@@ -281,8 +283,104 @@ exports.scholarshipDelete = function (req, res) {
         res.send("SUCCESS");
     }), function(error) {
         var rawError = new Error();
-        var x = utils.processError(e, rawError, null);
+        var x = utils.processError(error, rawError, null);
         utils.log('error', x.message, {"stack": x.stack, "objects": x.objects});
         res.send(error.toString());
     };
+};
+
+exports.alertPush = function (req, res) {
+    var query = new Parse.Query("AlertStructure");
+    var existingString = null;
+    var pushSent = false;
+    query.ascending("alertID");
+    query.equalTo("isReady", 0);
+    query.find({
+        success: function(structures) {
+            for (var i = 0; i < structures.length; i++) {
+                var currentStructure = structures[i];
+                var thisDate = currentStructure.get("alertTime");
+                var now = new Date();
+                var date1_ms = thisDate.getTime();
+                var date2_ms = now.getTime();
+                var difference_ms = date2_ms - date1_ms;
+                if (difference_ms >= 0 || (thisDate.getHours() === now.getHours() && thisDate.getMinutes() === now.getMinutes())) {
+                    pushSent = true;
+                    currentStructure.set("isReady", 1);
+                    currentStructure.save(null, {
+                        success: function (currentStructure) {
+                            // Execute any logic that should take place after the object is saved.
+                            //alert('New object created with objectId: ' + gameScore.id);
+                            var query = new Parse.Query("SchoolDayStructure");
+                            query.equalTo("isActive", 1);
+                            query.ascending("schoolDayID");
+                            query.first({
+                                success: function(structure) {
+                                    var messageString;
+                                    if (existingString != null) {
+                                        messageString = existingString;
+                                    } else {
+                                        messageString = structure.get("messageString");
+                                    }
+                                    if (messageString === "No alerts yet.") {
+                                        messageString = currentStructure.get("titleString");
+                                    } else {
+                                        messageString = messageString + "\n\n" + currentStructure.get("titleString");
+                                    };
+                                    existingString = messageString;
+                                    structure.set("messageString", messageString);
+                                    structure.save(null, {
+                                        success: function(structure) {
+                                            // Execute any logic that should take place after the object is saved.
+                                            //alert('New object created with objectId: ' + gameScore.id);
+                                            //
+                                            if (i == structures.length - 1) {
+                                                if (pushSent === true) {
+                                                    utils.log('info', 'Alert successfully pushed.', null);
+                                                    res.send("SUCCESS");
+                                                }
+                                            };
+                                        },
+                                        error: function(error) {
+                                            var rawError = new Error();
+                                            var x = utils.processError(error, rawError, null);
+                                            utils.log('error', x.message, {"stack": x.stack, "objects": x.objects});
+                                            res.send(error.toString());
+                                        }
+                                    });
+                                },
+                                error: function(errorTwo) {
+                                    response.error("Error.");
+                                }
+                            });
+                        },
+                        error: function(currentStructure, error) {
+                            // Execute any logic that should take place if the save fails.
+                            // error is a Parse.Error with an error code and message.
+                            //alert('Failed to create new object, with error code: ' + error.message);
+                            var rawError = new Error();
+                            var x = utils.processError(error, rawError, null);
+                            utils.log('error', x.message, {"stack": x.stack, "objects": x.objects});
+                            res.send(error.toString());
+                        }
+                    });
+                } else if (i == structures.length - 1) {
+                    if (pushSent === false) {
+                        utils.log('info', 'No alerts sent!', null);
+                        res.send("SUCCESS");
+                    }
+                };
+            }
+            if (structures.length == 0) {
+                utils.log('info', 'No alerts to be sent!', null);
+                res.send("SUCCESS");
+            };
+        },
+        error: function() {
+            var rawError = new Error();
+            var x = utils.processError(error, rawError, null);
+            utils.log('error', x.message, {"stack": x.stack, "objects": x.objects});
+            res.send(error.toString());
+        }
+    });
 };
