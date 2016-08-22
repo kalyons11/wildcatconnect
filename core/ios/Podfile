@@ -7,6 +7,8 @@ target 'WildcatConnect' do
   pod ‘LogglyLogger-CocoaLumberjack’
   pod 'RNCryptor'
   pod 'CommonCrypto'
+  pod 'AttributedMarkdown', :git => 'https://github.com/dreamwieber/AttributedMarkdown.git'
+  pod 'MGMushParser'
 
   target 'WildcatConnectTests' do
     inherit! :search_paths

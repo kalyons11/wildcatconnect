@@ -202,6 +202,10 @@ module.exports.removeParams = function(object) {
 	return object;
 };
 
+module.exports.hasAdminLevel = function (user) {
+    return user["userType"] == "Administration" || user["userType"] == "Developer";
+};
+
 module.exports.initializeHomeUserModel = function(user) {
 	var model = new Dashboard();
 	if (user) {
@@ -270,7 +274,7 @@ module.exports.fillParamaters = function(model, ID, otherData) {
             result.contentURLString = model.customModel.content;
             result.likes = 0;
             result.views = 0;
-            result.isApproved = 0;
+            result.isApproved = model.object.user.isAdmin ? 1 : 0;
             result.email = model.object.user.email;
             result.userString = module.exports.fullUserString(model);
             return result;
@@ -281,7 +285,7 @@ module.exports.fillParamaters = function(model, ID, otherData) {
             result.commSummaryString = model.customModel.content;
             result.startDate = new Date(model.customModel.startDate);
             result.endDate = new Date(model.customModel.endDate);
-            result.isApproved = 0;
+            result.isApproved = model.object.user.isAdmin ? 1 : 0;
             result.email = model.object.user.email;
             result.userString = module.exports.fullUserString(model);
             return result;
@@ -292,7 +296,7 @@ module.exports.fillParamaters = function(model, ID, otherData) {
             result.locationString = model.customModel.location;
             result.messageString = model.customModel.content;
             result.eventDate = new Date(model.customModel.eventDate);
-            result.isApproved = 0;
+            result.isApproved = model.object.user.isAdmin ? 1 : 0;
             result.email = model.object.user.email;
             result.userString = module.exports.fullUserString(model);
             return result;

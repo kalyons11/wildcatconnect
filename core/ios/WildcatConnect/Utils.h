@@ -11,6 +11,8 @@
 #import <LogglyLogger.h>
 #import <LogglyFormatter.h>
 #import <CocoaLumberjack/DDLog.h>
+#import "MMMarkdown.h"
+#import <MGMushParser.h>
 
 @interface Utils : NSObject
 
@@ -21,5 +23,7 @@
 + (void) setNavColorForController:(UIViewController *)controller;
 + (void) init;
 + (void) logString:(NSString *)message forObjects:(NSArray *)objects forLevel:(NSString *)level;
++ (NSString *)convertHTMLString:(NSString *)input;
++ (UIWebView *)createWebViewForDelegate:(UIViewController *)delegate forString:(NSString *)string withSeparator:(UIView *)separator;
 
 @end

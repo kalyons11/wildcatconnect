@@ -17,6 +17,7 @@
      UILabel *dateLabel;
      UILabel *dateLabelB;
      UITextView *messageLabel;
+     UIScrollView *scrollView;
 }
 
 - (void)viewDidLoad {
@@ -25,7 +26,9 @@
      
      self.navigationItem.title = @"Details";
      
-     UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+     scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+     
+     self.navigationController.navigationBar.translucent = NO;
      
      titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, self.view.frame.size.width - 20, 100)];
      titleLabel.text = self.CS.commTitleString;
@@ -59,14 +62,7 @@
      separator.backgroundColor = [UIColor blackColor];
      [scrollView addSubview:separator];
      
-     messageLabel = [[UITextView alloc] initWithFrame:CGRectMake(10, separator.frame.origin.y + separator.frame.size.height + 10, self.view.frame.size.width - 20, 20)];
-     messageLabel.text = self.CS.commSummaryString;
-     messageLabel.dataDetectorTypes = UIDataDetectorTypeLink;
-     messageLabel.editable = false;
-     messageLabel.scrollEnabled = false;
-     [messageLabel setFont:[UIFont systemFontOfSize:16]];
-     [messageLabel sizeToFit];
-     [scrollView addSubview:messageLabel];
+     [scrollView addSubview:[Utils createWebViewForDelegate:self forString:self.CS.commSummaryString withSeparator:separator]];
      
      self.automaticallyAdjustsScrollViewInsets = YES;
      UIEdgeInsets adjustForTabbarInsets = UIEdgeInsetsMake(0, 0, 70, 0);
@@ -78,6 +74,33 @@
      }
      scrollView.contentSize = contentRect.size;
      [self.view addSubview:scrollView];
+}
+
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
+     
+     
+     if (navigationType == UIWebViewNavigationTypeLinkClicked){
+          
+          [[UIApplication sharedApplication] openURL:request.URL];
+          return NO;
+          
+     }
+     
+     else return YES;
+     
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+     webView.frame = CGRectMake(webView.frame.origin.x, webView.frame.origin.y, webView.frame.size.width, webView.scrollView.contentSize.height);
+     UIEdgeInsets adjustForTabbarInsets = UIEdgeInsetsMake(0, 0, 150, 0);
+     scrollView.contentInset = adjustForTabbarInsets;
+     scrollView.scrollIndicatorInsets = adjustForTabbarInsets;
+     CGRect contentRect = CGRectZero;
+     for (UIView *view in scrollView.subviews) {
+          contentRect = CGRectUnion(contentRect, view.frame);
+     }
+     scrollView.contentSize = contentRect.size;
+     
 }
 
 - (void)didReceiveMemoryWarning {

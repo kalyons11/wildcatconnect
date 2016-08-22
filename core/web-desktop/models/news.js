@@ -15,7 +15,7 @@ var newsSchema = CustomSchema.extend({
 	hasFiles: Boolean
 }, { collection: 'models' });
 
-newsSchema.methods.validateData = function(data) {
+newsSchema.methods.validateData = function(data, user) {
 	var result = false;
 	var message = "";
 	utils.fillModel(this, data.body, "NewsArticleStructure");
@@ -53,7 +53,10 @@ newsSchema.methods.validateData = function(data) {
 		result = false;
 		return { result: result , message: message, model: this};
 	}
-	message = config.page.newsStructure + " successfully submitted for approval. Please allow 1-2 days for processing.";
+	if (utils.hasAdminLevel(user))
+	    message = config.page.newsStructure + " successfully posted to the application.";
+    else
+        message = config.page.newsStructure + " successfully submitted for approval. Please allow 1-2 days for processing.";
 	result = true;
 	return { result: result , message: message, model: this};
 };

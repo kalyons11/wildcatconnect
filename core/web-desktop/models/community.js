@@ -12,7 +12,7 @@ var commSchema = CustomSchema.extend({
 	endDate: Date
 }, { collection: 'models' });
 
-commSchema.methods.validateData = function(data) {
+commSchema.methods.validateData = function(data, user) {
 	var result = false;
 	var message = "";
 	utils.fillModel(this, data.body, "CommunityServiceStructure");
@@ -42,7 +42,10 @@ commSchema.methods.validateData = function(data) {
 		result = false;
 		return { result: result , message: message, model: this };
 	}
-	message = "Community service opportunity successfully submitted for approval. Please allow 1-2 days for processing.";
+    if (utils.hasAdminLevel(user))
+        message = "Community service opportunity successfully posted to the application.";
+    else
+        message = "Community service opportunity successfully submitted for approval. Please allow 1-2 days for processing.";
 	result = true;
 	return { result: result , message: message, model: this};
 };

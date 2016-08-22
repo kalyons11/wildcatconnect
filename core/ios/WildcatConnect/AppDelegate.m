@@ -62,8 +62,6 @@ void uncaughtExceptionHandler(NSException *exception) {
      
      [Utils init];
      
-     [Utils logString:@"test!!!" forObjects:[NSArray arrayWithObjects:array, nil] forLevel:@"info"];
-     
           //TODO - Encrypt and configure all values!!!
      
      [Parse initializeWithConfiguration:[ParseClientConfiguration configurationWithBlock:^(id<ParseMutableClientConfiguration> configuration) {

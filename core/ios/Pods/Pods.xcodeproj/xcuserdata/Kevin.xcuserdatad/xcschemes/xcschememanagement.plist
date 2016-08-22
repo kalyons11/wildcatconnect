@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>AttributedMarkdown.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>CocoaLumberjack.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -15,6 +20,11 @@
 			<false/>
 		</dict>
 		<key>LogglyLogger-CocoaLumberjack.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>MGMushParser.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -57,7 +67,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>20430C98CD8EA11590B5DBF7067BD28D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>21A11892104ABE3662EC174DC13AB6DA</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>30448F4F284ABAF04CD26DD12F9AC105</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>49FB4ED4C76FE3BE26D8A1A2CD72B2E5</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -67,12 +92,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>90B0D7F54939C6D71096FA6249B805FE</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>C9D33F1ADA130719613C73F24E163234</key>
+		<key>A4714CAF0C52729C9F8B00FE46CEE2C4</key>
 		<dict>
 			<key>primary</key>
 			<true/>

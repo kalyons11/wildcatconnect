@@ -12,7 +12,7 @@ var eventSchema = CustomSchema.extend({
 	content: String
 }, { collection: 'models' });
 
-eventSchema.methods.validateData = function(data) {
+eventSchema.methods.validateData = function(data, user) {
 	var result = false;
 	var message = "";
 	utils.fillModel(this, data.body, "EventStructure");
@@ -41,7 +41,10 @@ eventSchema.methods.validateData = function(data) {
 		result = false;
 		return { result: result , message: message, model: this };
 	}
-	message = "Event successfully submitted for approval. Please allow 1-2 days for processing.";
+    if (utils.hasAdminLevel(user))
+        message = "Event successfully posted to the application.";
+    else
+        message = "Event successfully submitted for approval. Please allow 1-2 days for processing.";
 	result = true;
 	return { result: result , message: message, model: this};
 };

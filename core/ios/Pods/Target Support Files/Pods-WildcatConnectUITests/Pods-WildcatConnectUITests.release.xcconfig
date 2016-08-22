@@ -1,7 +1,7 @@
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
-HEADER_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/CocoaLumberjack" "${PODS_ROOT}/Headers/Public/CommonCrypto" "${PODS_ROOT}/Headers/Public/LogglyLogger-CocoaLumberjack" "${PODS_ROOT}/Headers/Public/RNCryptor"
-LIBRARY_SEARCH_PATHS = $(inherited) "$PODS_CONFIGURATION_BUILD_DIR/CocoaLumberjack" "$PODS_CONFIGURATION_BUILD_DIR/CommonCrypto" "$PODS_CONFIGURATION_BUILD_DIR/LogglyLogger-CocoaLumberjack" "$PODS_CONFIGURATION_BUILD_DIR/RNCryptor"
-OTHER_CFLAGS = $(inherited) -isystem "${PODS_ROOT}/Headers/Public" -isystem "${PODS_ROOT}/Headers/Public/CocoaLumberjack" -isystem "${PODS_ROOT}/Headers/Public/CommonCrypto" -isystem "${PODS_ROOT}/Headers/Public/LogglyLogger-CocoaLumberjack" -isystem "${PODS_ROOT}/Headers/Public/RNCryptor"
+HEADER_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/AttributedMarkdown" "${PODS_ROOT}/Headers/Public/CocoaLumberjack" "${PODS_ROOT}/Headers/Public/CommonCrypto" "${PODS_ROOT}/Headers/Public/LogglyLogger-CocoaLumberjack" "${PODS_ROOT}/Headers/Public/MGMushParser" "${PODS_ROOT}/Headers/Public/RNCryptor"
+LIBRARY_SEARCH_PATHS = $(inherited) "$PODS_CONFIGURATION_BUILD_DIR/AttributedMarkdown" "$PODS_CONFIGURATION_BUILD_DIR/CocoaLumberjack" "$PODS_CONFIGURATION_BUILD_DIR/CommonCrypto" "$PODS_CONFIGURATION_BUILD_DIR/LogglyLogger-CocoaLumberjack" "$PODS_CONFIGURATION_BUILD_DIR/MGMushParser" "$PODS_CONFIGURATION_BUILD_DIR/RNCryptor"
+OTHER_CFLAGS = $(inherited) -isystem "${PODS_ROOT}/Headers/Public" -isystem "${PODS_ROOT}/Headers/Public/AttributedMarkdown" -isystem "${PODS_ROOT}/Headers/Public/CocoaLumberjack" -isystem "${PODS_ROOT}/Headers/Public/CommonCrypto" -isystem "${PODS_ROOT}/Headers/Public/LogglyLogger-CocoaLumberjack" -isystem "${PODS_ROOT}/Headers/Public/MGMushParser" -isystem "${PODS_ROOT}/Headers/Public/RNCryptor"
 OTHER_LDFLAGS = $(inherited) -ObjC
 PODS_BUILD_DIR = $BUILD_DIR
 PODS_CONFIGURATION_BUILD_DIR = $PODS_BUILD_DIR/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)

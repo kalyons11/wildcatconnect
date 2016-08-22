@@ -149,7 +149,7 @@
         var choices = structures[index]["pollMultipleChoices"];
 
         for (var key in choices) {
-            var percent = Math.round((parseInt(choices[key]) / total * 100 * 10)) / 10 == NaN ? Math.round((parseInt(choices[key]) / total * 100 * 10)) / 10 : 0;
+            var percent = Math.round((parseInt(choices[key]) / total * 100 * 10)) / 10;
             finalString = finalString + key + " - " + percent.toString() + "%" + "\n";
         };
 

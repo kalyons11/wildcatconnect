@@ -223,3 +223,200 @@ Parse.Cloud.define("updateLinks", function(request, response) {
         }
     });
 });
+
+Parse.Cloud.afterSave("ExtracurricularUpdateStructure", function(request) {
+    if (request.object.get("extracurricularUpdateID") != null) {
+        var query = new Parse.Query("ExtracurricularStructure");
+        query.equalTo("extracurricularID", request.object.get("extracurricularID"));
+        query.first({
+            success: function(structure) {
+                var title = structure.get("titleString");
+                var channelString = "E" + structure.get("extracurricularID").toString();
+                Parse.Push.send({
+                    channels: [ channelString ],
+                    data: {
+                        alert: title + " - " + request.object.get("messageString"),
+                        e: "e",
+                        badge: "Increment"
+                    }
+                });
+            },
+            error: function(error) {
+                //Handle error
+            }
+        });
+    };
+});
+
+Parse.Cloud.afterDelete("ExtracurricularStructure", function(request) {
+    var ID = request.object.get("extracurricularID");
+    var channelString = "E" + ID.toString();
+    Parse.Cloud.useMasterKey();
+    var query = new Parse.Query("_Installation");
+    query.equalTo("channels", channelString);
+    var finalArray = new Array();
+    query.find({
+        success: function(users) {
+            console.log("HERE" + users.length);
+            for (var i = 0; i < users.length; i++) {
+                var theString = users[i].get("channels");
+                var array = Object.keys(theString).map(function (key) {return theString[key]});
+                var index = array.indexOf(channelString);
+                if (index > -1) {
+                    array.splice(index, 1);
+                    users[i].set("channels", array);
+                    finalArray.push(users[i]);
+                };
+            }
+            Parse.Object.saveAll(finalArray, {
+                success: function(savedObjects) {
+                    //
+                },
+                error: function(error) {
+                    //
+                }
+            });
+        }, error: function(error) {
+            //
+        }
+    });
+    var queryTwo = new Parse.Query("_User");
+    queryTwo.equalTo("ownedEC", ID);
+    var finalArray = new Array();
+    queryTwo.find({
+        success: function(users) {
+            for (var i = 0; i < users.length; i++) {
+                var theString = users[i].get("ownedEC");
+                var array = Object.keys(theString).map(function (key) {return theString[key]});
+                var index = array.indexOf(ID);
+                if (index > -1) {
+                    array.splice(index, 1);
+                    users[i].set("ownedEC", array);
+                    finalArray.push(users[i]);
+                };
+            }
+            Parse.Object.saveAll(finalArray, {
+                success: function(savedObjects) {
+                    //
+                },
+                error: function(error) {
+                    //
+                }
+            });
+        },
+        error: function(error) {
+            //
+        }
+    });
+
+    var queryThree = new Parse.Query("ExtracurricularUpdateStructure");
+    queryThree.equalTo("extracurricularID", ID);
+    queryThree.find({
+        success: function(updates) {
+            Parse.Object.destroyAll(updates, {
+                success: function(deletedObjects) {
+
+                },
+                error: function(error) {
+
+                }
+            })
+        },
+        error: function(error) {
+            //
+        }
+    });
+
+});
+
+Parse.Cloud.afterSave("CommunityServiceStructure", function(request) {
+    if (request.object.get("communityServiceID") != null && request.object.get("isApproved") == 1) {
+        Parse.Push.send({
+            channels: [ "allCS" ],
+            data: {
+                alert: "COMMUNITY SERVICE - " + request.object.get("commTitleString"),
+                c: "c",
+                badge: "Increment"
+            }
+        });
+    };
+});
+
+Parse.Cloud.beforeSave("PollStructure", function(request, response) {
+    //Not first save...sum responses from individual choices...
+    var dictionary = request.object.get("pollMultipleChoices");
+    var sum = 0;
+    for (var key in dictionary) {
+        sum += parseInt(dictionary[key], 10);
+    }
+    if (sum && sum > 0) {
+        request.object.set("totalResponses", sum.toString());
+    } else {
+        request.object.set("totalResponses", "0".toString());
+    };
+    response.success();
+});
+
+Parse.Cloud.afterSave("PollStructure", function(request) {
+    if (request.object.get("pollID") != null && request.object.get("totalResponses") === "0") {
+        Parse.Push.send({
+            channels: [ "allPolls" ],
+            data: {
+                title: "WildcatConnect",
+                alert: "POLL - " + request.object.get("pollTitle"),
+                p: request.object.get("pollID"),
+                badge: "Increment"
+            }
+        });
+    };
+});
+
+Parse.Cloud.beforeSave("NewsArticleStructure", function(request, response) {
+    if (request.object.get("articleID") != null && request.object.get("views") == 0 && request.object.get("isApproved") === 1) {
+        Parse.Push.send({
+            channels: [ "allNews" ],
+            data: {
+                title: "WildcatConnect",
+                alert: "NEWS - " + request.object.get("titleString"),
+                n: request.object.get("articleID"),
+                badge: "Increment"
+            }
+        }, {
+            success: function() {
+                response.success("Done!");
+            },
+            error: function(error) {
+                response.error(error);
+            }
+        });
+    } else {
+        response.success("");
+    };
+});
+
+Parse.Cloud.afterSave("AlertStructure", function(request) {
+    if (request.object.get("alertID") != null) {
+        if (request.object.get("isReady") == 1 && request.object.get("views") == 0) {
+            var query = new Parse.Query("SpecialKeyStructure");
+            query.equalTo("key", "appActive");
+            query.first({
+                success: function(structure) {
+                    if (structure.get("value") === "1") {
+                        Parse.Push.send({
+                            channels: [ "global" ],
+                            data: {
+                                title: "WildcatConnect",
+                                alert: request.object.get("titleString"),
+                                a: request.object.get("alertID"),
+                                badge: "Increment"
+                            }
+                        });
+                    };
+                },
+                error: function(errorTwo) {
+                    response.error("Error.");
+                }
+            });
+        };
+    };
+});

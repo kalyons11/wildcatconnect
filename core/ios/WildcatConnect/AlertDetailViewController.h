@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "AlertStructure.h"
 
-@interface AlertDetailViewController : UIViewController
+@interface AlertDetailViewController : UIViewController <UIWebViewDelegate>
 
 @property (nonatomic, strong) AlertStructure *alert;
 @property BOOL showCloseButton;

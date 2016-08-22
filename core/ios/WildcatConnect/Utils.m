@@ -101,4 +101,20 @@ static const int ddLogLevel = DDLogLevelVerbose;
      return [UIColor colorWithRed:(float)r/255.0f green:(float)g/255.0f blue:(float)b/255.0f alpha:1];
 }
 
++ (NSString *)convertHTMLString:(NSString *)input {
+     NSString *html = [[MMMarkdown HTMLStringWithMarkdown:input error:nil] stringByAppendingString:@"<style>body{font-family: Helvetica Neue !important;}</style>"];
+     return html;
+}
+
++ (UIWebView *)createWebViewForDelegate:(UIViewController *)delegate forString:(NSString *)string withSeparator:(UIView *)separator {
+     UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectMake(separator.frame.origin.x, separator.frame.origin.y + separator.frame.size.height + 10, delegate.view.frame.size.width - 20, delegate.view.frame.size.height - 10 - (separator.frame.origin.y + separator.frame.size.height + 10))];
+     NSString *html = [Utils convertHTMLString:[Utils convertHTMLString:string]];
+     [webView loadHTMLString:html baseURL:[NSURL URLWithString:@"http://"]];
+     webView.scrollView.scrollEnabled = NO;
+     [webView sizeToFit];
+     [webView setDelegate:delegate];
+     webView.dataDetectorTypes = UIDataDetectorTypeAll;
+     return webView;
+}
+
 @end

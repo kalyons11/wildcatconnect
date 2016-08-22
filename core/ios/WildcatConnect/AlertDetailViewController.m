@@ -16,6 +16,7 @@
 @implementation AlertDetailViewController {
      UILabel *titleLabel;
      UIActivityIndicatorView *activity;
+     UIScrollView *scrollView;
 }
 
 - (void)viewDidLoad {
@@ -24,7 +25,9 @@
      
      self.navigationItem.title = @"Alert";
      
-     UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+     scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+     
+     self.navigationController.navigationBar.translucent = NO;
      
      titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, self.view.frame.size.width - 20, 100)];
      titleLabel.text = self.alert.titleString;
@@ -46,14 +49,7 @@
      separator.backgroundColor = [UIColor blackColor];
      [scrollView addSubview:separator];
      
-     UITextView *textView = [[UITextView alloc] initWithFrame:CGRectMake(separator.frame.origin.x, separator.frame.origin.y + separator.frame.size.height + 10, self.view.frame.size.width - 20, 100)];
-     textView.text = self.alert.contentString;
-     textView.font = [UIFont systemFontOfSize:18];
-     [textView sizeToFit];
-     textView.editable = false;
-     textView.scrollEnabled = false;
-     textView.dataDetectorTypes = UIDataDetectorTypeLink;
-     [scrollView addSubview:textView];
+     [scrollView addSubview:[Utils createWebViewForDelegate:self forString:self.alert.contentString withSeparator:separator]];
      
           //Takes care of all resizing needs based on sizes.
      self.automaticallyAdjustsScrollViewInsets = YES;
@@ -83,6 +79,38 @@
                self.navigationItem.rightBarButtonItem = barButtonItem;
           }
      } forID:self.alert.objectId];
+}
+
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
+     
+     
+     if (navigationType == UIWebViewNavigationTypeLinkClicked){
+          
+          [[UIApplication sharedApplication] openURL:request.URL];
+          return NO;
+          
+     }
+     
+     else return YES;
+     
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+     webView.frame = CGRectMake(webView.frame.origin.x, webView.frame.origin.y, webView.frame.size.width, webView.scrollView.contentSize.height);
+     UIEdgeInsets adjustForTabbarInsets = UIEdgeInsetsMake(0, 0, 150, 0);
+     scrollView.contentInset = adjustForTabbarInsets;
+     scrollView.scrollIndicatorInsets = adjustForTabbarInsets;
+     CGRect contentRect = CGRectZero;
+     for (UIView *view in scrollView.subviews) {
+          contentRect = CGRectUnion(contentRect, view.frame);
+     }
+     scrollView.contentSize = contentRect.size;
+     
+}
+
+- (void)didReceiveMemoryWarning {
+     [super didReceiveMemoryWarning];
+          // Dispose of any resources that can be recreated.
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -127,11 +155,6 @@
           }
           completion(0, overallError);
      });
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 /*

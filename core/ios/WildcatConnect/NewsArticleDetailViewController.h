@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "NewsArticleStructure.h"
 
-@interface NewsArticleDetailViewController : UIViewController
+@interface NewsArticleDetailViewController : UIViewController <UIWebViewDelegate>
 
 @property (nonatomic, strong) NewsArticleStructure *NA;
 @property (nonatomic, strong) NSData *imageData;

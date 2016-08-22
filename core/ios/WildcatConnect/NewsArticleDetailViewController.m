@@ -111,14 +111,7 @@
           separator.backgroundColor = [UIColor blackColor];
           [scrollView addSubview:separator];
           
-          UITextView *textView = [[UITextView alloc] initWithFrame:CGRectMake(separator.frame.origin.x, separator.frame.origin.y + separator.frame.size.height + 10, self.view.frame.size.width - 20, 100)];
-          textView.text = self.NA.contentURLString;
-          textView.font = [UIFont systemFontOfSize:18];
-          [textView sizeToFit];
-          textView.editable = false;
-          textView.scrollEnabled = false;
-          textView.dataDetectorTypes = UIDataDetectorTypeLink;
-          [scrollView addSubview:textView];
+          [scrollView addSubview:[Utils createWebViewForDelegate:self forString:self.NA.contentURLString withSeparator:separator]];
           
                //Takes care of all resizing needs based on sizes.
           UIEdgeInsets adjustForTabbarInsets = UIEdgeInsetsMake(0, 0, 150, 0);
@@ -242,14 +235,7 @@
           separator.backgroundColor = [UIColor blackColor];
           [scrollView addSubview:separator];
           
-          UITextView *textView = [[UITextView alloc] initWithFrame:CGRectMake(separator.frame.origin.x, separator.frame.origin.y + separator.frame.size.height + 10, self.view.frame.size.width - 20, 100)];
-          textView.text = self.NA.contentURLString;
-          textView.font = [UIFont systemFontOfSize:18];
-          [textView sizeToFit];
-          textView.editable = false;
-          textView.scrollEnabled = false;
-          textView.dataDetectorTypes = UIDataDetectorTypeLink;
-          [scrollView addSubview:textView];
+          [scrollView addSubview:[Utils createWebViewForDelegate:self forString:self.NA.contentURLString withSeparator:separator]];
           
                //Takes care of all resizing needs based on sizes.
           UIEdgeInsets adjustForTabbarInsets = UIEdgeInsetsMake(0, 0, 150, 0);
@@ -286,6 +272,35 @@
                
           } forID:self.NA.objectId];
      }
+}
+
+     // Key WebView delegate methods!!!
+
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
+     
+     
+     if (navigationType == UIWebViewNavigationTypeLinkClicked){
+          
+          [[UIApplication sharedApplication] openURL:request.URL];
+          return NO;
+          
+     }
+     
+     else return YES;
+     
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+     webView.frame = CGRectMake(webView.frame.origin.x, webView.frame.origin.y, webView.frame.size.width, webView.scrollView.contentSize.height);
+     UIEdgeInsets adjustForTabbarInsets = UIEdgeInsetsMake(0, 0, 150, 0);
+     scrollView.contentInset = adjustForTabbarInsets;
+     scrollView.scrollIndicatorInsets = adjustForTabbarInsets;
+     CGRect contentRect = CGRectZero;
+     for (UIView *view in scrollView.subviews) {
+          contentRect = CGRectUnion(contentRect, view.frame);
+     }
+     scrollView.contentSize = contentRect.size;
+
 }
 
 - (void)runSpinAnimationOnView:(UIView*)view duration:(CGFloat)duration rotations:(CGFloat)rotations repeat:(float)repeat;

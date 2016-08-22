@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "CommunityServiceStructure.h"
 
-@interface CommunityServiceDetailViewController : UIViewController
+@interface CommunityServiceDetailViewController : UIViewController <UIWebViewDelegate>
 
 @property (nonatomic, strong) CommunityServiceStructure *CS;
 

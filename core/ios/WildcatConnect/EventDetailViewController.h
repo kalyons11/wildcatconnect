@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "EventStructure.h"
 
-@interface EventDetailViewController : UIViewController
+@interface EventDetailViewController : UIViewController <UIWebViewDelegate>
 
 @property (nonatomic, strong) EventStructure *event;
 

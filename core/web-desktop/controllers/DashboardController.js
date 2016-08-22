@@ -24,7 +24,7 @@ exports.authenticate = function(req, res) {
 };
 
 exports.processPost = function(req, res, path, action, subaction, data) {
-	var obj = exports.validateData(req, path, action, subaction, data);
+	var obj = exports.validateData(req, path, action, subaction, data, req.session.user);
 	if (obj.result == false) {
 		var model = utils.initializeHomeUserModel(req.session.user);
 		model.renderModel(path, action, subaction);
@@ -946,26 +946,26 @@ exports.custom = function (req, res) {
     }
 };
 
-exports.validateData = function(req, path, action, subaction, data) {
+exports.validateData = function(req, path, action, subaction, data, user) {
 	var model = null;
 	switch(path) {
 		case "news":
 			switch (action) {
 				case "new":
 					model = new Models.NewsArticleStructure();
-					return model.validateData(data);
+					return model.validateData(data, user);
 			}
 		case "community":
 			switch (action) {
 				case "new":
 					model = new Models.CommunityServiceStructure();
-					return model.validateData(data);
+					return model.validateData(data, user);
 			}
 		case "event":
 			switch (action) {
 				case "new":
 					model = new Models.EventStructure();
-					return model.validateData(data);
+					return model.validateData(data, user);
 			}
 		case "group":
 			switch (action){
