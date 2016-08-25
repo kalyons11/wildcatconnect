@@ -137,9 +137,6 @@ try {
     var httpServer = require('http').createServer(app);
     httpServer.listen(port, function () {
         console.log('Began client on port ' + port + '.', null);
-        var obj = new Parse.Object("ContentStructure");
-        obj.set("value", 101);
-        obj.save();
     });
 
 } catch(e) {

@@ -226,6 +226,7 @@ Parse.Cloud.define("updateLinks", function(request, response) {
 
 Parse.Cloud.afterSave("ExtracurricularUpdateStructure", function(request) {
     if (request.object.get("extracurricularUpdateID") != null) {
+        increment();
         var query = new Parse.Query("ExtracurricularStructure");
         query.equalTo("extracurricularID", request.object.get("extracurricularID"));
         query.first({
@@ -331,6 +332,7 @@ Parse.Cloud.afterDelete("ExtracurricularStructure", function(request) {
 
 Parse.Cloud.afterSave("CommunityServiceStructure", function(request) {
     if (request.object.get("communityServiceID") != null && request.object.get("isApproved") == 1) {
+        increment();
         Parse.Push.send({
             channels: [ "allCS" ],
             data: {
@@ -359,6 +361,7 @@ Parse.Cloud.beforeSave("PollStructure", function(request, response) {
 
 Parse.Cloud.afterSave("PollStructure", function(request) {
     if (request.object.get("pollID") != null && request.object.get("totalResponses") === "0") {
+        increment();
         Parse.Push.send({
             channels: [ "allPolls" ],
             data: {
@@ -373,6 +376,7 @@ Parse.Cloud.afterSave("PollStructure", function(request) {
 
 Parse.Cloud.beforeSave("NewsArticleStructure", function(request, response) {
     if (request.object.get("articleID") != null && request.object.get("views") == 0 && request.object.get("isApproved") === 1) {
+        increment();
         Parse.Push.send({
             channels: [ "allNews" ],
             data: {
@@ -396,6 +400,7 @@ Parse.Cloud.beforeSave("NewsArticleStructure", function(request, response) {
 
 Parse.Cloud.afterSave("AlertStructure", function(request) {
     if (request.object.get("alertID") != null) {
+        increment();
         if (request.object.get("isReady") == 1 && request.object.get("views") == 0) {
             var query = new Parse.Query("SpecialKeyStructure");
             query.equalTo("key", "appActive");
@@ -420,3 +425,23 @@ Parse.Cloud.afterSave("AlertStructure", function(request) {
         };
     };
 });
+
+Parse.Cloud.afterSave("EventStructure", function (request) {
+    increment();
+});
+
+function increment() {
+    var query = new Parse.Query("ContentStructure");
+    query.first({
+        success: function(object) {
+            var value = object.get("value");
+            object.set("value", value + 1);
+            object.save();
+        }, error: function(error) {
+            var rawError = new Error();
+            var x = utils.processError(error, rawError, null);
+            utils.log('error', x.message, {"stack": x.stack, "objects": x.objects});
+            res.send(error.toString());
+        }
+    });
+}
