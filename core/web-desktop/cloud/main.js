@@ -375,9 +375,19 @@ Parse.Cloud.afterSave("PollStructure", function(request) {
 });
 
 Parse.Cloud.beforeSave("NewsArticleStructure", function(request, response) {
-    try{
     if (request.object.get("articleID") != null && request.object.get("views") == 0 && request.object.get("isApproved") === 1) {
-        increment();
+        var query = new Parse.Query("ContentStructure");
+        query.first({
+            success: function(object) {
+                var value = object.get("value");
+                object.set("value", value + 1);
+                object.save();
+            }, error: function(error) {
+                var rawError = new Error();
+                var x = utils.processError(error, rawError, null);
+                utils.log('error', x.message, {"stack": x.stack, "objects": x.objects});
+            }
+        });
         Parse.Push.send({
             channels: [ "allNews" ],
             data: {
@@ -396,12 +406,7 @@ Parse.Cloud.beforeSave("NewsArticleStructure", function(request, response) {
         });
     } else {
         response.success("");
-    };}catch(e) {
-        var rawError = new Error();
-        var x = utils.processError(e, rawError, null);
-        utils.log('error', x.message, {"stack": x.stack, "objects": x.objects});
-        res.send(error.toString());
-    }
+    };
 });
 
 Parse.Cloud.afterSave("AlertStructure", function(request) {
@@ -447,7 +452,6 @@ function increment() {
             var rawError = new Error();
             var x = utils.processError(error, rawError, null);
             utils.log('error', x.message, {"stack": x.stack, "objects": x.objects});
-            res.send(error.toString());
         }
     });
 }
