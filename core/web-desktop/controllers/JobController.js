@@ -25,6 +25,8 @@ exports.handleJob = function(req, res) {
                 return exports.dayGenerate(req, res);
             case "dayDelete":
                 return exports.dayDelete(req, res);
+            case "ECUdelete":
+                return exports.ECUdelete(req, res);
         }
     } else {
         utils.log("error", "Forbidden access detected from IP address: " + req.connection.remoteAddress, null);
@@ -580,6 +582,50 @@ exports.dayDelete = function (req, res) {
             };
         },
         error: function(error) {
+            var rawError = new Error();
+            var x = utils.processError(error, rawError, null);
+            utils.log('error', x.message, {"stack": x.stack, "objects": x.objects});
+            res.send(error.toString());
+        }
+    });
+};
+
+exports.ECUdelete = function (req, res) {
+    var query = new Parse.Query("ExtracurricularUpdateStructure");
+    query.ascending("extracurricularUpdateID");
+    query.find({
+        success: function(structures) {
+            for (var i = 0; i < structures.length; i++) {
+                var currentStructure = structures[i];
+                var thisDate = currentStructure.get("updatedAt");
+                var now = new Date();
+                var one_day=1000*60*60*24;
+                var date1_ms = thisDate.getTime();
+                var date2_ms = now.getTime();
+                var difference_ms = date2_ms - date1_ms;
+                difference_ms = Math.round(difference_ms/one_day);
+                if (difference_ms >= 5) {
+                    currentStructure.destroy({
+                        success: function() {
+                            console.log("Just deleted an object!!!");
+                        },
+                        error: function(error) {
+                            var rawError = new Error();
+                            var x = utils.processError(error, rawError, null);
+                            utils.log('error', x.message, {"stack": x.stack, "objects": x.objects});
+                            res.send(error.toString());
+                        }
+                    });
+                };
+                if (i == structures.length - 1) {
+                    res.send("SUCCESS");
+                };
+            }
+            if (structures.length == 0) {
+                res.send("No updates to delete!!!");
+            };
+        },
+        error: function() {
             var rawError = new Error();
             var x = utils.processError(error, rawError, null);
             utils.log('error', x.message, {"stack": x.stack, "objects": x.objects});
