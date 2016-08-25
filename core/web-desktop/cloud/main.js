@@ -375,6 +375,7 @@ Parse.Cloud.afterSave("PollStructure", function(request) {
 });
 
 Parse.Cloud.beforeSave("NewsArticleStructure", function(request, response) {
+    try{
     if (request.object.get("articleID") != null && request.object.get("views") == 0 && request.object.get("isApproved") === 1) {
         increment();
         Parse.Push.send({
@@ -395,7 +396,12 @@ Parse.Cloud.beforeSave("NewsArticleStructure", function(request, response) {
         });
     } else {
         response.success("");
-    };
+    };}catch(e) {
+        var rawError = new Error();
+        var x = utils.processError(e, rawError, null);
+        utils.log('error', x.message, {"stack": x.stack, "objects": x.objects});
+        res.send(error.toString());
+    }
 });
 
 Parse.Cloud.afterSave("AlertStructure", function(request) {
