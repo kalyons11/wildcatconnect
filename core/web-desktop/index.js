@@ -45,6 +45,8 @@ try {
     var awsAccessKey = utils.decrypt(config.awsAccessKey);
     var awsSecretKey = utils.decrypt(config.awsSecretKey);
     var awsBucketName = utils.decrypt(config.awsBucketName);
+    var bundle = config.bundle;
+    var certPath = utils.decrypt(config.certPath);
 
     var SimpleMailgunAdapter = require('./utils/SimpleMailgunAdapter');
     var simpleMailgunAdapter = new SimpleMailgunAdapter({
@@ -69,7 +71,14 @@ try {
             awsSecretKey,
             awsBucketName,
             {directAccess: true}
-        )
+        ),
+        push: {
+            ios: {
+                pfx: certPath, // The filename of private key and certificate in PFX or PKCS12 format from disk
+                bundleId: bundle, // The bundle identifier associate with your app
+                production: true // Specifies which environment to connect to: Production (if true) or Sandbox
+            }
+        }
     });
 
     Parse.initialize(appId, masterKey);

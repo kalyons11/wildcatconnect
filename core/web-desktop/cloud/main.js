@@ -240,6 +240,8 @@ Parse.Cloud.afterSave("ExtracurricularUpdateStructure", function(request) {
                         e: "e",
                         badge: "Increment"
                     }
+                }, {
+                    useMasterKey: true
                 });
             },
             error: function(error) {
@@ -340,6 +342,8 @@ Parse.Cloud.afterSave("CommunityServiceStructure", function(request) {
                 c: "c",
                 badge: "Increment"
             }
+        }, {
+            useMasterKey: true
         });
     };
 });
@@ -370,6 +374,8 @@ Parse.Cloud.afterSave("PollStructure", function(request) {
                 p: request.object.get("pollID"),
                 badge: "Increment"
             }
+        }, {
+            useMasterKey: true
         });
     };
 });
@@ -386,6 +392,7 @@ Parse.Cloud.afterSave("NewsArticleStructure", function(request, response) {
                 badge: "Increment"
             }
         }, {
+            useMasterKey: true,
             success: function() {
                 response.success("Done!");
             },
@@ -415,6 +422,8 @@ Parse.Cloud.afterSave("AlertStructure", function(request) {
                                 a: request.object.get("alertID"),
                                 badge: "Increment"
                             }
+                        }, {
+                            useMasterKey: true
                         });
                     };
                 },

@@ -56,3 +56,5 @@ common/log
 core/ios/DerivedData
 
 core/ios/WildcatConnect.xcworkspace/*
+
+secure/
