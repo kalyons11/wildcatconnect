@@ -109,6 +109,13 @@
               <% } %>
               <a href="/app/dashboard/food/manage"><img src="/images/food@2x.png" alt="Food" style="display: inline-block; vertical-align: middle; margin-right:10px; float:left;" width="22">Food</a>
           </li>
+          <% if (model.page.configurations.key == "daily.manage") { %>
+          <li class="active">
+              <% } else { %>
+          <li>
+              <% } %>
+              <a href="/app/dashboard/daily/manage"><img src="/images/error@2x.png" alt="Daily" style="display: inline-block; vertical-align: middle; margin-right:10px; float:left;" width="22">Daily Announcements</a>
+          </li>
       </ul>
     </div>
   <% } %>

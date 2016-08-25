@@ -495,3 +495,24 @@ function addRowFunction(button) {
 
     tableBody.appendChild(tr);
 }
+
+function reverseDictionary(dictionary) {
+    var d = { };
+    for (var i = 0; i < Object.keys(dictionary).length; i++) {
+        var key = Object.keys(dictionary)[i];
+        var value = dictionary[key];
+        d[value] = key;
+    }
+    return d;
+}
+
+function prettyHtml(html) {
+    var converter = new showdown.Converter();
+    html = converter.makeHtml(html);
+    html = html.replace(/<a href/g, '<a target="_blank" href');
+    html = html.replace(/<hr/g, '<hr style="height: 5px; border-top-width: 5px; border-top-style: solid; border-top-color:#000000"');
+    /*html = linkifyHtml(html, {
+        target: '_blank'
+    });*/
+    return html;
+}

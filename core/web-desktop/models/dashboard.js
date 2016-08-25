@@ -109,6 +109,9 @@ homeSchema.methods.setValues = function(path, action, subaction) {
                 case "new":
                     title = "New User Poll";
                     break;
+                default:
+                    renderError = true;
+                    break;
             }
             break;
         case "scholarship":
@@ -118,6 +121,9 @@ homeSchema.methods.setValues = function(path, action, subaction) {
                     break;
                 case "new":
                     title = "New Scholarship";
+                    break;
+                default:
+                    renderError = true;
                     break;
             }
             break;
@@ -136,12 +142,18 @@ homeSchema.methods.setValues = function(path, action, subaction) {
                             break;
                     }
                 }
+                default:
+                    renderError = true;
+                    break;
             }
             break;
         case "user":
             switch (action) {
                 case "manage":
                     title = "Manage Users";
+                    break;
+                default:
+                    renderError = true;
                     break;
             }
             break;
@@ -150,12 +162,28 @@ homeSchema.methods.setValues = function(path, action, subaction) {
                 case "manage":
                     title = "Manage Schedule";
                     break;
+                default:
+                    renderError = true;
+                    break;
             }
             break;
         case "food":
             switch (action) {
                 case "manage":
                     title = "Manage Food";
+                    break;
+                default:
+                    renderError = true;
+                    break;
+            }
+            break;
+        case "daily":
+            switch (action) {
+                case "manage":
+                    title = "Daily Announcements";
+                    break;
+                default:
+                    renderError = true;
                     break;
             }
             break;
@@ -169,6 +197,9 @@ homeSchema.methods.setValues = function(path, action, subaction) {
                     break;
                 case "console":
                     title = "Developer Console";
+                    break;
+                default:
+                    renderError = true;
                     break;
             }
             break;

@@ -1,4 +1,5 @@
 var utils = require('../utils/utils');
+var moment = require('moment');
 
 exports.handleJob = function(req, res) {
    if (req.body.secret == utils.decrypt(global.config.jobSecret)) {
@@ -20,6 +21,8 @@ exports.handleJob = function(req, res) {
                 return exports.scholarshipDelete(req, res);
             case "alertPush":
                 return exports.alertPush(req, res);
+            case "dayGenerate":
+                return exports.dayGenerate(req, res);
         }
     } else {
         utils.log("error", "Forbidden access detected from IP address: " + req.connection.remoteAddress, null);
@@ -377,6 +380,139 @@ exports.alertPush = function (req, res) {
             };
         },
         error: function() {
+            var rawError = new Error();
+            var x = utils.processError(error, rawError, null);
+            utils.log('error', x.message, {"stack": x.stack, "objects": x.objects});
+            res.send(error.toString());
+        }
+    });
+};
+
+exports.dayGenerate = function (req, res) {
+    var query = new Parse.Query("SpecialKeyStructure");
+    query.equalTo("key", "scheduleMode");
+    query.first({
+        success: function(object) {
+            var date = new Date();
+            if (object.get("value") === "NORMAL" && date.getDay() != 0 && date.getDay() != 1) {
+                var query = new Parse.Query("SchoolDayStructure");
+                query.descending("schoolDayID");
+                query.first({
+                    success: function(object) {
+                        var ID = object.get("schoolDayID") + 1;
+                        var oldDate = object.get("schoolDate");
+                        var oldDateDate =  moment(oldDate, "MM-DD-YYYY");
+                        var thatDay = oldDateDate.day();
+                        if (thatDay === 5) {
+                            var newDateDate = oldDateDate.add(3, 'days');
+                            var newDate = newDateDate.format("MM-DD-YYYY");
+                            var oldType = object.get("scheduleType");
+                            var newType = "*";
+                            if (oldType.indexOf("A") > -1) {
+                                newType = "B1";
+                            } else if (oldType.indexOf("B") > -1) {
+                                newType = "C1";
+                            } else if (oldType.indexOf("C") > -1) {
+                                newType = "D1";
+                            } else if (oldType.indexOf("D") > -1) {
+                                newType = "E1";
+                            } else if (oldType.indexOf("E") > -1) {
+                                newType = "F1";
+                            } else if (oldType.indexOf("F") > -1) {
+                                newType = "G1";
+                            } else if (oldType.indexOf("G") > -1) {
+                                newType = "A1";
+                            };
+                            var SchoolDayStructure = Parse.Object.extend("SchoolDayStructure");
+                            var newDay = new SchoolDayStructure();
+                            newDay.save({
+                                "hasImage": 0,
+                                "imageString" : "None.",
+                                "messageString" : "No alerts yet.",
+                                "scheduleType" : newType,
+                                "schoolDate" : newDate,
+                                "imageUser" : "None.",
+                                "customSchedule" : "None",
+                                "imageUserFullString" : "None.",
+                                "schoolDayID" : ID,
+                                "isActive" : 1,
+                                "customString" : "",
+                                "breakfastString" : "No breakfast data.",
+                                "lunchString" : "No lunch data.",
+                                "isSnow" : 0
+                            }, {
+                                success: function(savedObject) {
+                                    res.send("SUCCESS");
+                                },
+                                error: function(savedObject, error) {
+                                    var rawError = new Error();
+                                    var x = utils.processError(error, rawError, null);
+                                    utils.log('error', x.message, {"stack": x.stack, "objects": x.objects});
+                                    res.send(error.toString());
+                                }
+                            });
+                        } else {
+                            var newDateDate = oldDateDate.add(1, 'days');
+                            var newDate = newDateDate.format("MM-DD-YYYY");
+                            var oldType = object.get("scheduleType");
+                            var newType = "*";
+                            if (oldType.indexOf("A") > -1) {
+                                newType = "B";
+                            } else if (oldType.indexOf("B") > -1) {
+                                newType = "C";
+                            } else if (oldType.indexOf("C") > -1) {
+                                newType = "D";
+                            } else if (oldType.indexOf("D") > -1) {
+                                newType = "E";
+                            } else if (oldType.indexOf("E") > -1) {
+                                newType = "F";
+                            } else if (oldType.indexOf("F") > -1) {
+                                newType = "G";
+                            } else if (oldType.indexOf("G") > -1) {
+                                newType = "A";
+                            };
+                            var SchoolDayStructure = Parse.Object.extend("SchoolDayStructure");
+                            var newDay = new SchoolDayStructure();
+                            newDay.save({
+                                "hasImage": 0,
+                                "imageString" : "None.",
+                                "messageString" : "No alerts yet.",
+                                "scheduleType" : newType,
+                                "schoolDate" : newDate,
+                                "imageUser" : "None.",
+                                "customSchedule" : "None",
+                                "imageUserFullString" : "None.",
+                                "schoolDayID" : ID,
+                                "isActive" : 1,
+                                "customString" : "",
+                                "breakfastString" : "No breakfast data.",
+                                "lunchString" : "No lunch data.",
+                                "isSnow" : 0
+                            }, {
+                                success: function(savedObject) {
+                                    res.send("SUCCESS");
+                                },
+                                error: function(savedObject, error) {
+                                    var rawError = new Error();
+                                    var x = utils.processError(error, rawError, null);
+                                    utils.log('error', x.message, {"stack": x.stack, "objects": x.objects});
+                                    res.send(error.toString());
+                                }
+                            });
+                        };
+                    },
+                    error: function(error) {
+                        var rawError = new Error();
+                        var x = utils.processError(error, rawError, null);
+                        utils.log('error', x.message, {"stack": x.stack, "objects": x.objects});
+                        res.send(error.toString());
+                    }
+                });
+            } else {
+                response.success("Schedule mode does not allow generation at this time.");
+            };
+        },
+        error: function(error) {
             var rawError = new Error();
             var x = utils.processError(error, rawError, null);
             utils.log('error', x.message, {"stack": x.stack, "objects": x.objects});

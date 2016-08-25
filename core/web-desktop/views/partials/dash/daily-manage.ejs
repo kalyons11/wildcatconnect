@@ -1,0 +1,407 @@
+<h4><p class="text-muted">Generate daily annoucement e-mails directly from <%= model.page.configurations.applicationName %> content.</p></h4>
+<h4><i>*** NOTE: You can click on any hyperlink to view a preview of that content.</i></h4>
+<h2 style="color:#561838;">School Day</h2>
+<div id="schoolDays">
+
+</div>
+<h2 style="color:#561838;">Latest News</h2>
+<div id="news">
+
+</div>
+<h2 style="color:#561838;">Scholarship Opportunities</h2><button id="selectSchol" style="margin-bottom: 20px;">Select All</button></h2>
+<div id="schols">
+
+</div>
+<div><h2 style="color:#561838;">Community Service</h2><button id="selectComm" style="margin-bottom: 20px;">Select All</button></div>
+<div id="community">
+
+</div>
+<h2 style="color:#561838;">Upcoming Events</h2>
+<div id="events">
+
+</div>
+<hr style="border-color:#561838;"></hr>
+<button class="generate btn btn-lg btn-primary" style="background-color:green;border-color:green;">Generate Announcements</button>
+<script>
+
+    loadPage();
+
+    var schoolDays, news, scholarships, community, events;
+
+    function loadPage(message) {
+        $("#schedules").html("");
+        setLoadingMessage("Loading data...");
+        $("#loading").fadeIn();
+        $.ajax({
+            url: "manage/ajax/load",
+            type: "post",
+            data: {key: "value"}, // Encrypt all data...
+            datatype: 'json',
+            crossDomain: true,
+
+            success: function(response){
+                schoolDays = response["schoolDays"];
+                news = response["news"];
+                scholarships = response["scholarships"];
+                community = response["community"];
+                events = response["events"];
+                if (schoolDays && news && scholarships && events && community) {
+                    loadContent();
+                    $("#loading").fadeOut();
+                } else {
+                    setMessage("Unable to load data. Please try to reload the page.", true);
+                    $("#loading").fadeOut();
+                }
+                if (message != null)
+                    setMessage(message, false);
+            },
+
+            error: function(request, status, error) {
+                setMessage("Internal server error. If this problem continues, please contact support.", true);
+                $("#loading").fadeOut();
+            }
+        });
+    }
+
+    function loadContent() {
+        for (var i = 0; i < schoolDays.length; i++) {
+            var parts = schoolDays[i]["schoolDate"].split('-');
+            var date = new Date(parts[2], parts[0]-1,parts[1]);
+            var string = date.toString('dddd, MMMM d, yyyy');
+            var radioBtn = $("<input type='radio' name='schoolDay' value='" + i + "'/> <label for='" + schoolDays[i]["schoolDayID"] + "' value='" + string + "'>" + string + "</label><br>");
+            if (i == 0) {
+                radioBtn.attr("checked", "checked");
+            };
+            radioBtn.appendTo('#schoolDays');
+        };
+        for (var i = 0; i < news.length; i++) {
+            var string = news[i]["titleString"];
+            var radioBtn = $("<input type='checkbox' class='news' value='" +i + "'/> <a href='javascript:loadArticle(" + i + ");'><label>" + string + "</label></a><br>");
+            radioBtn.appendTo('#news');
+        };
+        if (news.length == 0) {
+            var text = $("<h5>No data available.</h5>");
+            text.appendTo('#news');
+        };
+        for (var i = 0; i < scholarships.length; i++) {
+            var string = scholarships[i]["titleString"];
+            var date = scholarships[i]["dueDate"];
+            var theDate = moment(date);
+            string += " - DUE - " + theDate.format("dddd, MMMM d");
+            var radioBtn = $("<input type='checkbox' class='scholarship' value=" + i + "/> <a href='javascript:loadScholarship(" + i + ");'><label>" + string + "</label></a><br>");
+            radioBtn.appendTo('#schols');
+        };
+        if (scholarships.length == 0) {
+            var text = $("<h5>No data available.</h5>");
+            text.appendTo('#schols');
+        };
+        for (var i = 0; i < community.length; i++) {
+            var string = community[i]["commTitleString"];
+            var radioBtn = $("<input type='checkbox' class='community' value=" + i + "/> <a href='javascript:loadCommunity(" + i + ");'><label>" + string + "</label></a><br>");
+            radioBtn.appendTo('#community');
+        };
+        if (community.length == 0) {
+            var text = $("<h5>No data available.</h5>");
+            text.appendTo('#community');
+        };
+        for (var i = 0; i < events.length; i++) {
+            var string = events[i]["titleString"];
+            var radioBtn = $("<input type='checkbox' class='event' value=" + i + "/> <a href='javascript:loadEvent(" + i + ");'><label>" + string + "</label></a><br>");
+            radioBtn.appendTo('#events');
+        };
+        if (events.length == 0) {
+            var text = $("<h5>No data available.</h5>");
+            text.appendTo('#events');
+        };
+    }
+
+    function loadArticle(index) {
+        var article = news[index];
+        var titleString = article["titleString"];
+        var summaryString = article["summaryString"];
+        var authorDate = article["authorString"] + " | " + article["dateString"];
+        var url = null;
+        if (article["imageFile"]) {
+            url = article["imageFile"]["url"];
+        };
+
+        var html = article["contentURLString"];
+
+        var converter = new showdown.Converter();
+        html = converter.makeHtml(html);
+        html = html.replace(/<a href/g, '<a target="_blank" href');
+        html = html.replace(/<hr/g, '<hr style="height: 5px; border-top-width: 5px; border-top-style: solid; border-top-color:#000000"');
+        html = linkifyHtml(html, {
+            target: '_blank'
+        });
+
+        BootstrapDialog.show({
+            title: 'Article Preview',
+            size: BootstrapDialog.SIZE_WIDE,
+            message: function(dialogItself) {
+                var $form = $('<form></form>');
+                $form.append('<h1 style="margin-top:0;">'+titleString+'</h1><h4><i>'+summaryString+'</i></h4><h5>'+authorDate+'</h5>');
+                if (url) {
+                    $form.append('<img src="'+url+'" style="width:50%;display:block;margin: 0 auto;">');
+                };
+                $form.append("<hr style='border-color:#561838';>" + html);
+                return $form;
+            },// <-- Default value is BootstrapDialog.TYPE_PRIMARY
+            closable: true, // <-- Default value is false
+            draggable: true
+        });
+    }
+
+    function loadScholarship (index) {
+        var schol = scholarships[index];
+        var date = schol["dueDate"];
+        var theDate = moment(date);
+        var string = "DUE - " + theDate.format("dddd, MMMM d");
+
+        var html = schol["messageString"];
+
+        var converter = new showdown.Converter();
+        html = converter.makeHtml(html);
+        html = html.replace(/<a href/g, '<a target="_blank" href');
+        html = html.replace(/<hr/g, '<hr style="height: 5px; border-top-width: 5px; border-top-style: solid; border-top-color:#000000"');
+        html = linkifyHtml(html, {
+            target: '_blank'
+        });
+
+        BootstrapDialog.show({
+            title: 'Scholarship Preview',
+            message: function(dialogItself) {
+                var $form = $('<form></form>');
+                var message = linkifyHtml(schol["messageString"]);
+                $form.append("<h1 style='margin-top:0px;'>" + schol["titleString"] + "</h1>" + string + "<hr style='border-color:#561838';>" + html);
+                return $form;
+            }
+        });
+    }
+
+    function loadCommunity(index) {
+        var comm = community[index];
+        var string = "STARTS - " + moment(comm["startDate"]).format("dddd, MMMM d @ h:mm A") + '<br>ENDS - ' + moment(comm["endDate"]).format("dddd, MMMM d @ h:mm A");
+
+        var html = comm["commSummaryString"];
+
+        var converter = new showdown.Converter();
+        html = converter.makeHtml(html);
+        html = html.replace(/<a href/g, '<a target="_blank" href');
+        html = html.replace(/<hr/g, '<hr style="height: 5px; border-top-width: 5px; border-top-style: solid; border-top-color:#000000"');
+        html = linkifyHtml(html, {
+            target: '_blank'
+        });
+
+        BootstrapDialog.show({
+            title: 'Community Service Opportunity Preview',
+            message: function(dialogItself) {
+                var $form = $('<form></form>');
+                $form.append("<h1 style='margin-top:0px;'>" + comm["commTitleString"] + "</h1>" + string + "<hr style='border-color:#561838';>" + html);
+                return $form;
+            }
+        });
+    }
+
+    function loadEvent(index) {
+        var theEvent = events[index];
+        var string = moment(theEvent["eventDate"]).format("dddd, MMMM d @ h:mm A");
+
+        var html = theEvent["messageString"];
+
+        var converter = new showdown.Converter();
+        html = converter.makeHtml(html);
+        html = html.replace(/<a href/g, '<a target="_blank" href');
+        html = html.replace(/<hr/g, '<hr style="height: 5px; border-top-width: 5px; border-top-style: solid; border-top-color:#000000"');
+        html = linkifyHtml(html, {
+            target: '_blank'
+        });
+
+        BootstrapDialog.show({
+            title: 'Event Preview',
+            message: function(dialogItself) {
+                var $form = $('<form></form>');
+                $form.append("<h1 style='margin-top:0px;'>" + theEvent["titleString"] + "</h1>" + string + "<hr style='border-color:#561838';>" + html);
+                return $form;
+            }
+        });
+    }
+
+    $(document).ready(function() {
+        $('#selectSchol').click(function() {
+            var title = $('#selectSchol').text();
+            if (title === "Select All") {
+                $('#selectSchol').text("Deselect All");
+                $("input[class='scholarship']").each(function() {
+                    this.checked = true;
+                });
+            } else if (title === "Deselect All") {
+                $('#selectSchol').text("Select All");
+                $("input[class='scholarship']").each(function() {
+                    this.checked = false;
+                });
+            };
+        });
+
+        $('#selectComm').click(function() {
+            var title = $('#selectComm').text();
+            if (title === "Select All") {
+                $('#selectComm').text("Deselect All");
+                $("input[class='community']").each(function() {
+                    this.checked = true;
+                });
+            } else if (title === "Deselect All") {
+                $('#selectComm').text("Select All");
+                $("input[class='community']").each(function() {
+                    this.checked = false;
+                });
+            };
+        });
+    });
+
+    var theNews = new Array();
+    var theSchol = new Array();
+    var theCommunity = new Array();
+    var theEvents = new Array();
+    var dayString;
+    var scheduleType;
+    var scheduleName;
+    var scheduleString;
+    var theDay;
+
+    $(document).on('click', ".generate", function() {
+
+        setLoadingMessage("Generating...");
+        $("#loading").fadeIn();
+        $("input[name='schoolDay']").each(function() {
+            if (this.checked) {
+                var index = parseInt(this.value);
+                theDay = schoolDays[index];
+                dayString = ($('label[for="' + theDay["schoolDayID"] + '"]')).text();
+                scheduleType = theDay["scheduleType"];
+                if (scheduleType === "*") {
+                    scheduleName = theDay["customString"];
+                    scheduleString = theDay["customSchedule"];
+                    continueFunction();
+                } else {
+                    $.ajax({
+                        url: "manage/ajax/type",
+                        type: "post",
+                        data: {code: scheduleType}, // Encrypt all data...
+                        datatype: 'json',
+                        crossDomain: true,
+
+                        success: function(response) {
+                            scheduleName = response["fullScheduleString"];
+                            scheduleString = response["scheduleString"];
+                            continueFunction();
+                        },
+
+                        error: function(request, status, error) {
+                            setMessage("Internal server error. If this problem continues, please contact support.", true);
+                            $("#loading").fadeOut();
+                        }
+                    });
+                };
+            };
+        });
+    });
+
+    function continueFunction() {
+        var newsArray = [];
+        $("input[class='news']").each(function() {
+            if (this.checked) {
+                newsArray.push(parseInt(this.value));
+            };
+        });
+        for (var i = 0; i <  news.length; i++)
+            if (newsArray.indexOf(i) > -1)
+                theNews.push(news[i]);
+        var scholArray = [];
+        $("input[class='scholarship']").each(function() {
+            if (this.checked) {
+                scholArray.push(parseInt(this.value));
+            };
+        });
+        for (var i = 0; i <  scholarships.length; i++)
+            if (scholArray.indexOf(i) > -1)
+                theSchol.push(scholarships[i]);
+        var communityArray = [];
+        $("input[class='community']").each(function() {
+            if (this.checked) {
+                communityArray.push(parseInt(this.value));
+            };
+        });
+        for (var i = 0; i < community.length; i++)
+            if (communityArray.indexOf(i) > -1)
+                theCommunity.push(community[i]);
+        var eventArray = [];
+        $("input[class='event']").each(function() {
+            if (this.checked) {
+                eventArray.push(parseInt(this.value));
+            };
+        });
+        for (var i = 0; i < events.length; i++)
+            if (eventArray.indexOf(i) > -1)
+                theEvents.push(events[i]);
+        BootstrapDialog.show({
+            title: 'Daily Announcements',
+            size: BootstrapDialog.SIZE_WIDE,
+            message: function(dialogItself) {
+                var $form = $('<form></form>');
+                var text = $("<i>These daily announcements are generated by WildcatConnect, Weymouth High School's official iPhone app. <a href='<%= model.page.configurations.iosUrl %>' target='_blank'>Download today on the App Store!</a> Or, search \"Weymouth High\" ...</i>");
+                $form.append(text);
+                var header = $("<b><h3 style='text-align:center;'>" + dayString.toUpperCase() + ", " + scheduleName.toUpperCase() + ", DAILY ANNOUNCEMENTS</h3></b><h5 style='text-align:center;'>(All clubs/activities are held after school unless noted.)</h5>");
+                if (scheduleType === "*") {
+                    scheduleString = scheduleString.replace(/\r?\n/g, '<br />');
+                    header = $("<b><h3 style='text-align:center;'>" + dayString.toUpperCase() + ", " + scheduleName.toUpperCase() + ", DAILY ANNOUNCEMENTS</h3></b><h5 style='text-align:center;'>(All clubs/activities are held after school unless noted.)</h5><div style='text-align:center;'>" + scheduleString + "</div><br>");
+                };
+                $form.append(header);
+                if (theNews.length > 0) {
+                    var newsString = '<b><u><span style="background-color: yellow;">LATEST NEWS</span></u></b><br><br>';
+                    for (var i = 0; i < theNews.length; i++) {
+                        newsString = newsString + '<b>' + theNews[i]["titleString"] + '</b> - ' + theNews[i]["authorString"] + ' - ' + theNews[i]["summaryString"] + '<br><br>';
+                    };
+                    $form.append($(newsString));
+                };
+                if (theSchol.length > 0) {
+                    var scholString = '<b><u><span style="background-color: yellow;">SCHOLARSHIP OPPORTUNITIES</span></u></b><br><br>';
+                    for (var i = 0; i < theSchol.length; i++) {
+                        var date = theSchol[i]["dueDate"];
+                        var theDate = moment(date);
+                        var string = "DUE - " + theDate.format("dddd, MMMM d");
+                        scholString = scholString + '<b>' + theSchol[i]["titleString"] + ' - DUE ' + string + '</b>' + '<br>' + prettyHtml(theSchol[i]["messageString"]) + '<br>';
+                    };
+                    //scholString = linkifyStr(scholString);
+                    $form.append($(scholString));
+                };
+                if (theCommunity.length > 0) {
+                    var commString = '<b><u><span style="background-color: yellow;">COMMUNITY SERVICE OPPORTUNITIES</span></u></b><br><br>';
+                    for (var i = 0; i < theCommunity.length; i++) {
+                        var comm = theCommunity[i];
+                        var string = "STARTS - " + moment(comm["startDate"]).format("dddd, MMMM d @ h:mm A") + ', ENDS - ' + moment(comm["endDate"]).format("dddd, MMMM d @ h:mm A");
+                        commString = commString + '<b>' + theCommunity[i]["commTitleString"] + "</b> - " + string + '<br>' + prettyHtml(theCommunity[i]["commSummaryString"]) + '<br>';
+                    };
+                    //commString = linkifyStr(commString);
+                    $form.append($(commString));
+                };
+                if (theEvents.length > 0) {
+                    var eventString = '<b><u><span style="background-color: yellow;">UPCOMING EVENTS</span></u></b><br><br>';
+                    for (var i = 0; i < theEvents.length; i++) {
+                        var string = moment(theEvents[i]["eventDate"]).format("dddd, MMMM d @ h:mm A");
+                        eventString = eventString + '<b>' + theEvents[i]["titleString"] + "</b> - " + string + " - " + '<br>' + prettyHtml(theEvents[i]["messageString"]) + '<br>';
+                    };
+                    //commString = linkifyStr(commString);
+                    $form.append($(eventString));
+                };
+                $("#loading").fadeOut();
+                theNews = new Array();
+                theSchol = new Array();
+                theCommunity = new Array();
+                theEvents = new Array();
+                return $form;
+            }
+        });
+    }
+
+</script>

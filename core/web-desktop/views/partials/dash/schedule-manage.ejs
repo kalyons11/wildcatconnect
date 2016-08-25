@@ -143,7 +143,7 @@
 
                 var tdThree = document.createElement("TD");
                 var selectList = document.createElement("SELECT");
-                selectList.name = "typeSelect";
+                selectList.name = i;
                 selectList.className = "typeSelect";
                 var option = document.createElement("option");
                 option.value = -1;
@@ -155,54 +155,6 @@
                     option.text = dictionary[Object.keys(dictionary)[j]];
                     selectList.appendChild(option);
                 }
-                selectList.onchange = (function() {
-
-                    var count = i;
-
-                    return function(e) {
-
-                        var index = this.selectedIndex - 1;
-
-                        BootstrapDialog.confirm({
-                            title: 'Confirmation',
-                            message: "Are you sure you want to edit this day's schedule?",
-                            type: BootstrapDialog.TYPE_DANGER, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
-                            closable: true, // <-- Default value is false
-                            draggable: true, // <-- Default value is false
-                            btnCancelLabel: 'No', // <-- Default value is 'Cancel',
-                            btnOKLabel: 'Yes', // <-- Default value is 'OK',
-                            btnOKClass: 'btn-primary', // <-- If you didn't specify it, dialog type will be used,
-                            callback: function(result) {
-                                // result will be true if button was click, while it will be false if users close the dialog directly.
-                                if(result) {
-                                    var key = reverseDictionary[index];
-
-                                    structures[count].set("scheduleType", key);
-                                    structures[count].set("customSchedule", "None.");
-                                    structures[count].set("customString", "");
-                                    structures[count].save(null, {
-                                        success: function(object) {
-                                            $("#spinnerDiv").html("");
-                                            var alertString = "Schedule successfully updated.";
-                                            localStorage.setItem("scheduleAlertString", alertString);
-                                            $(document).ready(loadScheduleTable());
-                                        },
-                                        error: function(error) {
-                                            errorFunction(error.code.toString() + " - " + error.message.toString(), "ParseError", "Script 3628");
-                                            BootstrapDialog.show({
-                                                type: BootstrapDialog.TYPE_DEFAULT,
-                                                title: "Error",
-                                                message: "Error occurred. Please try again."
-                                            });
-                                            $("#spinnerDiv").html("");
-                                        }
-                                    });
-                                };
-                            }
-                        });
-
-                    };
-                })();
                 tdThree.appendChild(selectList);
                 tr.appendChild(tdThree);
             } else {
@@ -223,60 +175,6 @@
                 button.style.borderColor = "red";
                 button.style.marginBottom = "10px";
                 button.style.marginRight = "10px";
-                button.onclick = (function() {
-
-                    var count = i;
-
-                    return function(e) {
-
-                        if (count != structures.length - 1) {
-
-                            BootstrapDialog.confirm({
-                                title: 'Confirmation',
-                                message: "Are you sure you want to make this day a snow day? This will affect all schedules after this date.",
-                                type: BootstrapDialog.TYPE_DANGER, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
-                                closable: true, // <-- Default value is false
-                                draggable: true, // <-- Default value is false
-                                btnCancelLabel: 'No', // <-- Default value is 'Cancel',
-                                btnOKLabel: 'Yes', // <-- Default value is 'OK',
-                                btnOKClass: 'btn-primary', // <-- If you didn't specify it, dialog type will be used,
-                                callback: function(result) {
-                                    // result will be true if button was click, while it will be false if users close the dialog directly.
-                                    if(result) {
-                                        if (count === 0) {
-                                            window.showYesterday = false;
-                                        };
-                                        $("#spinnerDiv").html('<a><img src="./../spinner.gif" alt="Logo" width="40" style="vertical-align: middle; padding-top:12px; padding-left:10px;"/></a>');
-                                        Parse.Cloud.run('snowDay', { "ID" : structures[count].get("schoolDayID") }, {
-                                            success: function() {
-                                                $("#spinnerDiv").html("");
-                                                var alertString = "Schedule successfully updated.";
-                                                localStorage.setItem("scheduleAlertString", alertString);
-                                                $(document).ready(loadScheduleTable());
-                                            },
-                                            error: function(error) {
-                                                errorFunction(error.code.toString() + " - " + error.message.toString(), "ParseError", "Script 3692");
-                                                BootstrapDialog.show({
-                                                    type: BootstrapDialog.TYPE_DEFAULT,
-                                                    title: "Error",
-                                                    message: "Error occurred. Please try again."
-                                                });
-                                                $("#spinnerDiv").html("");
-                                            }
-                                        });
-                                    };
-                                }
-                            });
-                        } else {
-                            BootstrapDialog.show({
-                                type: BootstrapDialog.TYPE_DEFAULT,
-                                title: "Whoops!",
-                                message: "You can't go back one day from here! This is the last day in the available queue."
-                            });
-                        };
-
-                    };
-                })();
                 tdFour.appendChild(button);
             };
 
@@ -301,47 +199,57 @@
 
     $(document).on('click', ".snow", function() {
         var index = this.name;
-        var username = requests[index]["username"];
+        var ID = structures[index]["schoolDayID"];
 
-        BootstrapDialog.confirm({
-            title: 'Confirmation',
-            message: 'Are you sure you want to approve this user?',
-            type: BootstrapDialog.TYPE_DANGER, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
-            closable: true, // <-- Default value is false
-            draggable: true, // <-- Default value is false
-            btnCancelLabel: 'No', // <-- Default value is 'Cancel',
-            btnOKLabel: 'Yes', // <-- Default value is 'OK',
-            btnOKClass: 'btn-primary', // <-- If you didn't specify it, dialog type will be used,
-            callback: function(result) {
-                // result will be true if button was click, while it will be false if users close the dialog directly.
-                if(result) {
-                    $("#loading").fadeIn();
-                    setLoadingMessage("Approving user...");
-                    $.ajax({
-                        url: "manage/ajax/snow",
-                        type: "post",
-                        data: { username: username },
-                        datatype: 'json',
-                        crossDomain: true,
+        if (index != structures.length - 1) {
 
-                        success: function(response){
-                            setLoadingMessage("Reloading users...");
-                            if (response["res"] == "SUCCESS") {
-                                loadPage("User successfully approved.");
-                            } else {
-                                setMessage("Unable to approve user. Please try to reload the page.", true);
+            BootstrapDialog.confirm({
+                title: 'Confirmation',
+                message: 'Are you sure you want to make this day a snow day? This will affect all schedules after this date.',
+                type: BootstrapDialog.TYPE_DANGER, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
+                closable: true, // <-- Default value is false
+                draggable: true, // <-- Default value is false
+                btnCancelLabel: 'No', // <-- Default value is 'Cancel',
+                btnOKLabel: 'Yes', // <-- Default value is 'OK',
+                btnOKClass: 'btn-primary', // <-- If you didn't specify it, dialog type will be used,
+                callback: function (result) {
+                    // result will be true if button was click, while it will be false if users close the dialog directly.
+                    if (result) {
+                        $("#loading").fadeIn();
+                        setLoadingMessage("Adding snow day...");
+                        $.ajax({
+                            url: "manage/ajax/snow",
+                            type: "post",
+                            data: {ID: ID},
+                            datatype: 'json',
+                            crossDomain: true,
+
+                            success: function (response) {
+                                setLoadingMessage("Reloading schedules...");
+                                if (response["res"] == "SUCCESS") {
+                                    loadPage("Snow day successfully added.");
+                                } else {
+                                    setMessage("Unable to add snow day. Please try to reload the page.", true);
+                                    $("#loading").fadeOut();
+                                }
+                            },
+
+                            error: function (request, status, error) {
+                                setMessage("Internal server error. If this problem continues, please contact support.", true);
                                 $("#loading").fadeOut();
                             }
-                        },
-
-                        error: function(request, status, error) {
-                            setMessage("Internal server error. If this problem continues, please contact support.", true);
-                            $("#loading").fadeOut();
-                        }
-                    });
-                };
-            }
-        });
+                        });
+                    }
+                    ;
+                }
+            });
+        } else {
+            BootstrapDialog.show({
+                type: BootstrapDialog.TYPE_DEFAULT,
+                title: "Whoops!",
+                message: "You can't go back one day from here! This is the last day in the available queue."
+            });
+        }
     });
 
     $(document).on('click', ".edit", function() {
@@ -482,9 +390,13 @@
 
     $(document).on('change', ".typeSelect", function () {
         var mode = this.selectedOptions[0].text;
+        var d = reverseDictionary(dictionary);
+        var typeCode = d[mode];
+        var index = this.name;
+        var ID = structures[index]["schoolDayID"];
         BootstrapDialog.confirm({
             title: 'Confirmation',
-            message: 'Are you sure you want to update this user?',
+            message: 'Are you sure you want to update this schedule type?',
             type: BootstrapDialog.TYPE_DANGER, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
             closable: true, // <-- Default value is false
             draggable: true, // <-- Default value is false
@@ -499,7 +411,7 @@
                     $.ajax({
                         url: "manage/ajax/update",
                         type: "post",
-                        data: { mode: mode },
+                        data: { mode: typeCode, ID: ID },
                         datatype: 'json',
                         crossDomain: true,
 

@@ -218,7 +218,7 @@ module.exports.initializeHomeUserModel = function(user) {
 		module.exports.determineHomeUserType(model);
 		model.page.user.auth = true;
 	} else {
-		model.renderModel("error", null);
+		model.renderModel("Home", null);
 		model.page.user.auth = false;
 	}
 	return model;

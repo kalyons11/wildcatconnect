@@ -11,13 +11,37 @@ var fs = require("fs");
 
 exports.authenticate = function(req, res) {
 	if (req.session.user) {
-		var model = utils.initializeHomeUserModel(req.session.user);
-		var path = req.body.path != null ? req.body.path : "home";
-        var action = req.body.action;
-		exports.prepareDashboard(model, path, action);
-		var session = Object.assign({ }, req.session);
-		delete req.session.theErrors;
-		res.render("main", { model: model, session: session });
+	    exports.checkActive().then(function (response) {
+	        if (response.auth || req.session.user["userType"] == "Developer") {
+                var model = utils.initializeHomeUserModel(req.session.user);
+                var path = req.body.path != null ? req.body.path : "home";
+                var action = req.body.action;
+                exports.prepareDashboard(model, path, action);
+                var session = Object.assign({ }, req.session);
+                delete req.session.theErrors;
+                res.render("main", { model: model, session: session });
+            } else if (response.auth == false && response.error == null) {
+                // App inactive!!!
+                // What do we do with users???
+                req.session.user = null;
+                try {
+                    Parse.User.logOut();
+                } catch (e) {
+                    // Move on
+                }
+                var model = utils.initializeHomeUserModel(null);
+                var path = "home";
+                exports.prepareDashboard(model, path, null);
+                var session = Object.assign({ }, req.session);
+                delete req.session.theErrors;
+                res.render("inactive", { model: model, message: response.message, session: session });
+            } else {
+                var rawError = new Error();
+                var error = response.error;
+                var x = utils.processError(error, rawError, null);
+                utils.log('error', x.message, { "stack" : x.stack , "objects" : x.objects });
+            }
+        });
 	} else {
 		res.redirect('/app/login');
 	}
@@ -158,29 +182,53 @@ exports.mainPost = function(req, res) {
 exports.route = function(req, res, next) {
     if (req.session.user) {
         if (req.method == 'GET') {
-            var path = req.params.path;
-            var action = req.params.action;
-            var subaction = req.params.subaction;
-            var model = utils.initializeHomeUserModel(req.session.user);
-            exports.prepareDashboard(model, path, action, subaction);
-            var allow = utils.verifyPage(model);
-            if (allow) {
-                var session = Object.assign({ }, req.session);
-                delete req.session.theErrors;
-                if (model.doRender)
-                    return res.render("main", { model: model, session: session });
-                else {
-                    next();
+            exports.checkActive().then(function (response) {
+                if (response.auth || req.session.user["userType"] == "Developer") {
+                    var path = req.params.path;
+                    var action = req.params.action;
+                    var subaction = req.params.subaction;
+                    var model = utils.initializeHomeUserModel(req.session.user);
+                    exports.prepareDashboard(model, path, action, subaction);
+                    var allow = utils.verifyPage(model);
+                    if (allow) {
+                        var session = Object.assign({ }, req.session);
+                        delete req.session.theErrors;
+                        if (model.doRender)
+                            return res.render("main", { model: model, session: session });
+                        else {
+                            next();
+                        }
+                    } else {
+                        var myError = new ApplicationMessage();
+                        myError.message = "You do not have sufficient privileges to access this page.";
+                        myError.isError = true;
+                        if (! req.session.theErrors)
+                            req.session.theErrors = new Array();
+                        req.session.theErrors.push(myError);
+                        res.redirect("/app/dashboard");
+                    }
+                } else if (response.auth == false && response.error == null) {
+                    // App inactive!!!
+                    // What do we do with users???
+                    req.session.user = null;
+                    try {
+                        Parse.User.logOut();
+                    } catch (e) {
+                        // Move on
+                    }
+                    var model = utils.initializeHomeUserModel(null);
+                    var path = "home";
+                    exports.prepareDashboard(model, path, null);
+                    var session = Object.assign({ }, req.session);
+                    delete req.session.theErrors;
+                    res.render("inactive", { model: model, message: response.message, session: session });
+                } else {
+                    var rawError = new Error();
+                    var error = response.error;
+                    var x = utils.processError(error, rawError, null);
+                    utils.log('error', x.message, { "stack" : x.stack , "objects" : x.objects });
                 }
-            } else {
-                var myError = new ApplicationMessage();
-                myError.message = "You do not have sufficient privileges to access this page.";
-                myError.isError = true;
-                if (! req.session.theErrors)
-                    req.session.theErrors = new Array();
-                req.session.theErrors.push(myError);
-                res.redirect("/app/dashboard");
-            }
+            });
         } else if (req.method == 'POST') {
             var path = req.params.path;
             var action = req.params.action;
@@ -831,6 +879,111 @@ exports.custom = function (req, res) {
             }
         });
     }
+    else if (path == "schedule" && action == "manage" && request == "snow") {
+        var array = [];
+        var ID = parseInt(req.body.ID);
+        var hasChanged = false;
+        var query = new Parse.Query("SchoolDayStructure");
+        query.descending("schoolDayID");
+        query.find( {
+            success: function (results) {
+                for (var i = 0; i < results.length; i++) {
+                    if (results[i].get("schoolDayID") > ID && i != results.length - 1) {
+                        var nextScheduleType = results[i + 1].get("scheduleType");
+                        if (nextScheduleType === "*") {
+                            //Set the custom schedule as well!
+                            results[i].set("customSchedule", results[i + 1].get("customSchedule"));
+                            results[i].set("customString", results[i + 1].get("customString"));
+                        };
+                        results[i].set("scheduleType", nextScheduleType);
+                        array.push(results[i]);
+                    } else if (results[i].get("schoolDayID") === ID) {
+                        results[i].set("isActive", 0);
+                        results[i].set("isSnow", 1);
+                        results[i].save(null, {
+                            success: function(myObject) {
+                                //No response yet...
+                            },
+                            error: function(myObject, error) {
+                                res.send({ res: error });
+                            }
+                        });
+                    };
+                };
+                Parse.Object.saveAll(array, {
+                    success: function() {
+                        res.send({res: "SUCCESS"});
+                    },
+                    error: function(objects, error) {
+                        res.send({ res: error });
+                    }
+                });
+            },
+            error: function (error) {
+                res.send({ res: error });
+            }
+        });
+    }
+    else if (path == "schedule" && action == "manage" && request == "update") {
+        var mode = req.body.mode;
+        var ID = parseInt(req.body.ID);
+        var query = new Parse.Query("SchoolDayStructure");
+        query.equalTo("schoolDayID", ID);
+        query.first({
+            success: function (object) {
+                object.set("scheduleType", mode);
+                object.set("customSchedule", "None.");
+                object.set("customString", "");
+                object.save(null, {
+                    success: function (object) {
+                        res.send({res: "SUCCESS"});
+                    }, error: function (error) {
+                        res.send({res:error});
+                    }
+                });
+            }, error: function (error) {
+                res.send({res:error});
+            }
+        });
+    } else if (path == "food" && action == "manage" && request == "load") {
+        var query = new Parse.Query("SchoolDayStructure");
+        query.equalTo("isActive", 1);
+        query.ascending("schoolDayID");
+        query.find({
+            success: function (structures) {
+                res.send({structures:structures});
+            }, error: function (error) {
+                res.send({res:error});
+            }
+        });
+    }
+    else if (path == "food" && action == "manage" && request == "save") {
+        var breakfast = req.body.breakfast;
+        var lunch = req.body.lunch;
+        var array = new Array();
+        var query = new Parse.Query("SchoolDayStructure");
+        query.equalTo("isActive", 1);
+        query.ascending("schoolDayID");
+        query.find({
+            success: function (structures) {
+                for (var i = 0; i < structures.length; i++) {
+                    structures[i].set("breakfastString", breakfast[i]);
+                    structures[i].set("lunchString", lunch[i]);
+                    array.push(structures[i]);
+                }
+                ;
+                Parse.Object.saveAll(array, {
+                    success: function () {
+                        res.send({res: "SUCCESS"});
+                    }, error: function (objects, error) {
+                        res.send({res: error});
+                    }
+                });
+            }, error: function (error) {
+                res.send({res: error});
+            }
+        });
+    }
     else if (path == "dev" && action == "manage" && request == "load") {
         Parse.Cloud.run("countInstallations", null, {
             success: function(count) {
@@ -933,7 +1086,8 @@ exports.custom = function (req, res) {
                 res.send({res: error});
             }
         });
-    } else if (path == "dev" && action == "links" && request == "load") {
+    }
+    else if (path == "dev" && action == "links" && request == "load") {
         var query = new Parse.Query("UsefulLinkArray");
         query.ascending("index");
         query.find({
@@ -941,6 +1095,61 @@ exports.custom = function (req, res) {
                 res.send({ structures: structures });
             }, error: function (error) {
                 res.send({res: error});
+            }
+        });
+    }
+    else if (path == "daily" && action == "manage" && request == "load") {
+        var query = new Parse.Query("SchoolDayStructure");
+        query.equalTo("isActive", 1);
+        query.ascending("schoolDayID");
+        query.limit(3);
+        var schoolDays = new Array();
+        var news = new Array();
+        var scholarships = new Array();
+        var community = new Array();
+        var events = new Array();
+        query.find().then(function(list) {
+            schoolDays = list;
+            var queryTwo = new Parse.Query("NewsArticleStructure");
+            queryTwo.descending("createdAt");
+            queryTwo.equalTo("isApproved", 1);
+            queryTwo.limit(5);
+            return queryTwo.find();
+        }).then(function(list) {
+            news = list;
+            /*for (var i = 0; i < list.length; i++) {
+                textArray[list[i].get("articleID")] = list[i].get("contentURLString");
+            };*/
+            var queryThree = new Parse.Query("ScholarshipStructure");
+            queryThree.ascending("dueDate");
+            return queryThree.find();
+        }).then(function(list) {
+            scholarships = list;
+            var queryFour = new Parse.Query("CommunityServiceStructure");
+            queryFour.ascending("startDate");
+            queryFour.equalTo("isApproved", 1);
+            return queryFour.find();
+        }).then(function(list) {
+            community = list;
+            var queryFive = new Parse.Query("EventStructure");
+            queryFive.ascending("eventDate");
+            queryFive.equalTo("isApproved", 1);
+            queryFive.limit(7);
+            return queryFive.find();
+        }).then(function(list) {
+            events = list;
+            res.send({ schoolDays: schoolDays, news: news, scholarships: scholarships, community: community, events: events });
+        });
+    }
+    else if (path == "daily" && action == "manage" && request == "type") {
+        var code = req.body.code;
+        var query = new Parse.Query("ScheduleType");
+        query.equalTo("typeID", code);
+        query.first({
+            success: function(object) {
+                res.send({fullScheduleString: object.get('fullScheduleString'), scheduleString: object.get("scheduleString")});
+            }, error: function(error) {
+                res.send({res:error});
             }
         });
     }
@@ -1006,3 +1215,23 @@ exports.validateData = function(req, path, action, subaction, data, user) {
 exports.prepareDashboard = function(model, path, action, subaction) {
 	model.renderModel(path, action, subaction);
 };
+
+exports.checkActive = function() {
+    return new Promise(function(fulfill, reject) {
+        try {
+            var query = new Parse.Query("SpecialKeyStructure");
+            query.equalTo("key", "appActive");
+            query.first({
+                success: function (object) {
+                    var result = parseInt(object.get("value")) == 1;
+                    var message = object.get("message");
+                    fulfill({ auth: result, message: message });
+                }, error: function (error) {
+                    fulfill({ auth: false , error: error });
+                }
+            });
+        } catch (e) {
+            fulfill({ auth: false , error: e });
+        }
+    });
+}

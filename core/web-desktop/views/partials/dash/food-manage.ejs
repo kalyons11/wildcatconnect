@@ -1,2 +1,175 @@
 <h4><p class="text-muted">Manage breakfast and lunch information.</p></h4>
 <a href="/app/dashboard"><button class="btn btn-primary btn-back">Cancel</button></a>
+<button class="saveLunch btn btn-primary btn-back btn-success" style="float:right;">Save All Changes</button>
+<h6><b><i>NOTE: You must press "Save All Changes" to avoid losing the breakfast and lunch information you enter.</i></b></h6>
+<hr style="border-color:#561838";></hr>
+<h4 id="titleLabel">Available School Days</h4>
+<div id="schedules">
+
+</div>
+<script>
+
+    loadPage();
+
+    var structures = new Array();
+
+    function loadPage(message) {
+        $("#schedules").html("");
+        setLoadingMessage("Loading food information...");
+        $("#loading").fadeIn();
+        $.ajax({
+            url: "manage/ajax/load",
+            type: "post",
+            data: {key: "value"}, // Encrypt all data...
+            datatype: 'json',
+            crossDomain: true,
+
+            success: function(response){
+                structures = response["structures"];
+                if (structures != null) {
+                    loadTable();
+                    $("#loading").fadeOut();
+                } else {
+                    setMessage("Unable to load food information. Please try to reload the page.", true);
+                    $("#loading").fadeOut();
+                }
+                if (message != null)
+                    setMessage(message, false);
+            },
+
+            error: function(request, status, error) {
+                setMessage("Internal server error. If this problem continues, please contact support.", true);
+                $("#loading").fadeOut();
+            }
+        });
+    }
+
+    function loadTable() {
+        $("#titleLabel").html("Available School Days (" + structures.length+")");
+
+        var tableDiv = document.getElementById("schedules");
+        var table = document.createElement("TABLE");
+        var tableBody = document.createElement("TBODY");
+
+        table.appendChild(tableBody);
+        table.className = "table table-striped";
+
+        var heading = new Array();
+        heading[0] = "Date";
+        heading[1] = "Breakfast";
+        heading[2] = "Lunch";
+
+        //TABLE COLUMNS
+
+        var tr = document.createElement("TR");
+        tableBody.appendChild(tr);
+
+        $("#schedules").html("");
+
+        for (var i = 0; i < heading.length; i++) {
+            var th = document.createElement("TH");
+            if (i == 0) {
+                th.width = '20%';
+            } else {
+                th.width = '40%';
+            };
+            th.appendChild(document.createTextNode(heading[i]));
+            tr.appendChild(th);
+        };
+
+        for (var i = 0; i < structures.length; i++) {
+            var tr = document.createElement("TR");
+            var tdTwo = document.createElement("TD");
+            var parts = structures[i]["schoolDate"].split('-');
+            var date = new Date(parts[2], parts[0]-1,parts[1]);
+            var string = date.toString('dddd, MMMM d, yyyy');
+            tdTwo.appendChild(document.createTextNode(string));
+            tr.appendChild(tdTwo);
+
+            var tdOne = document.createElement("TD");
+            var breakfastText = document.createElement("TEXTAREA");
+            breakfastText.value = structures[i]["breakfastString"];
+            breakfastText.className = "form-control";
+            breakfastText.style.display = "block";
+            breakfastText.style.width = "100%";
+            breakfastText.style.overflowY = "scroll";
+            breakfastText.style.resize = "none";
+            breakfastText.id = "b_" + i;
+            breakfastText.maxLength = 80;
+            tdOne.appendChild(breakfastText);
+            tr.appendChild(tdOne);
+
+            var tdThree = document.createElement("TD");
+            var lunchText = document.createElement("TEXTAREA");
+            lunchText.value = structures[i]["lunchString"];
+            lunchText.className = "form-control";
+            lunchText.style.display = "block";
+            lunchText.style.width = "100%";
+            lunchText.style.overflowY = "scroll";
+            lunchText.style.resize = "none";
+            lunchText.id = "l_" + i;
+            lunchText.maxLength = 80;
+            tdThree.appendChild(lunchText);
+            tr.appendChild(tdThree);
+
+            tableBody.appendChild(tr);
+
+            tableDiv.appendChild(table);
+        };
+    }
+
+    $(document).on('click', ".saveLunch", function() {
+        var breakfast = new Array();
+        var lunch = new Array();
+        for (var i = 0; i < structures.length; i++) {
+            var ID = "#b_" + i.toString();
+            var newBreakfast = $(ID).val();
+            breakfast.push(newBreakfast);
+            var ID2 = "#l_" + i.toString();
+            var newLunch = $(ID2).val();
+            lunch.push(newLunch);
+        };
+
+        BootstrapDialog.confirm({
+            title: 'Confirmation',
+            message: 'Are you sure you want to save this food information?',
+            type: BootstrapDialog.TYPE_DANGER, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
+            closable: true, // <-- Default value is false
+            draggable: true, // <-- Default value is false
+            btnCancelLabel: 'No', // <-- Default value is 'Cancel',
+            btnOKLabel: 'Yes', // <-- Default value is 'OK',
+            btnOKClass: 'btn-primary', // <-- If you didn't specify it, dialog type will be used,
+            callback: function (result) {
+                // result will be true if button was click, while it will be false if users close the dialog directly.
+                if (result) {
+                    $("#loading").fadeIn();
+                    setLoadingMessage("Saving...");
+                    $.ajax({
+                        url: "manage/ajax/save",
+                        type: "post",
+                        data: {breakfast: breakfast, lunch: lunch},
+                        datatype: 'json',
+                        crossDomain: true,
+
+                        success: function (response) {
+                            setLoadingMessage("Reloading food information...");
+                            if (response["res"] == "SUCCESS") {
+                                loadPage("Food information successfully saved.");
+                            } else {
+                                setMessage("Unable save food information. Please try to reload the page.", true);
+                                $("#loading").fadeOut();
+                            }
+                        },
+
+                        error: function (request, status, error) {
+                            setMessage("Internal server error. If this problem continues, please contact support.", true);
+                            $("#loading").fadeOut();
+                        }
+                    });
+                }
+                ;
+            }
+        });
+    });
+
+</script>
