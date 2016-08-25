@@ -23,6 +23,8 @@ exports.handleJob = function(req, res) {
                 return exports.alertPush(req, res);
             case "dayGenerate":
                 return exports.dayGenerate(req, res);
+            case "dayDelete":
+                return exports.dayDelete(req, res);
         }
     } else {
         utils.log("error", "Forbidden access detected from IP address: " + req.connection.remoteAddress, null);
@@ -510,6 +512,71 @@ exports.dayGenerate = function (req, res) {
                 });
             } else {
                 response.success("Schedule mode does not allow generation at this time.");
+            };
+        },
+        error: function(error) {
+            var rawError = new Error();
+            var x = utils.processError(error, rawError, null);
+            utils.log('error', x.message, {"stack": x.stack, "objects": x.objects});
+            res.send(error.toString());
+        }
+    });
+};
+
+exports.dayDelete = function (req, res) {
+    var query = new Parse.Query("SpecialKeyStructure");
+    query.equalTo("key", "scheduleMode");
+    query.first({
+        success: function(object) {
+            var date = new Date();
+            if (object.get("value") === "NORMAL" && date.getDay() != 0 && date.getDay() != 1) {
+                //Continue...
+                var firstQuery = new Parse.Query("SchoolDayStructure");
+                firstQuery.equalTo("isActive", 1);
+                firstQuery.ascending("schoolDayID");
+                firstQuery.first().then(function(day) {
+                    if (day.get("isSnow") == 0) {
+                        //Wasn't a snow day the day before...you can delete this one
+                        var query = new Parse.Query("SchoolDayStructure");
+                        query.equalTo("isActive", 1);
+                        query.ascending("schoolDayID");
+                        query.first({
+                            success: function(object) {
+                                var schoolDate = object.get("schoolDate");
+                                var now = moment().format("MM-DD-YYYY");
+                                if (schoolDate == now) {
+                                    res.send("Date does not allow deletion at this time.");
+                                } else {
+                                    object.set("isActive", 0);
+                                    object.save(null, {
+                                        success: function(myObject) {
+                                            res.send("SUCCESS");
+                                        },
+                                        error: function(myObject, error) {
+                                            var rawError = new Error();
+                                            var x = utils.processError(error, rawError, null);
+                                            utils.log('error', x.message, {"stack": x.stack, "objects": x.objects});
+                                            res.send(error.toString());
+                                        }
+                                    });
+                                };
+                            },
+                            error: function(error) {
+                                var rawError = new Error();
+                                var x = utils.processError(error, rawError, null);
+                                utils.log('error', x.message, {"stack": x.stack, "objects": x.objects});
+                                res.send(error.toString());
+                            }
+                        });
+                    } else {
+                        var rawError = new Error();
+                        var x = utils.processError(error, rawError, null);
+                        utils.log('error', x.message, {"stack": x.stack, "objects": x.objects});
+                        res.send(error.toString());
+                    };
+                });
+            } else {
+                res.send("Schedule mode does not allow deletion at this time.");
             };
         },
         error: function(error) {
