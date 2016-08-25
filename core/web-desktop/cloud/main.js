@@ -374,8 +374,9 @@ Parse.Cloud.afterSave("PollStructure", function(request) {
     };
 });
 
-Parse.Cloud.beforeSave("NewsArticleStructure", function(request, response) {
+Parse.Cloud.afterSave("NewsArticleStructure", function(request, response) {
     if (request.object.get("articleID") != null && request.object.get("views") == 0 && request.object.get("isApproved") === 1) {
+        increment();
         Parse.Push.send({
             channels: [ "allNews" ],
             data: {
@@ -395,10 +396,6 @@ Parse.Cloud.beforeSave("NewsArticleStructure", function(request, response) {
     } else {
         response.success("");
     };
-});
-
-Parse.Cloud.afterSave("NewsArticleStructure", function(request) {
-    increment();
 });
 
 Parse.Cloud.afterSave("AlertStructure", function(request) {
