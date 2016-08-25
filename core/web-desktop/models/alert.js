@@ -42,7 +42,7 @@ alertSchema.methods.validateData = function(data) {
         }
         this.dateString = time.format("dddd, MMMM Do @ h:mm A");
     } else {
-        this.dateString = moment().format("dddd, MMMM Do @ h:mm A");
+        this.dateString = moment().local().format("dddd, MMMM Do @ h:mm A");
     }
     message = ! this.hasTime ? "Alert successfully posted." : "Alert will be released to the app at your selected date - " + this.dateString + ".";
     result = true;
