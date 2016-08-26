@@ -3,7 +3,7 @@
 <div id="applicationMessages">
 
 </div>
-<% var now = moment().format("h:mm A"); %>
+<% var now = moment().local().format("h:mm A"); %>
 <p class="text-muted">Last updated at <%= now %>.</p>
 <script>
 
