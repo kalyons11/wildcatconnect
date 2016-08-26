@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<% var model = model; %>
+	<head>
+		<% include ../partials/head %>
+		<% include ../partials/script %>
+	</head>
+	<body>
+		<header>
+			<% include ../partials/header %>
+		</header>
+		<main class="main-container holder">
+			<% include ../partials/dash-sidebar %>
+			<% include ../partials/dash-view %>
+		</main>
+        <% include ../partials/footer %>
+	</body>
+</html>
+<script>
+    $.ajax({
+        url: "/app/dashboard/values",
+        type: "post",
+        data: {key: "value"}, // Encrypt all data...
+        datatype: 'json',
+        crossDomain: true,
+
+        success: function(response) {
+            if (response != null) {
+                if (response["news"] > 0)
+                    $("#newsManage").text("* " + response["news"] + " *");
+                if (response["events"] > 0)
+                    $("#eventManage").text("* " + response["events"] + " *");
+                if (response["community"] > 0)
+                    $("#commManage").text("* " + response["community"] + " *");
+                if (response["user"] > 0)
+                    $("#userManage").text("* " + response["user"] + " *");
+            }
+            $("#loading").fadeOut();
+        },
+
+        error: function(request, status, error) {
+            setMessage("Internal server error. If this problem continues, please contact support.", true);
+            $("#loading").fadeOut();
+        }
+    });
+</script>
