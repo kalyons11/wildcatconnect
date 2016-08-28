@@ -75,7 +75,7 @@
           if (buttonIndex == 1) {
                NSString *choiceText = [actionSheet textFieldAtIndex:0].text;
                [self getPasswordStringMethodWithCompletion:^(NSError *error, NSString *passwordString) {
-                    if ([choiceText isEqualToString:passwordString]) {
+                    if ([choiceText isEqualToString:[Utils decrypt:passwordString]]) {
                          [titleLabel removeFromSuperview];
                          [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"reloadHomePage"];
                          [[NSUserDefaults standardUserDefaults] synchronize];
@@ -122,14 +122,14 @@
           [activity startAnimating];
           
           [self getStatusStringMethodWithCompletion:^(NSError *error, NSString *statusString, NSString *messageString) {
-               if ([statusString isEqualToString:@"0"] && theInt == 0 && false) { // TODO
+               if ([statusString isEqualToString:@"0"] && theInt == 0) { // TODO
                     [activity stopAnimating];
                     [[[[self.tabBarController tabBar]items]objectAtIndex:0]setEnabled:FALSE];
                     [[[[self.tabBarController tabBar]items]objectAtIndex:1]setEnabled:FALSE];
                     [[[[self.tabBarController tabBar]items]objectAtIndex:2]setEnabled:FALSE];
                     [[[[self.tabBarController tabBar]items]objectAtIndex:3]setEnabled:FALSE];
                     titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, self.view.frame.size.width - 20, 100)];
-                    titleLabel.text = [@"WildcatConnect is currently disabled.\n\nMESSAGE - " stringByAppendingString:messageString];
+                    titleLabel.text = [NSString stringWithFormat:@"%@ is currently disabled.\n\nMESSAGE - %@", [Utils getConfigurationForKey:@"page.applicationName"], messageString];
                     [titleLabel setFont:[UIFont systemFontOfSize:24]];
                     titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
                     titleLabel.numberOfLines = 0;

@@ -108,12 +108,12 @@
           }
           NSString *bodyString = [[[[@"Please do not edit the following information.\n\nVersion = " stringByAppendingString:majorVersion] stringByAppendingString:@"\n\nDeviceToken = "] stringByAppendingString:deviceToken] stringByAppendingString:@"\n\nPlease describe your app issue below. Include as much detail as possible for what you were doing in the application, etc.\n\n"];
           
-          NSString *URLEMail = [@"mailto:support@wildcatconnect.org?subject=WildcatConnect App Support&body=" stringByAppendingString:bodyString];
+          NSString *URLEMail = [@"mailto:team@wildcatconnect.com?subject=WildcatConnect App Support&body=" stringByAppendingString:bodyString];
           NSString *url = [URLEMail stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding ];
           [[UIApplication sharedApplication]  openURL: [NSURL URLWithString: url]];
      } else if (indexPath.section == 2) {
                //Team mail
-          NSString *URLEMail = @"mailto:team@wildcatconnect.org";
+          NSString *URLEMail = @"mailto:team@wildcatconnect.com";
           NSString *url = [URLEMail stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding ];
           [[UIApplication sharedApplication]  openURL: [NSURL URLWithString: url]];
      } else if (indexPath.section == 3) {

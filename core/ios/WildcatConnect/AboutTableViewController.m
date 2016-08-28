@@ -143,7 +143,7 @@
           cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
      } else if (indexPath.section == 2) {
                //Disclaimer
-          cell.textLabel.text = @"Disclaimer";
+          cell.textLabel.text = @"Website";
           cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
      }
      return cell;
@@ -153,7 +153,7 @@
      [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
           //Change logic here for new options...
      if (indexPath.section == 2) {
-          [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.wildcatconnect.org/a/disclaimer"]];
+          [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[Utils getConfigurationForKey:@"page.baseURL"]]];
           [tableView deselectRowAtIndexPath:indexPath animated:YES];
      } else if (indexPath.section == 1) {
           CapstoneViewController *controller = [[UIStoryboard storyboardWithName:@"Main" bundle:nil]instantiateViewControllerWithIdentifier:@"CapstoneView"];

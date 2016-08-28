@@ -349,7 +349,7 @@
      [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
      if (indexPath.row == 9) {
           NSString *bodyString = @"Please type a caption for this image below...\n\n\n\nPlease attach the image you want to be featured in the WildcatConnect \"Picture of the Day\" - Please note that this image will be chosen and approved by WHS Administration before appearing in the app. Thank you!";
-          NSString *URLEMail = [@"mailto:picture@wildcatconnect.org?subject=WildcatConnect POTD&body=" stringByAppendingString:bodyString];
+          NSString *URLEMail = [@"mailto:picture@wildcatconnect.com?subject=WildcatConnect POTD&body=" stringByAppendingString:bodyString];
           NSString *url = [URLEMail stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding ];
           [[UIApplication sharedApplication]  openURL: [NSURL URLWithString: url]];
      } else {
