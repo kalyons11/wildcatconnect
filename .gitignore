@@ -58,3 +58,7 @@ core/ios/DerivedData
 core/ios/WildcatConnect.xcworkspace/*
 
 secure/
+
+common/libraries/
+
+core/ios/LogglyLogger-CocoaLumberjack

@@ -105,6 +105,12 @@
      
      NSString *loadString = [[NSUserDefaults standardUserDefaults] objectForKey:@"reloadHomePage"];
      if ((! loadString || [loadString isEqual:@"1"] == true) && connected == true) {
+          
+          [[[[self.tabBarController tabBar]items]objectAtIndex:0]setEnabled:FALSE];
+          [[[[self.tabBarController tabBar]items]objectAtIndex:1]setEnabled:FALSE];
+          [[[[self.tabBarController tabBar]items]objectAtIndex:2]setEnabled:FALSE];
+          [[[[self.tabBarController tabBar]items]objectAtIndex:3]setEnabled:FALSE];
+          
           if (scrollView) {
                [scrollView removeFromSuperview];
           }
@@ -139,7 +145,6 @@
                     bar.enabled = true;
                     self.navigationItem.leftBarButtonItem = bar;
                } else {
-                    
                     [[[[self.tabBarController tabBar]items]objectAtIndex:0]setEnabled:true];
                     [[[[self.tabBarController tabBar]items]objectAtIndex:1]setEnabled:true];
                     [[[[self.tabBarController tabBar]items]objectAtIndex:2]setEnabled:true];
