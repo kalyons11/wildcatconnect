@@ -37,4 +37,4 @@ exports.handler = function(event, context, callback) {
     }
 };
 
-//exports.handler();
+exports.handler();

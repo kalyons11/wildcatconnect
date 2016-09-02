@@ -531,7 +531,7 @@ exports.dayDelete = function (req, res) {
     query.first({
         success: function(object) {
             var date = new Date();
-            if (object.get("value") === "NORMAL" && date.getDay() != 0 && date.getDay() != 1) {
+            if (date.getDay() != 0 && date.getDay() != 1) {
                 //Continue...
                 var firstQuery = new Parse.Query("SchoolDayStructure");
                 firstQuery.equalTo("isActive", 1);
@@ -546,7 +546,10 @@ exports.dayDelete = function (req, res) {
                             success: function(object) {
                                 var schoolDate = object.get("schoolDate");
                                 var now = moment().format("MM-DD-YYYY");
-                                if (schoolDate == now) {
+                                var theDate = moment(schoolDate, "MM-DD-YYYY");
+                                var now = moment();
+                                var test = theDate.isAfter(now);
+                                if (schoolDate == now || test) {
                                     res.send("Date does not allow deletion at this time.");
                                 } else {
                                     object.set("isActive", 0);
