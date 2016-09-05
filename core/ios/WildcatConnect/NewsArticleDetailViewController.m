@@ -27,6 +27,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
      
+     [Utils setNavColorForController:self];
      
      self.navigationItem.title = @"News Story";
      
