@@ -16,7 +16,7 @@
 @property NSString *schoolDate; // MM/dd/yyyy
 @property NSString *scheduleType;
 @property NSString *messageString;
-@property BOOL hasImage;
+@property NSNumber *hasImage;
 @property PFFile *imageFile;
 @property NSString *imageString;
 @property NSString *imageUser;

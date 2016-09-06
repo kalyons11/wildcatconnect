@@ -498,20 +498,20 @@
      PFQuery *query = [SchoolDayStructure query];
      [query whereKey:@"schoolDayID" equalTo:self.dayString];
      [query getFirstObjectInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
-          SchoolDayStructure *structure = (SchoolDayStructure *)object;
           if (hasImage) {
-               structure.hasImage = true;
-               structure.imageString = captionTextView.text;
-               structure.imageUser = [[[[PFUser currentUser] objectForKey:@"lastName"] stringByAppendingString:@", "] stringByAppendingString:[[PFUser currentUser] objectForKey:@"firstName"]];
-               structure.imageUserFullString = finalString;
+               [object setValue:[NSNumber numberWithBool:YES] forKey:@"hasImage"];
+               [object setValue:captionTextView.text forKey:@"imageString"];
+               NSString *imageUser2 = [[[[PFUser currentUser] objectForKey:@"lastName"] stringByAppendingString:@", "] stringByAppendingString:[[PFUser currentUser] objectForKey:@"firstName"]];
+               [object setValue:imageUser2 forKey:@"imageUser"];
+               [object setValue:finalString forKey:@"imageUserFullString"];
                NSData *data = UIImagePNGRepresentation(imageView.image);
                PFFile *imageFile = [PFFile fileWithData:data];
-               structure.imageFile = imageFile;
+               [object setValue:imageFile forKey:@"imageFile"];
           } else {
-               structure.hasImage = false;
-               structure.imageFile = nil;
+               [object setValue:[NSNumber numberWithBool:NO] forKey:@"hasImage"];
+               [object setValue:nil forKey:@"imageFile"];
           }
-          [structure saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+          [object saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
                if (error) {
                     theError = error;
                }
