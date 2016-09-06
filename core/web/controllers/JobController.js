@@ -547,8 +547,8 @@ exports.dayDelete = function (req, res) {
                                 var schoolDate = object.get("schoolDate");
                                 var now = moment().format("MM-DD-YYYY");
                                 var theDate = moment(schoolDate, "MM-DD-YYYY");
-                                var now = moment();
-                                var test = theDate.isAfter(now);
+                                var here = moment();
+                                var test = theDate.isAfter(here);
                                 if (schoolDate == now || test) {
                                     res.send("Date does not allow deletion at this time.");
                                 } else {
