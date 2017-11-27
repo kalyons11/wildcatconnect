@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Test Title</title>
+  </head>
+  <body>
+    <a href="https://wildcatconnect.loggly.com/search" target="_blank">Check out Loggly.</a> >>> <%= key.key2 %>
+  </body>
+</html>
