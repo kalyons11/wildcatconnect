@@ -1,0 +1,9 @@
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
+HEADER_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/AttributedMarkdown" "${PODS_ROOT}/Headers/Public/CocoaLumberjack" "${PODS_ROOT}/Headers/Public/CommonCrypto" "${PODS_ROOT}/Headers/Public/LogglyLogger-CocoaLumberjack" "${PODS_ROOT}/Headers/Public/MGMushParser"
+LIBRARY_SEARCH_PATHS = $(inherited) "$PODS_CONFIGURATION_BUILD_DIR/AttributedMarkdown" "$PODS_CONFIGURATION_BUILD_DIR/CocoaLumberjack" "$PODS_CONFIGURATION_BUILD_DIR/CommonCrypto" "$PODS_CONFIGURATION_BUILD_DIR/LogglyLogger-CocoaLumberjack" "$PODS_CONFIGURATION_BUILD_DIR/MGMushParser"
+OTHER_CFLAGS = $(inherited) -isystem "${PODS_ROOT}/Headers/Public" -isystem "${PODS_ROOT}/Headers/Public/AttributedMarkdown" -isystem "${PODS_ROOT}/Headers/Public/CocoaLumberjack" -isystem "${PODS_ROOT}/Headers/Public/CommonCrypto" -isystem "${PODS_ROOT}/Headers/Public/LogglyLogger-CocoaLumberjack" -isystem "${PODS_ROOT}/Headers/Public/MGMushParser"
+OTHER_LDFLAGS = $(inherited) -ObjC -l"AttributedMarkdown" -l"CocoaLumberjack" -l"CommonCrypto" -l"LogglyLogger-CocoaLumberjack" -l"MGMushParser" -framework "CoreText" -framework "Foundation" -framework "UIKit"
+PODS_BUILD_DIR = $BUILD_DIR
+PODS_CONFIGURATION_BUILD_DIR = $PODS_BUILD_DIR/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)
+PODS_PODFILE_DIR_PATH = ${SRCROOT}/.
+PODS_ROOT = ${SRCROOT}/Pods

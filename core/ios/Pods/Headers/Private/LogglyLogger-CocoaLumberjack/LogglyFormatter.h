@@ -1,0 +1,1 @@
+../../../LogglyLogger-CocoaLumberjack/LogglyLogger-CocoaLumberjack/LogglyFormatter.h

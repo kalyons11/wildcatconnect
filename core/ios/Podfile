@@ -1,0 +1,22 @@
+# Uncomment this line to define a global platform for your project
+# platform : ios, '9.0'
+
+target 'WildcatConnect' do
+
+  pod 'CocoaLumberjack'
+  pod ‘LogglyLogger-CocoaLumberjack’
+  pod 'CommonCrypto'
+  pod 'AttributedMarkdown', :git => 'https://github.com/dreamwieber/AttributedMarkdown.git'
+  pod 'MGMushParser'
+
+  target 'WildcatConnectTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+  target 'WildcatConnectUITests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end
