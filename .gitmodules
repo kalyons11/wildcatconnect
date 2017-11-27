@@ -1,0 +1,3 @@
+[submodule "wildcatconnect-job"]
+	path = job
+	url = https://github.com/kalyons11/wildcatconnect-job.git
